@@ -243,6 +243,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 .scr p{line-height:1.6}
 .wtitle{font-size:22px!important;font-weight:700!important;letter-spacing:0;line-height:1.35!important}
 .btn{font-weight:600!important;font-size:16px!important;letter-spacing:0}
+
+/* app mode: keep only the header (brand, simulation note, language); the phone is the whole experience */
+.panel .cur,.panel .list,.panel .fbk,.panel .mtop,.panel.showlist .list{display:none!important}
+.panel{justify-content:center} .simbox[hidden]{display:none!important}
+@media (max-width: 880px){ .app{gap:16px;padding-block:14px} .panel{align-items:center;text-align:center} .panel .brand{justify-content:center} .panel .row{justify-content:center} }
 </style>
 <div class="app" dir="rtl">
  <aside class="panel" dir="rtl">
