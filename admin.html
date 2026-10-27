@@ -405,7 +405,7 @@ V.dashboard = () => {
   return `<div class="kpis">
     <div class="kpi"><span>حملات مفتوحة</span><b>${open.length}</b><small>${fmt(open.reduce((a,c)=>a+c.joined,0))} كرتون محجوز</small></div>
     <div class="kpi"><span>مبالغ محجوزة (غير مخصومة)</span><b>${sar(Math.round(auth*14.2))}</b><small>تُخصم عند نجاح الحملة</small></div>
-    <div class="kpi"><span>مبيعات أكتوبر (مخصومة)</span><b>${sar(48215)}</b><small>3 حملات ناجحة</small></div>
+    <div class="kpi"><span>مبيعات أكتوبر (مخصومة)</span><b>${sar(Math.round(FM[5].salesG+FM[5].delG))}</b><small>${CH.filter(c=>c.m===5&&c.ok).length} حملة ناجحة</small></div>
     <div class="kpi warn"><span>شحنات متعثرة</span><b>${fails}</b><small>محاولة توصيل فاشلة</small></div>
     <div class="kpi"><span>مستحقات الموردين</span><b>${sar(SUPPLIERS.reduce((a,s)=>a+s.payable,0))}</b><small>${PAYOUTS.filter(p=>p.status==='بانتظار الاعتماد').length} طلب صرف ينتظر الاعتماد</small></div>
     <div class="kpi"><span>طلبات استرداد</span><b>${REFUNDS.filter(r=>r.status==='بانتظار الموافقة').length}</b><small>بانتظار موافقة المالية</small></div>
