@@ -836,7 +836,7 @@ const FM = (()=>{
   const N=['مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر'], D=[31,30,31,31,30,27];
   const C=[1150,2050,3250,4550,5850,6900], P=[90.5,91,92,92.5,93,92], Q=[1.7,1.75,1.8,1.85,1.9,1.95], CR=[.845,.84,.835,.83,.828,.826];
   const FR=[.04,.037,.033,.03,.027,.025], RR=[.010,.009,.008,.007,.0065,.006], CMP=[4,7,10,13,16,17];
-  const MKT=[9000,10000,12000,14000,16000,17500], SAL=[0,0,0,9000,9000,9000], CS=[3000,3000,4000,4000,6000,6000], TECH=[2900,2900,3100,3100,3300,3300], ACC=[1500,1500,1500,1500,1500,1500];
+  const MKT=[9000,10000,12000,14000,16000,17500];
   const NEWC=[380,470,560,650,720,780];
   const MIX={mada:[.6,.59,.58,.58,.57,.58],apple:[.28,.29,.3,.31,.32,.31],card:[.1,.1,.1,.09,.09,.09],stc:[.02,.02,.02,.02,.02,.02]}, FEE={mada:.0175,apple:.026,card:.0275,stc:.02};
   let cust=0;
@@ -850,17 +850,17 @@ const FM = (()=>{
     const revenue=sales+del, logi=ship+failc+ret;
     const contrib=revenue-cogs-logi-fee-refund;
     const msgs=orders*4*0.06;
-    const opex={mkt:MKT[i],sal:SAL[i],cs:CS[i],tech:TECH[i],msgs,acc:ACC[i]}; const opexT=Object.values(opex).reduce((a,b)=>a+b,0);
+    const opex={mkt:MKT[i]}; const opexT=Object.values(opex).reduce((a,b)=>a+b,0);
     const net=contrib-opexT;
     const newC=NEWC[i]; cust+=newC; const active=Math.round(orders/1.25);
     return {name,days:D[i],c,orders,P:P[i],salesG,delG,sales,del,revenue,cogs,ship,failc,ret,logi,fee,refund,contrib,opex,opexT,net,failed,returns,pm,
-      vatOut:(salesG+delG)-(salesG+delG)/v, vatIn:(cogsG+shipG+failG+retG+feeG)-(cogsG+shipG+failG+retG+feeG)/v + opexT*0.15*0.6,
+      vatOut:(salesG+delG)-(salesG+delG)/v, vatIn:(cogsG+shipG+failG+retG+feeG)-(cogsG+shipG+failG+retG+feeG)/v + opexT*0.15,
       campaigns:CMP[i], newC, active, repeat:1-newC/active, cac:MKT[i]/newC, gp:revenue-cogs, delivAvg:[3.4,3.2,3.1,2.9,2.8,2.7][i], success:[.86,.88,.9,.91,.92,.93][i]};
   });
 })();
 const SUM_KEYS=['c','orders','salesG','delG','sales','del','revenue','cogs','ship','failc','ret','logi','fee','refund','contrib','opexT','net','failed','returns','vatOut','vatIn','campaigns','newC','active','gp'];
 function agg(list){ const o={name:list.length>1?`${list[0].name} – ${list[list.length-1].name}`:list[0].name,days:list.reduce((a,m)=>a+m.days,0),opex:{},pm:{}};
-  SUM_KEYS.forEach(x=>o[x]=list.reduce((a,m)=>a+m[x],0)); ['mkt','sal','cs','tech','msgs','acc'].forEach(x=>o.opex[x]=list.reduce((a,m)=>a+m.opex[x],0));
+  SUM_KEYS.forEach(x=>o[x]=list.reduce((a,m)=>a+m[x],0)); Object.keys(LBL).forEach(x=>o.opex[x]=list.reduce((a,m)=>a+m.opex[x],0));
   ['mada','apple','card','stc'].forEach(x=>o.pm[x]={amt:list.reduce((a,m)=>a+m.pm[x].amt,0),fee:list.reduce((a,m)=>a+m.pm[x].fee,0)});
   o.P=o.salesG/o.c; o.cac=o.opex.mkt/o.newC; o.repeat=1-o.newC/o.active; o.delivAvg=list[list.length-1].delivAvg; o.success=list[list.length-1].success; return o; }
 let FP='5';           // selected period: index of month, 'q' = last 3 months, 'all'
@@ -869,7 +869,7 @@ const per = () => FP==='all'?agg(FM):FP==='q'?agg(FM.slice(3)):FM[+FP];
 const prevPer = () => { if(FP==='all') return null; if(FP==='q') return agg(FM.slice(0,3)); const i=+FP; if(!i) return null; const p=FM[i-1]; if(i!==5) return p; const f=27/30, o={...p,opex:{}}; SUM_KEYS.forEach(x=>o[x]=p[x]*f); Object.keys(p.opex).forEach(x=>o.opex[x]=p.opex[x]*f); return o; };
 function delta(cur,prev,key,inv){ if(!prev||!prev[key]) return '<small class="note">—</small>'; const d=(cur[key]-prev[key])/Math.abs(prev[key]); const good=inv?d<0:d>0;
   return `<small class="dl ${good?'up':'dn'}">${d>0?'▲':'▼'} ${Math.abs(d*100).toFixed(1)}%</small>`; }
-const LBL={mkt:'التسويق والإعلانات',sal:'الرواتب',cs:'خدمة العملاء',tech:'التقنية والاستضافة',msgs:'الرسائل (SMS وواتساب)',acc:'المحاسبة والقانونية'};
+const LBL={mkt:'التسويق والإعلانات'};
 
 /* ---------- tiny SVG chart kit (no libraries) ---------- */
 let CW=640, CWH=640; function chartW(){ const f=$('#fin')||$('#an'); const w=f?f.clientWidth:900; CW=Math.max(300,w-30); CWH=innerWidth<=860?CW:Math.max(300,(w-16)/2-30); }
@@ -907,7 +907,7 @@ function linec(rows, series, {h=200, fmtY=v=>v.toFixed(1)}={}){
 function hbars(items, {fmt=sr, color=SER[0]}={}){ const mx=Math.max(...items.map(i=>Math.abs(i.v)))||1;
   return `<div class="hb">${items.map((it,i)=>`<div class="hbr" ${tipAttr(`<b>${it.n}</b><br>${fmt(it.v)}${it.s?' · '+it.s:''}`)}><span class="hbl">${it.n}</span><span class="hbt"><i style="width:${Math.abs(it.v)/mx*100}%;background:${it.c||color}"></i></span><b class="num">${fmt(it.v)}</b>${it.s?`<small class="note">${it.s}</small>`:''}</div>`).join('')}</div>`; }
 function waterfall(m){
-  const steps=[['المبيعات',m.sales,'rev'],['رسوم التوصيل المحصلة',m.del,'rev'],['تكلفة البضاعة (الموردون)',-m.cogs],['الشحن واللوجستيات',-m.logi],['رسوم الدفع',-m.fee],['الاسترداد والتالف',-m.refund],['هامش المساهمة',m.contrib,'sub'],['المصاريف التشغيلية',-m.opexT],['صافي الربح التشغيلي',m.net,'tot']];
+  const steps=[['المبيعات',m.sales,'rev'],['رسوم التوصيل المحصلة',m.del,'rev'],['تكلفة البضاعة (الموردون)',-m.cogs],['الشحن واللوجستيات',-m.logi],['رسوم الدفع',-m.fee],['الاسترداد والتالف',-m.refund],['هامش المساهمة',m.contrib,'sub'],['التسويق والإعلانات',-m.opexT],['صافي الربح التشغيلي',m.net,'tot']];
   const mx=m.revenue; let run=0;
   return `<div class="wf">${steps.map(([n,v,t])=>{ let a,b; if(t==='sub'||t==='tot'){ a=0;b=v; run=v; } else { a=run; b=run+v; run=b; }
     const lo=Math.min(a,b), hi=Math.max(a,b), col=t==='rev'?VC.rev:t==='sub'||t==='tot'?(v>=0?VC.pos:VC.neg):VC.cost;
@@ -946,17 +946,17 @@ function finBody(){
    </div><p class="note">${cmpTxt}.</p>
    <div class="grid2 g2e">
     <div class="card"><h3>الإيرادات مقابل التكاليف شهرياً</h3><div class="pad">${legend([{n:'صافي الإيرادات',c:VC.rev},{n:'كل التكاليف',c:VC.cost}])}${cols(rowsM.map(r=>({label:r.label,v:[r.x.revenue,r.x.revenue-r.x.net]})),[{n:'صافي الإيرادات',c:VC.rev},{n:'كل التكاليف',c:VC.cost}])}</div></div>
-    <div class="card"><h3>صافي الربح التشغيلي شهرياً</h3><div class="pad">${legend([{n:'ربح',c:VC.pos},{n:'خسارة',c:VC.neg}])}${cols(rowsM.map(r=>({label:r.label,v:[r.x.net]})),[{n:'صافي الربح',c:'sign'}])}<p class="note">نقطة التعادل كانت في ${FM.find(x=>x.net>0)?.name||'—'}. التراكمي منذ الإطلاق: <b class="num">${sr(FM.reduce((a,x)=>a+x.net,0))}</b>.</p></div></div>
+    <div class="card"><h3>صافي الربح التشغيلي شهرياً</h3><div class="pad">${legend([{n:'ربح',c:VC.pos},{n:'خسارة',c:VC.neg}])}${cols(rowsM.map(r=>({label:r.label,v:[r.x.net]})),[{n:'صافي الربح',c:'sign'}])}<p class="note">${FM[0].net>0?'رابح من أول شهر لأن ما فيه تكاليف تشغيل ثابتة غير التسويق.':'نقطة التعادل كانت في '+(FM.find(x=>x.net>0)?.name||'—')+'.'} التراكمي منذ الإطلاق: <b class="num">${sr(FM.reduce((a,x)=>a+x.net,0))}</b>.</p></div></div>
    </div>
    <div class="grid2 g2e">
     <div class="card"><h3>من الإيرادات إلى صافي الربح · ${m.name}</h3><div class="pad">${waterfall(m)}</div></div>
-    <div class="card"><h3>وين يروح كل 100 ريال يدفعها العميل</h3><div class="pad">${(()=>{ const g=m.revenue, parts=[['الموردون',m.cogs,SER[1]],['اللوجستيات',m.logi,SER[3]],['رسوم الدفع',m.fee,SER[4]],['الاسترداد والتالف',m.refund,SER[5]],['المصاريف التشغيلية',m.opexT,'#8a938e'],['صافي الربح',Math.max(0,m.net),SER[2]]];
+    <div class="card"><h3>وين يروح كل 100 ريال يدفعها العميل</h3><div class="pad">${(()=>{ const g=m.revenue, parts=[['الموردون',m.cogs,SER[1]],['اللوجستيات',m.logi,SER[3]],['رسوم الدفع',m.fee,SER[4]],['الاسترداد والتالف',m.refund,SER[5]],['التسويق والإعلانات',m.opexT,'#8a938e'],['صافي الربح',Math.max(0,m.net),SER[2]]];
       return `<div class="stack100">${parts.map(([n,v,c])=>`<i style="width:${v/g*100}%;background:${c}" ${tipAttr(`<b>${n}</b><br>${(v/g*100).toFixed(1)} ر.س من كل 100`)}></i>`).join('')}</div>${hbars(parts.map(([n,v,c])=>({n,v:v/g*100,c})),{fmt:v=>v.toFixed(1)+' ر.س'})}`; })()}</div></div>
    </div>
    ${FP==='5'?`<div class="card"><h3>التحصيل اليومي · أكتوبر <span class="act note">المبلغ يُخصم يوم نجاح الحملة، عشان كذا التحصيل يجي على دفعات</span></h3><div class="pad">${legend([{n:'منتجات',c:SER[0]},{n:'توصيل',c:SER[3]}])}${cols(DAILY.map(d=>({label:d.d%3===0||d.d===1?String(d.d):'',v:[d.cap,d.del]})),[{n:'منتجات',c:SER[0]},{n:'توصيل',c:SER[3]}],{stacked:true,h:220,full:true})}</div></div>`:''}
    <div class="kpis fk">
     <div class="kpi"><span>تكلفة اكتساب العميل</span><b class="num">${sr(m.cac)}</b><small>${fmt(Math.round(m.newC))} عميل جديد</small></div>
-    <div class="kpi"><span>المساهمة لكل طلب</span><b class="num">${sr(m.contrib/m.orders)}</b><small>قبل المصاريف الثابتة</small></div>
+    <div class="kpi"><span>المساهمة لكل طلب</span><b class="num">${sr(m.contrib/m.orders)}</b><small>قبل التسويق</small></div>
     <div class="kpi"><span>استرجاع تكلفة العميل</span><b class="num">${(m.cac/(m.contrib/m.orders)).toFixed(1)} طلب</b><small>كم طلب يغطي تكلفة جذبه</small></div>
     <div class="kpi"><span>نسبة الطلب المتكرر</span><b class="num">${pc(m.repeat)}</b><small>من العملاء النشطين</small></div>
     <div class="kpi"><span>نسبة نجاح الحملات</span><b class="num">${pc(m.success)}</b><small>${fmt(m.campaigns)} حملة</small></div>
@@ -972,23 +972,24 @@ function finBody(){
    <div class="grid2 g2e"><div class="card"><h3>المبيعات حسب القسم · ${m.name}</h3><div class="pad">${hbars([['الأطفال',.52],['المنظفات',.31],['الورقيات',.12],['العناية الشخصية',.05]].map(([n,s])=>({n,v:m.sales*s,s:pc(s)})))}</div></div>
    <div class="card"><h3>أعلى المنتجات مبيعاً · ${m.name}</h3><div class="tw"><table><thead><tr><th>المنتج</th><th>كراتين</th><th>المبيعات</th><th>الهامش</th></tr></thead><tbody>${[['بامبرز مقاس 4 · 96',.21,.13],['برسيل جل 2.9 لتر × 4',.15,.15],['بامبرز مقاس 5 · 2×46',.12,.12],['فيري ليمون 1.5 لتر × 6',.11,.16],['مناديل فاين 5×4',.1,.14],['كلوركس 1.89 لتر × 6',.08,.17]].map(([n,s,mg])=>`<tr><td>${n}</td><td class="num">${fmt(Math.round(m.c*s))}</td><td class="num">${sr(m.sales*s)}</td><td class="num ok-t">${pc(mg)}</td></tr>`).join('')}</tbody></table></div></div></div>`;
 
-  T.costs=()=>{ const ox=Object.keys(LBL); return `<div class="kpis fk">
+  T.costs=()=>{ const C4=[['اللوجستيات','logi',SER[3]],['رسوم الدفع','fee',SER[4]],['الاسترداد والتالف','refund',SER[5]],['التسويق والإعلانات','opexT',SER[0]]]; return `<div class="kpis fk">
      <div class="kpi"><span>تكلفة البضاعة (الموردون)</span><b class="num">${sr(m.cogs)}</b>${delta(m,p,'cogs',true)}<small>${pc(m.cogs/m.sales)} من المبيعات</small></div>
      <div class="kpi"><span>اللوجستيات</span><b class="num">${sr(m.logi)}</b>${delta(m,p,'logi',true)}<small>${sr(m.logi/m.orders)} لكل بوليصة</small></div>
      <div class="kpi"><span>رسوم الدفع</span><b class="num">${sr(m.fee)}</b><small>${pc(m.fee/m.revenue)} من الإيرادات</small></div>
      <div class="kpi"><span>الاسترداد والتالف</span><b class="num">${sr(m.refund)}</b><small>${pc(m.refund/m.sales)} من المبيعات</small></div>
-     <div class="kpi"><span>المصاريف التشغيلية</span><b class="num">${sr(m.opexT)}</b>${delta(m,p,'opexT',true)}<small>ثابتة وشبه ثابتة</small></div>
+     <div class="kpi"><span>التسويق والإعلانات</span><b class="num">${sr(m.opexT)}</b>${delta(m,p,'opexT',true)}<small>المصروف الثابت الوحيد</small></div>
+     <div class="kpi"><span>رواتب وإيجار</span><b class="num">${sr(0)}</b><small>الشركاء يشغّلون المنصة</small></div>
    </div>
-   <div class="card"><h3>المصاريف التشغيلية الشهرية حسب البند</h3><div class="pad">${legend(ox.map((x,i)=>({n:LBL[x],c:SER[i]})))}${cols(rowsM.map(r=>({label:r.label,v:ox.map(x=>r.x.opex[x])})),ox.map((x,i)=>({n:LBL[x],c:SER[i]})),{stacked:true,full:true})}</div></div>
-   <div class="grid2 g2e"><div class="card"><h3>تفصيل المصاريف · ${m.name}</h3><div class="pad">${hbars(ox.map((x,i)=>({n:LBL[x],v:m.opex[x],c:SER[i],s:pc(m.opex[x]/m.opexT)})))}</div></div>
+   <div class="card insight"><h3><span class="dots3"><i></i><i></i><i></i></span> نموذج بدون تكاليف تشغيل</h3><div class="pad"><p style="margin:0">كل حملة تدور نفس الدورة: <b>نفتح الحملة ← تنجح ← نحصّل من العملاء ← ندفع للمورد ← ندفع للناقل</b>. كل التكاليف تجي من الحملة نفسها وبعد ما نحصّل الفلوس، وما فيه رواتب ولا إيجار لأن الشركاء هم اللي يشغّلون. المصروف الوحيد اللي ما يرتبط بحملة هو التسويق.</p></div></div>
+   <div class="card"><h3>التكاليف الشهرية (بدون تكلفة البضاعة)</h3><div class="pad">${legend(C4.map(c=>({n:c[0],c:c[2]})))}${cols(rowsM.map(r=>({label:r.label,v:C4.map(c=>r.x[c[1]])})),C4.map(c=>({n:c[0],c:c[2]})),{stacked:true,full:true})}</div></div>
+   <div class="grid2 g2e"><div class="card"><h3>تفصيل التكاليف · ${m.name}</h3><div class="pad">${hbars(C4.map(c=>({n:c[0],v:m[c[1]],c:c[2]})))}<p class="note">${pc((m.logi+m.fee+m.refund)/(m.logi+m.fee+m.refund+m.opexT))} من هالتكاليف متغيرة، تنزل وتطلع مع عدد الطلبات.</p></div></div>
    <div class="card"><h3>مصدر كل تكلفة</h3><div class="tw"><table><thead><tr><th>البند</th><th>يُسجّل من</th><th>المبلغ</th></tr></thead><tbody>
      <tr><td>تكلفة البضاعة</td><td class="note">أوامر الشراء المؤكدة × سعر الجملة</td><td class="num">${sr(m.cogs)}</td></tr>
      <tr><td>البوالص</td><td class="note">فاتورة شركة التوصيل عبر الربط (لكل بوليصة)</td><td class="num">${sr(m.ship)}</td></tr>
      <tr><td>المحاولات الفاشلة والمرتجعات</td><td class="note">أحداث التتبع من شركة التوصيل</td><td class="num">${sr(m.failc+m.ret)}</td></tr>
      <tr><td>رسوم الدفع</td><td class="note">تقرير التسوية اليومي من بوابة الدفع</td><td class="num">${sr(m.fee)}</td></tr>
-     <tr><td>التسويق</td><td class="note">حسابات الإعلانات المرتبطة</td><td class="num">${sr(m.opex.mkt)}</td></tr>
-     <tr><td>الرسائل</td><td class="note">عدد الرسائل المرسلة × السعر</td><td class="num">${sr(m.opex.msgs)}</td></tr>
-     <tr><td>الرواتب والاشتراكات</td><td class="note">قيود شهرية متكررة تنزل تلقائياً</td><td class="num">${sr(m.opex.sal+m.opex.cs+m.opex.tech+m.opex.acc)}</td></tr>
+     <tr><td>الاسترداد والتالف</td><td class="note">قواعد الاسترداد الآلي</td><td class="num">${sr(m.refund)}</td></tr>
+     <tr><td>التسويق</td><td class="note">حسابات الإعلانات المرتبطة</td><td class="num">${sr(m.opexT)}</td></tr>
    </tbody></table></div></div></div>`; };
 
   T.logistics=()=>{ const perO=FM.map(x=>({label:x.name,v:[x.del/x.orders,x.logi/x.orders]})); const fee1=22/1.15, feeX=12/1.15, awb=25/1.15;
