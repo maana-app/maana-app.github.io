@@ -335,7 +335,7 @@ const unitCost = c => { const p=P(c.sku); let k=p.cost[0][1]; p.cost.forEach(x=>
 const NAMES=['سارة العتيبي','محمد القحطاني','نورة الشمري','عبدالعزيز الدوسري','ريم الحربي','فهد المطيري','هيا السبيعي','تركي الزهراني','أمل الغامدي','سلطان العنزي','منيرة الشهري','بندر العمري'];
 const DIST=['النرجس','الملقا','اليرموك','الياسمين','قرطبة','الصحافة','الربيع','الندى','العارض','حطين'];
 let ORDERS = [];
-(function(){ let n=24860; const mk=(c,i,ship)=>{ const q=1+(i%3===0?1:0)+(i%7===0?1:0); const p=price(c); const fee=22+12*(q-1);
+(function(){ let n=24860; const mk=(c,i,ship)=>{ const q=1+(i%3===0?1:0)+(i%7===0?1:0); const p=price(c); const fee=26+12*(q-1);
   return {id:'MA-'+(n++),cmp:c.id,name:NAMES[i%NAMES.length],mobile:'+9665'+String(10000000+i*7919).slice(0,8).replace(/^(\d{2})\d{4}/,'$1XXXX'),dist:DIST[i%DIST.length],short:'R'+['NRJ','MLQ','YRM','YSM','QRT','SHF','RBI','NDA','ARD','HTN'][i%10]+(1000+i*37)%9000,q,amount:+(p*q+fee).toFixed(2),pay:c.status==='Open'?'Authorized':c.status==='Refunded'?'Voided':'Captured',awb:ship?('ARX'+(7800120+i)):null,shipSt:ship?(['DELIVERED','OUT_FOR_DELIVERY','AT_HUB','DELIVERED','FAILED_ATTEMPT'][i%5]):null,joined:'26 أكتوبر · '+(8+i%12)+':'+String((i*13)%60).padStart(2,'0')}; };
   for(let i=0;i<12;i++) ORDERS.push(mk(CAMPAIGNS[0],i,false));
   for(let i=0;i<5;i++) ORDERS.push(mk(CAMPAIGNS[1],i+3,false));
@@ -451,7 +451,7 @@ function campaignDrawer(id){
 const payPill = p => ({Authorized:'<span class="pill s-sched">محجوز</span>',Captured:'<span class="pill s-open">مخصوم</span>',Voided:'<span class="pill s-fail">مفكوك</span>',Refunded:'<span class="pill s-fail">مسترد</span>'})[p]||p;
 function newCampaign(){ B=bDefault(); location.hash='builder'; if(location.hash==='#builder') render(); }
 /* ---------- platform settings (editable in Settings) ---------- */
-const CFG = {fee1:22, feeX:12, ship:25, payPct:2.5, minMargin:8, holdDays:7, cancelH:6, minSave:10};
+const CFG = {fee1:26, feeX:12, ship:25, payPct:2.5, minMargin:8, holdDays:7, cancelH:6, minSave:10};
 const costAt = (p,n) => { let k=p.cost[0][1]; p.cost.forEach(x=>{ if(n>=x[0]) k=x[1]; }); return k; };
 const tierAt = (tiers,n) => { let t=tiers[0]; tiers.forEach(x=>{ if(n>=x[0]) t=x; }); return t; };
 const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
@@ -520,11 +520,11 @@ function bChecks(b){
   else OK.push(`مدة الحملة ${b.start==='now'?days(new Date(),b.close).toFixed(1):d.toFixed(1)} يوم ضمن مدة الحجز`);
   if(!b.cities.length) E.push('اختر مدينة واحدة على الأقل');
   if(!b.methods.length) E.push('اختر طريقة دفع واحدة على الأقل');
-  if(b.fee1<b.ship){ const be=Math.ceil((b.ship-b.fee1)/Math.max(.01,b.feeX))+1; W.push(`الطلب بكرتون واحد يخسر ${sar(b.ship-b.fee1)} في التوصيل (البوليصة ${sar(b.ship)} والعميل يدفع ${sar(b.fee1)}). من ${be} كراتين يصير التوصيل رابح`); }
+  if(b.fee1<=b.ship) E.push(`رسوم أول كرتون (${sar(b.fee1)}) لازم تكون أعلى من تكلفة البوليصة (${sar(b.ship)}). ما نبيع شي تحت تكلفته، أقلها ${sar(b.ship+1)}`); else OK.push(`التوصيل رابح من أول كرتون (+${sar(b.fee1-b.ship)})`);
   const onlyMargin = E.length===1 && low.length;
   return {E,W,OK,onlyMargin};
 }
-const stepOf = msg => /مورد|وزن|أبعاد/.test(msg)?0:/اسم الحملة/.test(msg)?1:/شريح|هامش|سقف|الحد الأدنى|توفير|كرتون واحد/.test(msg)?2:/موعد|مدة|مدينة/.test(msg)?3:4;
+const stepOf = msg => /رسوم أول كرتون|البوليصة/.test(msg)?4:/مورد|وزن|أبعاد/.test(msg)?0:/اسم الحملة/.test(msg)?1:/شريح|هامش|سقف|الحد الأدنى|توفير|كرتون واحد/.test(msg)?2:/موعد|مدة|مدينة/.test(msg)?3:4;
 
 /* ---------- builder view ---------- */
 const BSTEPS=['المنتج والمورد','العرض للعميل','الكمية والأسعار','التوقيت والمناطق','الدفع والتوصيل','التنبيهات والرسائل','المراجعة والنشر'];
@@ -841,7 +841,7 @@ const FM = (()=>{
   const MIX={mada:[.6,.59,.58,.58,.57,.58],apple:[.28,.29,.3,.31,.32,.31],card:[.1,.1,.1,.09,.09,.09],stc:[.02,.02,.02,.02,.02,.02]}, FEE={mada:.0175,apple:.026,card:.0275,stc:.02};
   let cust=0;
   return N.map((name,i)=>{ const v=1.15, c=C[i], orders=Math.round(c/Q[i]);
-    const salesG=c*P[i], delG=orders*22+(c-orders)*12, cogsG=salesG*CR[i];
+    const salesG=c*P[i], delG=orders*26+(c-orders)*12, cogsG=salesG*CR[i];
     const failed=Math.round(orders*FR[i]), returns=Math.round(c*RR[i]);
     const shipG=orders*25, failG=failed*12, retG=returns*25;
     const pm={}; let feeG=0; Object.keys(MIX).forEach(m=>{ const amt=(salesG+delG)*MIX[m][i]; pm[m]={amt,fee:amt*FEE[m]}; feeG+=amt*FEE[m]; });
@@ -964,7 +964,7 @@ function finBody(){
 
   T.revenue=()=>`<div class="kpis fk">
      <div class="kpi"><span>مبيعات المنتجات</span><b class="num">${sr(m.sales)}</b>${delta(m,p,'sales')}<small>بدون الضريبة</small></div>
-     <div class="kpi"><span>رسوم التوصيل المحصلة</span><b class="num">${sr(m.del)}</b>${delta(m,p,'del')}<small>22 لأول كرتون، 12 لكل إضافي</small></div>
+     <div class="kpi"><span>رسوم التوصيل المحصلة</span><b class="num">${sr(m.del)}</b>${delta(m,p,'del')}<small>26 لأول كرتون، 12 لكل إضافي</small></div>
      <div class="kpi"><span>الربح الإجمالي على المنتجات</span><b class="num">${sr(m.sales-m.cogs)}</b><small>${pc((m.sales-m.cogs)/m.sales)} من المبيعات</small></div>
      <div class="kpi"><span>متوسط سعر الكرتون</span><b class="num">${sr(m.P)}</b><small>شامل الضريبة</small></div>
    </div>
@@ -992,7 +992,7 @@ function finBody(){
      <tr><td>التسويق</td><td class="note">حسابات الإعلانات المرتبطة</td><td class="num">${sr(m.opexT)}</td></tr>
    </tbody></table></div></div></div>`; };
 
-  T.logistics=()=>{ const perO=FM.map(x=>({label:x.name,v:[x.del/x.orders,x.logi/x.orders]})); const fee1=22/1.15, feeX=12/1.15, awb=25/1.15;
+  T.logistics=()=>{ const perO=FM.map(x=>({label:x.name,v:[x.del/x.orders,x.logi/x.orders]})); const fee1=26/1.15, feeX=12/1.15, awb=25/1.15;
     const dist=[[1,.36],[2,.41],[3,.15],[4,.08]]; return `<div class="kpis fk">
      <div class="kpi"><span>بوالص صادرة</span><b class="num">${fmt(m.orders)}</b>${delta(m,p,'orders')}<small>${fmt(Math.round(m.c))} كرتون · ${(m.c/m.orders).toFixed(2)} للبوليصة</small></div>
      <div class="kpi"><span>ندفع لشركة التوصيل</span><b class="num">${sr(m.logi)}</b><small>${sr(m.logi/m.orders)} للبوليصة شاملة الفاشل والمرتجع</small></div>
@@ -1001,8 +1001,8 @@ function finBody(){
      <div class="kpi"><span>نسبة التسليم من أول محاولة</span><b class="num">${pc(1-m.failed/m.orders)}</b><small>${fmt(Math.round(m.failed))} محاولة فاشلة</small></div>
      <div class="kpi"><span>متوسط مدة التوصيل</span><b class="num">${m.delivAvg} يوم</b><small>من إغلاق الحملة</small></div>
    </div>
-   <div class="card insight"><h3><span class="dots3"><i></i><i></i><i></i></span> كيف يربح التوصيل</h3><div class="pad"><p style="margin:0 0 10px">العميل يدفع رسوم على كل كرتون (22 لأول كرتون و12 لكل كرتون زيادة). شركة التوصيل تحاسبنا على البوليصة بحد أعلى 25 ريال، والبوليصة الوحدة تشيل كل كراتين الطلب. يعني الطلب بكرتون واحد يخسر 3 ريال، ومن كرتونين وفوق التوصيل يربح.</p>
-   <div class="tw"><table><thead><tr><th>كراتين في الطلب</th><th>نسبة الطلبات</th><th>يدفع العميل</th><th>ندفع</th><th>ربح الطلب</th><th>الإجمالي بدون الضريبة · ${m.name}</th></tr></thead><tbody>${dist.map(([q,sh])=>{ const col=22+12*(q-1), n=Math.round(m.orders*sh); return `<tr><td class="num">${q}${q===4?'+':''}</td><td class="num">${pc(sh)}</td><td class="num">${sr(col)}</td><td class="num">${sr(25)}</td><td class="num ${col-25>=0?'ok-t':'bad-t'}"><b>${sr(col-25)}</b></td><td class="num ${col-25>=0?'ok-t':'bad-t'}">${sr((col-25)*n/1.15)}</td></tr>`; }).join('')}</tbody></table></div>
+   <div class="card insight"><h3><span class="dots3"><i></i><i></i><i></i></span> كيف يربح التوصيل</h3><div class="pad"><p style="margin:0 0 10px">العميل يدفع رسوم على كل كرتون (26 لأول كرتون و12 لكل كرتون زيادة). شركة التوصيل تحاسبنا على البوليصة بحد أعلى 25 ريال، والبوليصة الوحدة تشيل كل كراتين الطلب. القاعدة: ما نبيع شي تحت تكلفته، فأول كرتون دائماً فوق تكلفة البوليصة، وكل كرتون زيادة ربح كامل.</p>
+   <div class="tw"><table><thead><tr><th>كراتين في الطلب</th><th>نسبة الطلبات</th><th>يدفع العميل</th><th>ندفع</th><th>ربح الطلب</th><th>الإجمالي بدون الضريبة · ${m.name}</th></tr></thead><tbody>${dist.map(([q,sh])=>{ const col=26+12*(q-1), n=Math.round(m.orders*sh); return `<tr><td class="num">${q}${q===4?'+':''}</td><td class="num">${pc(sh)}</td><td class="num">${sr(col)}</td><td class="num">${sr(25)}</td><td class="num ${col-25>=0?'ok-t':'bad-t'}"><b>${sr(col-25)}</b></td><td class="num ${col-25>=0?'ok-t':'bad-t'}">${sr((col-25)*n/1.15)}</td></tr>`; }).join('')}</tbody></table></div>
    <p class="note" style="margin-top:8px">الأرقام شاملة الضريبة. النظام يعرض في السلة «أضف كرتون ثاني والتوصيل له 12 ريال بس» لأن كل كرتون زيادة يرفع ربح التوصيل.</p></div></div>
    <div class="grid2 g2e"><div class="card"><h3>للطلب الواحد: المحصّل مقابل التكلفة <span class="act note">بدون الضريبة</span></h3><div class="pad">${linec(perO,[{n:'يدفع العميل',c:SER[0]},{n:'ندفع',c:SER[1]}],{fmtY:v=>v.toFixed(1)})}<p class="note">الفرق يكبر مع ارتفاع متوسط الكراتين في الطلب من ${(FM[0].c/FM[0].orders).toFixed(2)} إلى ${(FM[5].c/FM[5].orders).toFixed(2)}.</p></div></div>
    <div class="card"><h3>تفصيل تكلفة اللوجستيات · ${m.name}</h3><div class="pad">${hbars([{n:'بوالص التوصيل',v:m.ship,c:SER[1]},{n:'إعادة محاولة التوصيل',v:m.failc,c:SER[3]},{n:'بوالص المرتجعات',v:m.ret,c:SER[4]}])}</div></div></div>
@@ -1051,7 +1051,7 @@ function finBody(){
 
   T.campaigns=()=>{ const r=rng(11); const list=[...CAMPAIGNS.filter(c=>['Shipping','Settled','Completed'].includes(c.status)).map(c=>({id:c.id,n:c.title||P(c.sku).name,c:c.joined,o:c.orders,pr:price(c),u:unitCost(c)})),
       ...[['C-1031','بامبرز مقاس 5 · 2×46',412,128,84],['C-1029','برسيل جل 2.9 لتر × 4',356,96,74],['C-1027','مناديل فاين 5×4',298,64,53],['C-1025','مناديل بامبرز المبللة',188,122,100],['C-1023','فيري ليمون × 6',240,134,114]].map(([id,n,c,pr,u])=>({id,n,c,o:Math.round(c/1.9),pr,u}))];
-    const rows=list.map(x=>{ const rev=x.pr*x.c, del=x.o*22+(x.c-x.o)*12, sup=x.u*x.c, ship=25*x.o, fee=(rev+del)*0.022, net=(rev+del-sup-ship-fee)/1.15; return {...x,rev,del,sup,ship,fee,net,pct:net/((rev+del)/1.15)}; }).sort((a,b)=>b.net-a.net);
+    const rows=list.map(x=>{ const rev=x.pr*x.c, del=x.o*26+(x.c-x.o)*12, sup=x.u*x.c, ship=25*x.o, fee=(rev+del)*0.022, net=(rev+del-sup-ship-fee)/1.15; return {...x,rev,del,sup,ship,fee,net,pct:net/((rev+del)/1.15)}; }).sort((a,b)=>b.net-a.net);
     return `<div class="card"><h3>مساهمة كل حملة</h3><div class="pad">${hbars(rows.map(x=>({n:`${x.id} · ${x.n}`,v:x.net,c:x.net>=0?VC.pos:VC.neg,s:pc(x.pct)})))}</div></div>
     <div class="card"><div class="tw"><table><thead><tr><th>الحملة</th><th>كراتين</th><th>طلبات</th><th>المبيعات</th><th>التوصيل</th><th>الموردون</th><th>البوالص</th><th>رسوم الدفع</th><th>المساهمة</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${x.n}</b><div class="note mono">${x.id}</div></td><td class="num">${fmt(x.c)}</td><td class="num">${fmt(x.o)}</td><td class="num">${sr(x.rev)}</td><td class="num">${sr(x.del)}</td><td class="num">${sr(-x.sup)}</td><td class="num">${sr(-x.ship)}</td><td class="num">${sr(-x.fee)}</td><td class="num ${x.net>=0?'ok-t':'bad-t'}"><b>${sr(x.net)}</b></td></tr>`).join('')}</tbody></table></div></div>`; };
 
@@ -1086,7 +1086,7 @@ const CH = (()=>{ const r=rng(42), out=[]; const prods=[['بامبرز مقاس 
       let fill=(0.95+(save-0.16)*2.6)*catf*(dur===5?1.08:dur===7?.97:.88)*(evening?1.06:.93)*(0.8+r()*0.4)*(1+mi*0.03);
       const min=p[3], joined=Math.round(min*fill), ok=joined>=min, sharePct=0.2+r()*0.25+(ok?0.08:0);
       const priceG=p[2]*(1-save), cost=priceG*(1-(0.11+r()*0.06)), orders=Math.round(joined/1.9);
-      const contrib=ok?((priceG-cost)*joined + orders*22+(joined-orders)*12 - orders*25 - (priceG*joined)*0.022)/1.15:0;
+      const contrib=ok?((priceG-cost)*joined + orders*26+(joined-orders)*12 - orders*25 - (priceG*joined)*0.022)/1.15:0;
       const tMin = ok? Math.min(.98, (min/joined)**1.6 * (0.6+r()*0.35)) : null;
       out.push({id:'C-'+(id++),m:mi,month:m.name,prod:p[0],cat:p[1],save,dur,day,evening,min,joined,fill,ok,sharePct,orders,contrib,tMin,custSave:ok?p[2]*save*joined:0,rating:ok?+(4.3+r()*0.6).toFixed(1):null}); } });
   return out; })();
@@ -1325,7 +1325,7 @@ document.addEventListener('click',e=>{
   if(a==='saveSupp'){ saveSupplier(); return; }
   if(a==='addUser'){ userForm(); return; }
   if(a==='saveUser'){ const n=$('#nu-n').value.trim(), em=$('#nu-e').value.trim(); if(!n||!em){ toast('الاسم والبريد مطلوبة'); return; } USERS.push({n,e:em,r:$('#nu-r').value,st:'دعوة مرسلة'}); AUDIT.unshift(['الآن',`${ME_ADMIN.name} (${ME_ADMIN.role})`,`دعا ${n} بدور ${$('#nu-r').value}`]); closeDrawer(); toast('أُرسلت الدعوة'); render(); return; }
-  if(a==='saveCfg'){ Object.keys(CFG).forEach(k=>{ const el=$('#cfg-'+k); if(el) CFG[k]=+el.value; }); AUDIT.unshift(['الآن',`${ME_ADMIN.name} (${ME_ADMIN.role})`,'عدّل إعدادات المنصة']); toast('حُفظت الإعدادات · تطبق على الحملات الجديدة'); render(); return; }
+  if(a==='saveCfg'){ const f1=+$('#cfg-fee1').value, sh=+$('#cfg-ship').value; if(f1<=sh){ toast(`رسوم أول كرتون لازم تكون أعلى من البوليصة (${sh}). أقلها ${sh+1}`); return; } Object.keys(CFG).forEach(k=>{ const el=$('#cfg-'+k); if(el) CFG[k]=+el.value; }); AUDIT.unshift(['الآن',`${ME_ADMIN.name} (${ME_ADMIN.role})`,'عدّل إعدادات المنصة']); toast('حُفظت الإعدادات · تطبق على الحملات الجديدة'); render(); return; }
   if(a==='tkReply'){ const t=TICKETS.find(x=>x.id===id), v=$('#tk-r').value.trim(); if(!v) return; t.msgs.push({who:'ma3na',txt:v,at:'الآن'}); t.st='بانتظار العميل'; ticketDrawer(id); toast('أُرسل الرد للعميل'); render(); return; }
   if(a==='tkOrder'){ orderDrawer(id); return; }
   const C=()=>CAMPAIGNS.find(x=>x.id===id);
