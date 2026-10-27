@@ -245,7 +245,7 @@ body{background:var(--bg)}
 .krow{display:flex;align-items:center;justify-content:space-between;gap:6px}
 .spk{width:90px;height:26px}
 .dl{font:600 12px var(--fd);border-radius:6px;padding:1px 6px} .dl.up{background:#E3F5EC;color:#0E7A52} .dl.dn{background:#FCE6E4;color:#B3392A}
-.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart{width:100%;height:auto;display:block;overflow:visible;direction:ltr}
 .chart .ax{font:11px var(--fb);fill:var(--mute)}
 .chart rect,.chart circle{cursor:default}
 .lg{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--mute);margin-bottom:6px}
@@ -265,6 +265,14 @@ body{background:var(--bg)}
 .ftip.on{opacity:1}
 @media (max-width:560px){.hbr{grid-template-columns:1fr 1.2fr auto}.wfr{grid-template-columns:1fr 1fr auto}}
 .g2e{grid-template-columns:1fr 1fr} @media (max-width:860px){.g2e{grid-template-columns:1fr}}
+.fnl{display:flex;flex-direction:column;gap:10px}
+.fnr{display:grid;grid-template-columns:minmax(150px,1fr) 2.4fr 70px 54px;gap:10px;align-items:center;font-size:13.5px}
+.fnt{height:28px;background:var(--soft);border-radius:8px;overflow:hidden} .fnt i{display:block;height:100%;background:linear-gradient(90deg,#2a78d6,#5b9be6);border-radius:8px}
+table.hm td{text-align:center;font:500 12px var(--fm);border:2px solid var(--panel);border-radius:6px;padding:8px 4px} table.hm th{font-size:11.5px;text-align:center} table.hm tbody th{text-align:start;background:none}
+table.coh td{min-width:56px}
+.big{font:500 17px/1.6 var(--fd);margin:0 0 8px} .big b{color:var(--coral);font-weight:700}
+.insight{background:linear-gradient(180deg,#FFF8F4,var(--panel))} .insight h3{gap:10px} .insight ul{padding:12px 14px} .insight .note{padding:0 14px 14px;margin:0}
+@media (max-width:560px){.fnr{grid-template-columns:1fr 1fr 60px}.fnr small{display:none}}
 </style>
 </head><body>
 
@@ -365,14 +373,14 @@ const AUDIT = [
 let mode='admin';
 const ME_ADMIN = {name:'أنت', role:'Super Admin'};
 const ROLES = ['Super Admin','Operations','Finance','Logistics','CS'];
-const ROLE_ACCESS = {'Operations':['dashboard','campaigns','builder','orders','logistics','suppliers','catalog','pos','support'],'Finance':['dashboard','orders','pos','finance'],'Logistics':['dashboard','orders','logistics','pos'],'CS':['dashboard','orders','support']};
+const ROLE_ACCESS = {'Operations':['dashboard','campaigns','builder','users','insights','orders','logistics','suppliers','catalog','pos','support'],'Finance':['dashboard','orders','pos','finance','insights'],'Logistics':['dashboard','orders','logistics','pos'],'CS':['dashboard','orders','support']};
 const can = k => !ROLE_ACCESS[ME_ADMIN.role] || ROLE_ACCESS[ME_ADMIN.role].includes(k);
 const PERM = {approvePay:['Super Admin','Finance'],rejectPay:['Super Admin','Finance'],paid:['Super Admin','Finance'],mkPay:['Super Admin','Finance'],approveRef:['Super Admin','Finance'],rejectRef:['Super Admin','Finance'],approveRev:['Super Admin'],rejectRev:['Super Admin'],cancel:['Super Admin'],approveSupp:['Super Admin','Operations'],saveCfg:['Super Admin'],addUser:['Super Admin'],saveUser:['Super Admin']};
 let USERS = [{n:'أنت',e:'ceo@ma3na.sa',r:'Super Admin',st:'نشط'},{n:'عبدالله',e:'abdullah@ma3na.sa',r:'Operations',st:'نشط',note:'الموردون'},{n:'نواف',e:'nawaf@ma3na.sa',r:'Logistics',st:'نشط'},{n:'ريم',e:'reem@ma3na.sa',r:'Finance',st:'نشط'},{n:'فيصل',e:'faisal@ma3na.sa',r:'Operations',st:'نشط'},{n:'لمى',e:'lama@ma3na.sa',r:'CS',st:'نشط'}];
 
 /* ---------- navigation ---------- */
 const NAV = {
-  admin:[['grp','التشغيل'],['dashboard','لوحة المتابعة'],['campaigns','الحملات'],['orders','الطلبات'],['logistics','الشحنات',()=>ORDERS.filter(o=>o.shipSt==='FAILED_ATTEMPT').length],['grp','الموردون'],['suppliers','الموردون'],['catalog','المنتجات'],['pos','أوامر الشراء'],['grp','المالية'],['finance','المالية',()=>PAYOUTS.filter(p=>p.status==='بانتظار الاعتماد').length+REFUNDS.filter(r=>r.status==='بانتظار الموافقة').length],['grp','الخدمة'],['support','خدمة العملاء',()=>TICKETS.filter(t=>t.st==='مفتوحة').length],['settings','الإعدادات والصلاحيات']],
+  admin:[['grp','التشغيل'],['dashboard','لوحة المتابعة'],['campaigns','الحملات'],['orders','الطلبات'],['logistics','الشحنات',()=>ORDERS.filter(o=>o.shipSt==='FAILED_ATTEMPT').length],['grp','التحليلات'],['users','المستخدمون والعملاء'],['insights','تحليل الحملات'],['grp','الموردون'],['suppliers','الموردون'],['catalog','المنتجات'],['pos','أوامر الشراء'],['grp','المالية'],['finance','المالية',()=>PAYOUTS.filter(p=>p.status==='بانتظار الاعتماد').length+REFUNDS.filter(r=>r.status==='بانتظار الموافقة').length],['grp','الخدمة'],['support','خدمة العملاء',()=>TICKETS.filter(t=>t.st==='مفتوحة').length],['settings','الإعدادات والصلاحيات']],
   supp:[['grp','بوابة المورد'],['s-dashboard','الرئيسية'],['s-products','منتجاتي وأسعاري'],['s-pos','أوامر الشراء',()=>POS.filter(p=>p.sup==='SUP-02'&&p.status==='بانتظار تأكيد المورد').length],['s-pickups','مواعيد الاستلام'],['s-invoices','الفواتير والمدفوعات'],['s-profile','بيانات المنشأة']],
 };
 function buildNav(){
@@ -864,7 +872,7 @@ function delta(cur,prev,key,inv){ if(!prev||!prev[key]) return '<small class="no
 const LBL={mkt:'التسويق والإعلانات',sal:'الرواتب',cs:'خدمة العملاء',tech:'التقنية والاستضافة',msgs:'الرسائل (SMS وواتساب)',acc:'المحاسبة والقانونية'};
 
 /* ---------- tiny SVG chart kit (no libraries) ---------- */
-let CW=640, CWH=640; function chartW(){ const f=$('#fin'); const w=f?f.clientWidth:900; CW=Math.max(300,w-30); CWH=innerWidth<=860?CW:Math.max(300,(w-16)/2-30); }
+let CW=640, CWH=640; function chartW(){ const f=$('#fin')||$('#an'); const w=f?f.clientWidth:900; CW=Math.max(300,w-30); CWH=innerWidth<=860?CW:Math.max(300,(w-16)/2-30); }
 function tipAttr(html){ return `data-tip="${esc(html)}"`; }
 function cols(rows, series, {h=230, stacked=false, fmtY=k, zero=true, full=false}={}){
   // rows: [{label, v:[...]}]; drawn right-to-left (first row on the right) to match Arabic reading
@@ -893,7 +901,7 @@ function linec(rows, series, {h=200, fmtY=v=>v.toFixed(1)}={}){
   rows.forEach((r,i)=>g+=`<text x="${x(i)}" y="${h-8}" text-anchor="middle" class="ax">${r.label}</text>`);
   series.forEach((s,j)=>{ g+=`<polyline fill="none" stroke="${s.c}" stroke-width="2.2" stroke-linejoin="round" points="${rows.map((r,i)=>`${x(i)},${y(r.v[j])}`).join(' ')}"/>`;
     rows.forEach((r,i)=>g+=`<circle cx="${x(i)}" cy="${y(r.v[j])}" r="4.5" fill="${s.c}" stroke="var(--panel)" stroke-width="2"/><circle cx="${x(i)}" cy="${y(r.v[j])}" r="14" fill="transparent" ${tipAttr(`<b>${r.label}</b><br>${s.n}: ${fmtY(r.v[j])}`)}/>`);
-    const up=j===series.length-1||rows[0].v[j]>=Math.max(...rows[0].v); g+=`<text x="${x(0)}" y="${y(rows[0].v[j])+(up?-12:20)}" text-anchor="middle" class="ax" style="font-weight:600;fill:${s.c}">${s.n}</text>`; });
+    const L=rows.length-1, up=rows[L].v[j]>=Math.max(...rows[L].v); g+=`<text x="${x(L)}" y="${y(rows[L].v[j])+(up?-12:22)}" text-anchor="middle" class="ax" style="font-weight:600;fill:${s.c}">${s.n}</text>`; });
   return `<svg class="chart" viewBox="0 0 ${W} ${h}" role="img">${g}</svg>`;
 }
 function hbars(items, {fmt=sr, color=SER[0]}={}){ const mx=Math.max(...items.map(i=>Math.abs(i.v)))||1;
@@ -1052,7 +1060,137 @@ function finBody(){
 
   chartW(); el.innerHTML = T[FT]();
 }
-let _rz; addEventListener('resize',()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if($('#fin')) finBody(); },150); });
+let _rz; addEventListener('resize',()=>{ clearTimeout(_rz); _rz=setTimeout(()=>{ if($('#fin')) finBody(); else if($('#an')) (location.hash==='#users'?usersBody:insightsBody)(); },150); });
+/* ================= ANALYTICS: users + campaign performance (simulation data) ================= */
+const MN = FM.map(m=>m.name);
+const UM = (()=>{ // monthly user funnel, consistent with FM (new buyers = FM.newC)
+  const installs=[3100,3900,4700,5400,5900,6200], reg=[1480,1900,2380,2860,3240,3480], addr=[1060,1390,1780,2170,2490,2660];
+  let cumReg=0, cumBuy=0;
+  return FM.map((m,i)=>{ cumReg+=reg[i]; cumBuy+=m.newC; const join=Math.round(m.newC/0.905/0.985), cap=Math.round(m.newC/0.985);
+    return {name:m.name,installs:installs[i],reg:reg[i],addr:addr[i],join,cap,recv:m.newC,cumReg,cumBuy,active:m.active,mau:Math.round(m.active*1.85),dau:Math.round(m.active*1.85*[.16,.17,.18,.19,.2,.21][i]),
+      ios:[.64,.63,.63,.62,.62,.61][i], src:{ref:[.24,.29,.33,.36,.38,.41][i],snap:[.31,.28,.26,.24,.23,.21][i],tiktok:[.14,.16,.17,.18,.18,.18][i],insta:[.17,.15,.13,.12,.11,.1][i],org:[.14,.12,.11,.1,.1,.1][i]}}; }); })();
+const COH = [[100,54,46,42,39,37],[100,57,49,44,41],[100,59,51,46],[100,61,53],[100,63],[100]];
+const HEAT = (()=>{ const r=rng(21), days=['السبت','الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'], slots=['6–9ص','9–12ظ','12–3ع','3–6م','6–9م','9–12م','12–3ف'];
+  const base=[.15,.35,.4,.5,.85,1,.45], dayf=[.9,.85,.8,.82,.9,1.15,1.05];
+  return {days,slots,v:days.map((_,d)=>slots.map((_,h)=>Math.round(900*base[h]*dayf[d]*(0.85+r()*0.3))))}; })();
+
+/* ---- campaign history: 67 campaigns May–Oct generated by one model ---- */
+const CH = (()=>{ const r=rng(42), out=[]; const prods=[['بامبرز مقاس 4 · 96','الأطفال',89.7,250],['بامبرز مقاس 5 · 2×46','الأطفال',134.6,150],['مناديل بامبرز المبللة','الأطفال',165,100],['حليب أطفال مرحلة 2 × 6','الأطفال',540,80],['برسيل جل 2.9 لتر × 4','المنظفات',124,150],['فيري ليمون 1.5 لتر × 6','المنظفات',187.5,100],['كلوركس 1.89 لتر × 6','المنظفات',77.9,120],['تايد بودرة 6 كجم × 2','المنظفات',118,120],['مناديل فاين 5×4','الورقيات',89,150],['مناديل مطبخ × 12','الورقيات',62,150],['شامبو أطفال جونسون × 6','العناية الشخصية',96,100]];
+  let id=1000; FM.forEach((m,mi)=>{ for(let j=0;j<m.campaigns;j++){ const p=prods[Math.floor(r()*prods.length)]; const save=0.16+r()*0.18; const dur=[3,5,7][Math.floor(r()*3)]; const day=Math.floor(r()*7); const evening=r()<0.7;
+      const catf={'الأطفال':1.18,'المنظفات':1.0,'الورقيات':.88,'العناية الشخصية':.78}[p[1]];
+      let fill=(0.95+(save-0.16)*2.6)*catf*(dur===5?1.08:dur===7?.97:.88)*(evening?1.06:.93)*(0.8+r()*0.4)*(1+mi*0.03);
+      const min=p[3], joined=Math.round(min*fill), ok=joined>=min, sharePct=0.2+r()*0.25+(ok?0.08:0);
+      const priceG=p[2]*(1-save), cost=priceG*(1-(0.11+r()*0.06)), orders=Math.round(joined/1.9);
+      const contrib=ok?((priceG-cost)*joined + orders*22+(joined-orders)*12 - joined*20 - (priceG*joined)*0.022)/1.15:0;
+      const tMin = ok? Math.min(.98, (min/joined)**1.6 * (0.6+r()*0.35)) : null;
+      out.push({id:'C-'+(id++),m:mi,month:m.name,prod:p[0],cat:p[1],save,dur,day,evening,min,joined,fill,ok,sharePct,orders,contrib,tMin,custSave:ok?p[2]*save*joined:0,rating:ok?+(4.3+r()*0.6).toFixed(1):null}); } });
+  return out; })();
+
+FM.forEach((m,i)=>{ const L=CH.filter(c=>c.m===i); m.success=L.filter(c=>c.ok).length/L.length; });
+let AF='all'; let UT='overview'; let CT='overview';
+const chList = () => AF==='all'?CH:CH.filter(c=>c.m===+AF);
+const rate = (arr) => arr.length? arr.filter(c=>c.ok).length/arr.length : 0;
+const avg = (arr,f) => arr.length? arr.reduce((a,c)=>a+f(c),0)/arr.length : 0;
+function heat(v, mx){ const t=v/mx; const a=0.08+t*0.82; return `background:rgba(42,120,214,${a.toFixed(2)});color:${t>0.55?'#fff':'var(--ink)'}`; }
+
+function scatter(pts,{h=280, xl='', yl=''}={}){ const W=CWH, pad={t:16,r:14,b:40,l:50}, iw=W-pad.l-pad.r, ih=h-pad.t-pad.b;
+  const xmn=15, xmx=35, ymx=Math.max(1.6,...pts.map(p=>p.y))*1.05;
+  const x=v=>pad.l+iw*(xmx-v)/(xmx-xmn), y=v=>pad.t+ih*(1-v/ymx);
+  let g=''; [0,.5,1,1.5].filter(v=>v<=ymx).forEach(v=>g+=`<line x1="${pad.l}" x2="${W-pad.r}" y1="${y(v)}" y2="${y(v)}" stroke="${v===1?'var(--mute)':'var(--line)'}" ${v===1?'stroke-dasharray="5 4"':''}/><text x="${pad.l-6}" y="${y(v)+4}" text-anchor="end" class="ax">${v*100}%</text>`);
+  [15,20,25,30,35].forEach(v=>g+=`<text x="${x(v)}" y="${h-22}" text-anchor="middle" class="ax">${v}%</text>`);
+  g+=`<text x="${pad.l+iw/2}" y="${h-4}" text-anchor="middle" class="ax">${xl}</text><text x="${W-pad.r}" y="${y(1)-6}" text-anchor="end" class="ax" style="fill:var(--ink)">الحد الأدنى</text>`;
+  pts.forEach(p=>{ g+= p.ok? `<circle cx="${x(p.x)}" cy="${y(p.y)}" r="6" fill="${VC.pos}" stroke="var(--panel)" stroke-width="2" ${tipAttr(p.tip)}/>` : `<rect x="${x(p.x)-5.5}" y="${y(p.y)-5.5}" width="11" height="11" rx="2" fill="${VC.neg}" stroke="var(--panel)" stroke-width="2" transform="rotate(45 ${x(p.x)} ${y(p.y)})" ${tipAttr(p.tip)}/>`; });
+  return `<svg class="chart" viewBox="0 0 ${W} ${h}" role="img" aria-label="${yl}">${g}</svg>`; }
+function funnel(steps){ const mx=steps[0][1]; return `<div class="fnl">${steps.map(([n,v],i)=>`<div class="fnr" ${tipAttr(`<b>${n}</b><br>${fmt(v)}${i?` · ${pc(v/steps[i-1][1])} من الخطوة السابقة`:''}`)}><span class="fnl-n">${n}</span><span class="fnt"><i style="width:${v/mx*100}%"></i></span><b class="num">${fmt(v)}</b><small class="num ${i&&v/steps[i-1][1]<0.6?'bad-t':'note'}">${i?pc(v/steps[i-1][1]):''}</small></div>`).join('')}</div>`; }
+const perBar = (opts,cur,attr) => `<div class="fper" role="group">${opts.map(([v,l])=>`<button type="button" ${attr}="${v}" aria-pressed="${cur===v}">${l}</button>`).join('')}</div>`;
+
+/* ---------------- USERS ---------------- */
+V.users = () => { head('المستخدمون والعملاء','Admin Web · Analytics · Users');
+  return `<div class="fbar">${perBar([...MN.map((n,i)=>[String(i),n]),['all','منذ الإطلاق']].map(([v,l])=>[v,v==='5'?l+' (حتى 27)':l]),UP,'data-up')}<div class="fmeta"><span class="livedot"></span>محدّثة لحظياً من التطبيق</div></div>
+  <div class="ftabs" role="tablist">${[['overview','نظرة عامة'],['funnel','رحلة العميل'],['retention','الاحتفاظ والتكرار'],['segments','الشرائح والمناطق'],['list','قائمة العملاء']].map(([k2,l])=>`<button type="button" role="tab" data-ut="${k2}" aria-selected="${UT===k2}">${l}</button>`).join('')}</div><div id="an"></div>`; };
+let UP='5';
+function usersBody(){ const el=$('#an'); if(!el) return; chartW(); const i=UP==='all'?5:+UP, u=UM[i], pu=UM[i-1], allM=UP==='all';
+  const sumF=f=>allM?UM.reduce((a,x)=>a+f(x),0):f(u);
+  const T={};
+  T.overview=()=>`<div class="kpis fk">
+    <div class="kpi"><span>إجمالي المسجلين</span><b class="num">${fmt(u.cumReg)}</b><div class="krow">${pu?`<small class="dl up">▲ ${fmt(u.reg)} هالشهر</small>`:''}${spark(UM.map(x=>x.cumReg),SER[0])}</div><small>حساب مكتمل برقم جوال موثق</small></div>
+    <div class="kpi"><span>اشتروا مرة على الأقل</span><b class="num">${fmt(u.cumBuy)}</b><div class="krow"><small class="note">${pc(u.cumBuy/u.cumReg)} من المسجلين</small>${spark(UM.map(x=>x.cumBuy),SER[2])}</div><small>استلموا طلب فعلياً</small></div>
+    <div class="kpi"><span>المستخدمون النشطون شهرياً</span><b class="num">${fmt(u.mau)}</b><div class="krow">${pu?delta({v:u.mau},{v:pu.mau},'v'):''}${spark(UM.map(x=>x.mau),SER[0])}</div><small>فتحوا التطبيق خلال الشهر</small></div>
+    <div class="kpi"><span>عملاء اشتروا هالشهر</span><b class="num">${fmt(u.active)}</b><div class="krow">${pu?delta({v:u.active},{v:pu.active},'v'):''}${spark(UM.map(x=>x.active),SER[2])}</div><small>${pc(u.active/u.mau)} من النشطين</small></div>
+    <div class="kpi"><span>النشطون يومياً (متوسط)</span><b class="num">${fmt(u.dau)}</b><small>${pc(u.dau/u.mau)} من الشهري · مؤشر تعلّق</small></div>
+    <div class="kpi"><span>عملاء جدد هالشهر</span><b class="num">${fmt(u.recv)}</b><small>تكلفة الواحد ${sr(FM[i].cac)}</small></div>
+  </div>
+  <div class="grid2 g2e"><div class="card"><h3>نمو قاعدة المستخدمين</h3><div class="pad">${linec(UM.map(x=>({label:x.name,v:[x.cumReg,x.cumBuy]})),[{n:'المسجلون',c:SER[0]},{n:'المشترون',c:SER[2]}],{fmtY:k})}</div></div>
+  <div class="card"><h3>من وين جوا المستخدمون الجدد</h3><div class="pad">${(()=>{ const S=[['ref','دعوة صديق ورابط الحملة',SER[2]],['snap','سناب شات',SER[3]],['tiktok','تيك توك',SER[4]],['insta','إنستقرام',SER[5]],['org','بحث ومتجر التطبيقات',SER[0]]];
+     return legend(S.map(s=>({n:s[1],c:s[2]})))+cols(UM.map(x=>({label:x.name,v:S.map(s=>x.reg*x.src[s[0]])})),S.map(s=>({n:s[1],c:s[2]})),{stacked:true}); })()}<p class="note">حصة الدعوات ترتفع من ${pc(UM[0].src.ref)} إلى ${pc(UM[5].src.ref)}، يعني الحملات نفسها صارت تجيب عملاء.</p></div></div></div>
+  <div class="grid2 g2e"><div class="card"><h3>متى ينضم الناس للحملات <span class="act note">${fmt(HEAT.v.flat().reduce((a,b)=>a+b,0))} انضمام · ${u.name}</span></h3><div class="tw"><table class="hm"><thead><tr><th></th>${HEAT.slots.map(s=>`<th>${s}</th>`).join('')}</tr></thead><tbody>${HEAT.days.map((d,di)=>`<tr><th>${d}</th>${HEAT.v[di].map((v,hi)=>`<td style="${heat(v,Math.max(...HEAT.v.flat()))}" ${tipAttr(`<b>${d} · ${HEAT.slots[hi]}</b><br>${fmt(v)} انضمام`)}>${k(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="pad note">الذروة الخميس من 9 إلى 12 بالليل. أفضل وقت لفتح الحملات وإرسال تنبيه «باقي 6 ساعات».</p></div>
+  <div class="card"><h3>الأجهزة والتنبيهات</h3><div class="pad">${hbars([{n:'iPhone',v:u.ios*100,c:SER[0]},{n:'Android',v:(1-u.ios)*100,c:SER[2]}],{fmt:v=>v.toFixed(0)+'%'})}<div style="height:14px"></div>${hbars([{n:'فعّلوا الإشعارات',v:71,c:SER[3]},{n:'أضافوا منتج للمفضلة',v:58,c:SER[3]},{n:'شاركوا رابط حملة',v:34,c:SER[3]},{n:'دعوا صديق اشترى',v:12,c:SER[3]}],{fmt:v=>v+'%'})}</div></div></div>`;
+  T.funnel=()=>{ const st=allM?[['نزّلوا التطبيق',sumF(x=>x.installs)],['سجّلوا ووثقوا الجوال',sumF(x=>x.reg)],['أضافوا العنوان الوطني',sumF(x=>x.addr)],['انضموا لأول حملة',sumF(x=>x.join)],['انخصم المبلغ (نجحت الحملة)',sumF(x=>x.cap)],['استلموا أول طلب',sumF(x=>x.recv)]]:[['نزّلوا التطبيق',u.installs],['سجّلوا ووثقوا الجوال',u.reg],['أضافوا العنوان الوطني',u.addr],['انضموا لأول حملة',u.join],['انخصم المبلغ (نجحت الحملة)',u.cap],['استلموا أول طلب',u.recv]];
+    const worst=st.slice(1).map((s,j)=>[s[0],s[1]/st[j][1],st[j][0]]).sort((a,b)=>a[1]-b[1])[0];
+    return `<div class="card"><h3>رحلة العميل الجديد · ${allM?'منذ الإطلاق':u.name}</h3><div class="pad">${funnel(st)}</div></div>
+    <div class="grid2 g2e"><div class="card"><h3>أكبر تسرّب</h3><div class="pad"><p class="big"><b>${pc(1-worst[1])}</b> يوقفون بين «${worst[2]}» و«${worst[0]}».</p><p class="note">أغلبهم يسجلون وما يلقون حملة مفتوحة على منتج يحتاجونه. اللي يوصلهم تنبيه حملة خلال 48 ساعة من التسجيل ينضمون بنسبة أعلى بكثير (افتراض يحتاج اختبار A/B).</p></div></div>
+    <div class="card"><h3>من التسجيل لأول طلب</h3><div class="pad">${hbars([{n:'نفس اليوم',v:22},{n:'خلال أسبوع',v:41},{n:'خلال شهر',v:24},{n:'بعد شهر',v:13}].map(x=>({...x,c:SER[0]})),{fmt:v=>v+'%'})}<p class="note">الوسيط 5 أيام، لأن العميل ينتظر حملة على منتجه.</p></div></div></div>`; };
+  T.retention=()=>`<div class="kpis fk"><div class="kpi"><span>يرجعون يشترون الشهر الثاني</span><b class="num">${COH[4][1]}%</b><small>آخر دفعة (سبتمبر)</small></div><div class="kpi"><span>متوسط الطلبات للعميل</span><b class="num">${(FM.reduce((a,m)=>a+m.orders,0)/UM[5].cumBuy).toFixed(1)}</b><small>منذ الإطلاق</small></div><div class="kpi"><span>متوسط الصرف للعميل</span><b class="num">${sr(FM.reduce((a,m)=>a+m.salesG+m.delG,0)/UM[5].cumBuy)}</b><small>منذ الإطلاق</small></div><div class="kpi"><span>القيمة المتوقعة للعميل (12 شهر)</span><b class="num">${sr(FM[5].contrib/FM[5].orders*1.25*12*0.45)}</b><small>مساهمة، مقابل تكلفة جذبه ${sr(FM[5].cac)}</small></div></div>
+   <div class="card"><h3>الاحتفاظ حسب شهر أول طلب <span class="act note">% من الدفعة اللي اشترت مرة ثانية في الشهر رقم…</span></h3><div class="tw"><table class="hm coh"><thead><tr><th>الدفعة</th><th>العملاء</th>${[0,1,2,3,4,5].map(n=>`<th>شهر ${n}</th>`).join('')}</tr></thead><tbody>${COH.map((row,ci)=>`<tr><th>${MN[ci]}</th><td class="num">${fmt(FM[ci].newC)}</td>${[0,1,2,3,4,5].map(n=>row[n]!=null?`<td style="${heat(row[n],100)}" ${tipAttr(`<b>دفعة ${MN[ci]}</b><br>${row[n]}% اشتروا في الشهر ${n}`)}>${row[n]}%</td>`:'<td></td>').join('')}</tr>`).join('')}</tbody></table></div><p class="pad note">كل دفعة جديدة تحتفظ أحسن من اللي قبلها (54% ← 63% في الشهر الأول). المنتجات المتكررة مثل الحفائظ هي اللي ترجّع العميل.</p></div>
+   <div class="card"><h3>تكرار الشراء</h3><div class="pad">${hbars([['طلب واحد',38],['2–3 طلبات',34],['4–6 طلبات',19],['7 أو أكثر',9]].map(([n,v],i)=>({n,v,c:SER[i===0?1:2]})),{fmt:v=>v+'%'})}</div></div>`;
+  T.segments=()=>`<div class="grid2 g2e"><div class="card"><h3>الشرائح (حسب سلوك الشراء)</h3><div class="tw"><table><thead><tr><th>الشريحة</th><th>العملاء</th><th>نصيبهم من المبيعات</th><th>الإجراء التلقائي</th></tr></thead><tbody>
+     <tr><td><span class="pill s-open">أوفياء</span></td><td class="num">${fmt(Math.round(UM[5].cumBuy*.14))}</td><td class="num">41%</td><td class="note">وصول مبكر للحملات قبل الكل بساعتين</td></tr>
+     <tr><td><span class="pill s-sched">منتظمون</span></td><td class="num">${fmt(Math.round(UM[5].cumBuy*.31))}</td><td class="num">36%</td><td class="note">تنبيه عند حملة على منتجاتهم المعتادة</td></tr>
+     <tr><td><span class="pill s-done">جدد</span></td><td class="num">${fmt(Math.round(UM[5].cumBuy*.22))}</td><td class="num">11%</td><td class="note">رسالة ترحيب + أقرب حملة لاهتمامهم</td></tr>
+     <tr><td><span class="pill s-warn">مهددون بالانقطاع</span></td><td class="num">${fmt(Math.round(UM[5].cumBuy*.18))}</td><td class="num">9%</td><td class="note">ما اشتروا 45 يوم · تذكير بمنتجهم السابق</td></tr>
+     <tr><td><span class="pill s-fail">منقطعون</span></td><td class="num">${fmt(Math.round(UM[5].cumBuy*.15))}</td><td class="num">3%</td><td class="note">رسالة استرجاع مرة وحدة كل 60 يوم</td></tr>
+   </tbody></table></div></div>
+   <div class="card"><h3>حسب الاهتمام</h3><div class="pad">${hbars([['عندهم أطفال أقل من سنتين',.46],['منظفات البيت',.62],['ورقيات',.38],['حليب أطفال',.27],['عناية شخصية',.19]].map(([n,v],i)=>({n,v:v*100,c:SER[i%6]})),{fmt:v=>v.toFixed(0)+'%'})}<p class="note">من الأقسام اللي اشتروا منها والمفضلة.</p></div></div></div>
+   <div class="card"><h3>حسب الحي · الرياض</h3><div class="tw"><table><thead><tr><th>الحي</th><th>المسجلون</th><th>المشترون</th><th>التحويل</th><th>طلبات أكتوبر</th><th>متوسط الكراتين</th></tr></thead><tbody>${[['النرجس',.11,.31],['الملقا',.09,.29],['الياسمين',.085,.27],['قرطبة',.07,.25],['الصحافة',.065,.24],['اليرموك',.06,.22],['حطين',.055,.28],['العارض',.05,.26],['الربيع',.045,.23],['الندى',.04,.21]].map(([n,s,cv])=>`<tr><td>${n}</td><td class="num">${fmt(Math.round(UM[5].cumReg*s))}</td><td class="num">${fmt(Math.round(UM[5].cumReg*s*cv))}</td><td class="num">${pc(cv)}</td><td class="num">${fmt(Math.round(FM[5].orders*s*1.2))}</td><td class="num">${(1.7+cv).toFixed(1)}</td></tr>`).join('')}</tbody></table></div></div>`;
+  T.list=()=>`<div class="tools"><input id="uq" type="search" placeholder="ابحث بالاسم أو الحي" aria-label="بحث"><span class="note sp">الجوال يظهر مخفي، وما يُكشف إلا لخدمة العملاء عند فتح تذكرة.</span></div>
+   <div class="card"><div class="tw"><table><thead><tr><th>العميل</th><th>الحي</th><th>منذ</th><th>الطلبات</th><th>إجمالي الصرف</th><th>آخر طلب</th><th>الشريحة</th></tr></thead><tbody id="utb"></tbody></table></div></div>`;
+  el.innerHTML=T[UT](); if(UT==='list'){ const draw=()=>{ const q=($('#uq').value||'').trim(); const seg=[['أوفياء','s-open'],['منتظمون','s-sched'],['جدد','s-done'],['مهددون بالانقطاع','s-warn']];
+      $('#utb').innerHTML=NAMES.concat(['خالد الرشيد','جواهر القحطاني','ناصر الحربي','دلال الشهري']).map((n,j)=>({n,d:DIST[j%DIST.length],since:MN[j%6],o:[14,9,6,3,1,11,7,2,5,12,4,8,1,6,3,10][j],s:seg[[0,1,1,3,2,0,1,2,1,0,3,1,2,1,3,0][j]]})).filter(x=>!q||x.n.includes(q)||x.d.includes(q)).map(x=>`<tr><td><b>${x.n}</b><div class="note mono" dir="ltr">+9665XXXX${String(1000+x.o*137).slice(-4)}</div></td><td>${x.d}</td><td>${x.since}</td><td class="num">${x.o}</td><td class="num">${sr(x.o*186)}</td><td>${x.o>3?'قبل '+(x.o%9+2)+' أيام':'قبل '+(x.o*11+8)+' يوم'}</td><td><span class="pill ${x.s[1]}">${x.s[0]}</span></td></tr>`).join(''); }; draw(); $('#uq').oninput=draw; }
+}
+
+/* ---------------- CAMPAIGN PERFORMANCE ---------------- */
+V.insights = () => { head('تحليل الحملات','Admin Web · Analytics · Campaign performance');
+  return `<div class="fbar">${perBar([...MN.map((n,i)=>[String(i),n]),['all','منذ الإطلاق']],AF,'data-af')}<div class="fmeta"><span class="livedot"></span>${CH.length} حملة منذ الإطلاق</div></div>
+  <div class="ftabs" role="tablist">${[['overview','الأداء العام'],['drivers','وش يخلي الحملة تنجح'],['timing','سلوك الانضمام'],['table','كل الحملات']].map(([k2,l])=>`<button type="button" role="tab" data-ct="${k2}" aria-selected="${CT===k2}">${l}</button>`).join('')}</div><div id="an"></div>`; };
+function insightsBody(){ const el=$('#an'); if(!el) return; chartW(); const L=chList(), ok=L.filter(c=>c.ok), T={};
+  const bucket=(arr,f,bs)=>bs.map(([n,lo,hi])=>{ const s=arr.filter(c=>f(c)>=lo&&f(c)<hi); return {n,s,r:rate(s),cnt:s.length,fill:avg(s,c=>c.fill),contrib:avg(s.filter(c=>c.ok),c=>c.contrib)}; });
+  const bySave=bucket(CH,c=>c.save*100,[['أقل من 20%',0,20],['20–25%',20,25],['25–30%',25,30],['30% وأكثر',30,99]]);
+  const byCat=['الأطفال','المنظفات','الورقيات','العناية الشخصية'].map(n=>{ const s=CH.filter(c=>c.cat===n); return {n,s,r:rate(s),cnt:s.length,fill:avg(s,c=>c.fill),contrib:avg(s.filter(c=>c.ok),c=>c.contrib)}; });
+  const byDur=[3,5,7].map(d=>{ const s=CH.filter(c=>c.dur===d); return {n:d+' أيام',r:rate(s),cnt:s.length,fill:avg(s,c=>c.fill)}; });
+  const byEve=[[true,'فتح مسائي (6م–12م)'],[false,'فتح صباحي أو ظهر']].map(([e,n])=>{ const s=CH.filter(c=>c.evening===e); return {n,r:rate(s),cnt:s.length}; });
+  const bestCat=[...byCat].sort((a,b)=>b.r-a.r)[0], bestDur=[...byDur].sort((a,b)=>b.r-a.r)[0];
+  T.overview=()=>`<div class="kpis fk">
+    <div class="kpi"><span>حملات</span><b class="num">${L.length}</b><small>${ok.length} نجحت · ${L.length-ok.length} ما وصلت</small></div>
+    <div class="kpi"><span>نسبة النجاح</span><b class="num ${rate(L)>=.8?'ok-t':''}">${pc(rate(L))}</b><div class="krow"><small class="note">شهرياً</small>${spark(FM.map((_,i)=>rate(CH.filter(c=>c.m===i))),VC.pos)}</div></div>
+    <div class="kpi"><span>متوسط الامتلاء</span><b class="num">${pc(avg(L,c=>c.fill))}</b><small>المنضمون ÷ الحد الأدنى</small></div>
+    <div class="kpi"><span>متوسط الوصول للحد الأدنى</span><b class="num">${pc(avg(ok,c=>c.tMin))}</b><small>من مدة الحملة</small></div>
+    <div class="kpi"><span>وفّرنا على العملاء</span><b class="num ok-t">${sr(L.reduce((a,c)=>a+c.custSave,0))}</b><small>مقارنة بسعر السوق · رقم تسويقي</small></div>
+    <div class="kpi"><span>تقييم العملاء</span><b class="num">${avg(ok,c=>c.rating).toFixed(1)} / 5</b><small>بعد الاستلام</small></div>
+  </div>
+  <div class="grid2 g2e"><div class="card"><h3>نسبة نجاح الحملات شهرياً</h3><div class="pad">${cols(FM.map((m,i)=>({label:m.name,v:[rate(CH.filter(c=>c.m===i))*100]})),[{n:'نسبة النجاح %',c:VC.pos}],{fmtY:v=>Math.round(v)+'%'})}</div></div>
+  <div class="card"><h3>نسبة النجاح حسب القسم</h3><div class="pad">${hbars(byCat.map(b=>({n:b.n,v:b.r*100,c:SER[2],s:`${b.cnt} حملة`})),{fmt:v=>v.toFixed(0)+'%'})}<div style="height:12px"></div><b>متوسط مساهمة الحملة الناجحة</b><div style="height:8px"></div>${hbars(byCat.map(b=>({n:b.n,v:b.contrib,c:SER[0]})))}</div></div></div>
+  <div class="card"><h3>أفضل 5 حملات</h3><div class="tw"><table><thead><tr><th>الحملة</th><th>الشهر</th><th>التوفير</th><th>الامتلاء</th><th>وصلت الحد عند</th><th>من روابط المشاركة</th><th>المساهمة</th><th>التقييم</th></tr></thead><tbody>${[...ok].sort((a,b)=>b.contrib-a.contrib).slice(0,5).map(c=>`<tr><td><b>${c.prod}</b><div class="note mono">${c.id}</div></td><td>${c.month}</td><td class="num">${pc(c.save)}</td><td class="num ok-t">${pc(c.fill)}</td><td class="num">${pc(c.tMin)} من المدة</td><td class="num">${pc(c.sharePct)}</td><td class="num"><b>${sr(c.contrib)}</b></td><td class="num">${c.rating}</td></tr>`).join('')}</tbody></table></div></div>`;
+  T.drivers=()=>{ const a=bySave[0], d=bySave[3];
+    return `<div class="card insight"><h3><span class="dots3"><i></i><i></i><i></i></span> الأنماط اللي طلّعها النظام من ${CH.length} حملة</h3><ul class="checks">
+      <li>الحملات بتوفير ${d.n} نجحت بنسبة <b>${pc(d.r)}</b>، مقابل <b>${pc(a.r)}</b> للي توفيرها ${a.n}.</li>
+      <li>قسم <b>${bestCat.n}</b> الأعلى نجاحاً (${pc(bestCat.r)}). المنتجات المتكررة تمتلئ أسرع.</li>
+      <li>مدة <b>${bestDur.n}</b> الأعلى نجاحاً (${pc(bestDur.r)})، و<b>3 أيام</b> الأضعف (${pc(byDur[0].r)}) لأن الرابط ما يمديه ينتشر.</li>
+      <li>الفتح المسائي نجح ${pc(byEve[0].r)} مقابل ${pc(byEve[1].r)} للصباحي.</li>
+      <li>الحملات الناجحة جا ${pc(avg(ok,c=>c.sharePct))} من منضميها عن طريق روابط المشاركة، مقابل ${pc(avg(CH.filter(c=>!c.ok),c=>c.sharePct))} في اللي فشلت.</li>
+    </ul><p class="note">هذي ارتباطات من بيانات المحاكاة، مو أسباب مثبتة. مع البيانات الحقيقية تتحدث تلقائياً، والأفضل نختبرها بتجارب مقصودة.</p></div>
+    <div class="grid2 g2e"><div class="card"><h3>التوفير مقابل الامتلاء · كل حملة نقطة</h3><div class="pad"><div class="lg"><span><i style="background:${VC.pos};border-radius:50%"></i>نجحت</span><span><i style="background:${VC.neg};transform:rotate(45deg)"></i>ما وصلت الحد</span></div>${scatter(CH.map(c=>({x:c.save*100,y:c.fill,ok:c.ok,tip:`<b>${c.prod}</b><br>${c.id} · ${c.month}<br>توفير ${pc(c.save)} · امتلاء ${pc(c.fill)}`})),{xl:'نسبة التوفير عن السوق',yl:'الامتلاء'})}</div></div>
+    <div class="card"><h3>نسبة النجاح حسب التوفير</h3><div class="pad">${hbars(bySave.map(b=>({n:b.n,v:b.r*100,c:SER[2],s:b.cnt+' حملة'})),{fmt:v=>v.toFixed(0)+'%'})}<div style="height:16px"></div><b>حسب المدة</b><div style="height:8px"></div>${hbars(byDur.map(b=>({n:b.n,v:b.r*100,c:SER[0]})),{fmt:v=>v.toFixed(0)+'%'})}<div style="height:16px"></div><b>حسب وقت الفتح</b><div style="height:8px"></div>${hbars(byEve.map(b=>({n:b.n,v:b.r*100,c:SER[3]})),{fmt:v=>v.toFixed(0)+'%'})}</div></div></div>`; };
+  T.timing=()=>{ const pts=[0,10,20,30,40,50,60,70,80,90,100]; const curve=(okf,shape)=>pts.map(t=>{ const x=t/100; return okf? Math.min(1.25, 1.22*(0.55*x+0.45*Math.pow(x,shape))) : 0.78*(0.7*x+0.3*Math.pow(x,shape)); });
+    const s=curve(true,3.2), f=curve(false,2.4);
+    return `<div class="grid2 g2e"><div class="card"><h3>كيف يمتلئ الحد الأدنى خلال عمر الحملة</h3><div class="pad">${linec(pts.map((t,i)=>({label:t%20===0?t+'%':'',v:[s[i]*100,f[i]*100]})),[{n:'الحملات الناجحة',c:VC.pos},{n:'اللي ما وصلت',c:VC.neg}],{fmtY:v=>Math.round(v)+'%'})}<p class="note">المحور الأفقي: كم مضى من مدة الحملة. المحور الرأسي: كم وصلت من الحد الأدنى. ثلث الانضمامات تجي في آخر 20% من الوقت.</p></div></div>
+    <div class="card"><h3>إنذار مبكر</h3><div class="pad"><p class="big">إذا الحملة ما وصلت <b>40%</b> من الحد الأدنى عند منتصف مدتها، فرصة نجاحها تنزل لـ <b>${pc(0.31)}</b>.</p><p class="note">النظام يراقب كل حملة مفتوحة، ولما تكون تحت المسار يسوي ثلاث أشياء تلقائياً:</p><ul class="checks"><li>تنبيه للي حطوا المنتج في المفضلة</li><li>تذكير للمنضمين يشاركون الرابط</li><li>تمديد 24 ساعة إذا وصلت 80% عند الموعد</li></ul></div></div></div>
+    <div class="card"><h3>الحملات المفتوحة الآن مقابل المسار المتوقع</h3><div class="tw"><table><thead><tr><th>الحملة</th><th>مضى من المدة</th><th>وصلت من الحد</th><th>المسار</th><th>توقع النظام</th></tr></thead><tbody>${CAMPAIGNS.filter(c=>c.status==='Open').map((c,i)=>{ const el2=[.55,.3][i]||.4, got=c.joined/c.min, exp=0.55*el2+0.45*Math.pow(el2,3.2), on=got>=exp; return `<tr><td><b>${c.title||P(c.sku).name}</b><div class="note mono">${c.id}</div></td><td class="num">${pc(el2)}</td><td class="num">${pc(got)}</td><td><span class="pill ${on?'s-open':'s-warn'}">${on?'فوق المسار':'تحت المسار'}</span></td><td class="num ${on?'ok-t':'bad-t'}">${on?'نجاح مرجّح '+pc(Math.min(.97,.7+got/4)):'نجاح '+pc(.45)}</td></tr>`; }).join('')}</tbody></table></div></div>`; };
+  T.table=()=>`<div class="tools"><select id="cf" aria-label="النتيجة"><option value="">كل النتائج</option><option value="1">نجحت</option><option value="0">ما وصلت</option></select><select id="cc" aria-label="القسم"><option value="">كل الأقسام</option>${byCat.map(b=>`<option>${b.n}</option>`).join('')}</select><span class="note sp">${L.length} حملة</span></div>
+   <div class="card"><div class="tw"><table><thead><tr><th>الحملة</th><th>الشهر</th><th>القسم</th><th>المدة</th><th>التوفير</th><th>الحد الأدنى</th><th>انضموا</th><th>الامتلاء</th><th>النتيجة</th><th>المساهمة</th></tr></thead><tbody id="ctb2"></tbody></table></div></div>`;
+  el.innerHTML=T[CT]();
+  if(CT==='table'){ const draw=()=>{ const f=$('#cf').value, cc=$('#cc').value; $('#ctb2').innerHTML=L.filter(c=>(f===''||String(+c.ok)===f)&&(!cc||c.cat===cc)).slice().reverse().map(c=>`<tr><td><b>${c.prod}</b><div class="note mono">${c.id}</div></td><td>${c.month}</td><td>${c.cat}</td><td class="num">${c.dur} أيام</td><td class="num">${pc(c.save)}</td><td class="num">${fmt(c.min)}</td><td class="num">${fmt(c.joined)}</td><td><div class="bar"><i class="${c.ok?'full':''}" style="width:${Math.min(100,c.fill*100)}%"></i></div><div class="note num">${pc(c.fill)}</div></td><td>${c.ok?'<span class="pill s-open">نجحت</span>':'<span class="pill s-fail">ما وصلت</span>'}</td><td class="num ${c.ok?'':'note'}">${c.ok?sr(c.contrib):'— فك الحجز'}</td></tr>`).join(''); }; draw(); $('#cf').onchange=draw; $('#cc').onchange=draw; }
+}
+
 const AUTO={fourEyes:true};
 
 V.support = () => {
@@ -1146,6 +1284,8 @@ function render(){
   if(k==='orders'){ orderRows(); $('#oq').oninput=orderRows; $('#oc').onchange=orderRows; }
   if(k==='finance') finBody();
   if(k==='builder'){ bRender(); bBind(); }
+  if(k==='users') usersBody();
+  if(k==='insights') insightsBody();
   if(k==='s-invoices') $('#inv-up').onchange=()=>toast('تم رفع الفاتورة وإرسالها للمطابقة');
 }
 addEventListener('hashchange',()=>{ if(!$('#drawer').hidden){ $('#drawer').hidden=true; } render(); });
@@ -1153,6 +1293,8 @@ addEventListener('hashchange',()=>{ if(!$('#drawer').hidden){ $('#drawer').hidde
 document.addEventListener('click',e=>{
   const tab=e.target.closest('[data-tab]'); if(tab){ finTab=tab.dataset.tab; document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b===tab)); finBody(); return; }
   const r=e.target.closest('tr.click'); if(r&&!e.target.closest('button')){ if(r.dataset.cmp) campaignDrawer(r.dataset.cmp); if(r.dataset.ord) orderDrawer(r.dataset.ord); if(r.dataset.sup) supplierDrawer(r.dataset.sup); if(r.dataset.tk) ticketDrawer(r.dataset.tk); return; }
+  const an=e.target.closest('[data-up],[data-ut],[data-af],[data-ct]'); if(an){ const d=an.dataset; if(d.up) UP=d.up; if(d.ut) UT=d.ut; if(d.af) AF=d.af; if(d.ct) CT=d.ct;
+    const attr=d.up?'data-up':d.ut?'data-ut':d.af?'data-af':'data-ct', prop=(d.ut||d.ct)?'aria-selected':'aria-pressed'; document.querySelectorAll(`[${attr}]`).forEach(x=>x.setAttribute(prop,x===an)); (d.up||d.ut?usersBody:insightsBody)(); return; }
   const fpb=e.target.closest('[data-per]'); if(fpb){ FP=fpb.dataset.per; document.querySelectorAll('[data-per]').forEach(x=>x.setAttribute('aria-pressed',x===fpb)); finBody(); return; }
   const ftb=e.target.closest('[data-ftab]'); if(ftb){ FT=ftb.dataset.ftab; document.querySelectorAll('[data-ftab]').forEach(x=>x.setAttribute('aria-selected',x===ftb)); finBody(); return; }
   if(e.target.id==='fourEyes'){ AUTO.fourEyes=e.target.checked; toast(e.target.checked?'التحويلات الكبيرة تحتاج اعتماد شخص ثاني':'كل التحويلات آلية بالكامل'); return; }
