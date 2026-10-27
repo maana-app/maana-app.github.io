@@ -278,7 +278,7 @@ table.coh td{min-width:56px}
 .persona:hover{border-color:var(--coral);background:var(--soft)} .persona.on{border-color:var(--coral);box-shadow:0 0 0 3px var(--coralT)}
 .persona .pt{display:flex;flex-direction:column;flex:1;min-width:0} .persona .pt b{font:600 15px var(--fd)} .persona .pt span{font-size:12.5px;color:var(--mute)} .persona .pt small{font-size:12px;color:var(--mute)}
 .persona .c{background:var(--coral);color:#fff;border-radius:99px;font:600 12px var(--fm);padding:2px 9px}
-.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 16px var(--fd);flex:none} .av.big{width:52px;height:52px;font-size:22px}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font:600 12px var(--fm);flex:none} .av.big{width:52px;height:52px;font-size:15px}
 .mewho{display:flex;gap:10px;align-items:center} .mewho span{display:flex;flex-direction:column;font-size:12px;color:var(--sidemute)} .mewho b{font-size:14px}
 .swbtn{margin-top:10px;width:100%;justify-content:center}
 .hello{display:flex;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px} .hello h2{font:600 19px var(--fd);margin:0} .hello p{margin:2px 0 0} .hello .sp{margin-inline-start:auto}
@@ -404,7 +404,8 @@ const NAV = {
 function buildNav(){
   const items = NAV[mode].filter(([k])=>k==='grp'||mode==='supp'||can(k)).filter((x,i,a)=>!(x[0]==='grp'&&(!a[i+1]||a[i+1][0]==='grp')));
   $('#nav').innerHTML = items.map(([k,l,c])=>{ if(k==='grp') return `<div class="grp">${l}</div>`; const n=c?c():0; return `<a href="#${k}" data-k="${k}">${l}${n?`<span class="c">${n}</span>`:''}</a>`; }).join('');
-  const pp=PERSONAS[ME_ADMIN.role]; $('#me').innerHTML = mode==='admin' ? `<div class="mewho"><span class="av" style="background:${pp.c}">${pp.ini}</span><span><b>${pp.n}</b>${pp.t}</span></div><button type="button" class="btn sm swbtn" data-act="switchUser">تبديل المستخدم</button>` : '<b>م. خالد</b>شركة النقاء للمنظفات';
+  $('#me').innerHTML = mode==='admin' ? `<b>أنت</b>Super Admin<label class="note" for="role" style="display:block;margin-top:8px;color:var(--sidemute)">جرّب الصلاحيات: اعرض كـ</label><select id="role">${ROLES.map(r=>`<option ${r===ME_ADMIN.role?'selected':''}>${r}</option>`).join('')}</select>` : '<b>م. خالد</b>شركة النقاء للمنظفات';
+  const rs=$('#role'); if(rs) rs.onchange=()=>{ ME_ADMIN.role=rs.value; toast(`تعرض الآن صلاحيات ${rs.value}`); if(location.hash==='#work') render(); else location.hash='work'; };
   $('#sw-admin').setAttribute('aria-pressed',mode==='admin'); $('#sw-supp').setAttribute('aria-pressed',mode==='supp');
 }
 $('#sw-admin').onclick=()=>{ mode='admin'; location.hash='dashboard'; };
@@ -1290,12 +1291,12 @@ V['s-profile'] = () => {
 
 /* ================= ROLE WORKSPACES: every role works its own queue (simulation) ================= */
 const PERSONAS = {
-  'Super Admin':{n:'أنت',t:'المدير التنفيذي',c:'#1F2E2A',ini:'أ',d:'كل الصلاحيات والاعتمادات'},
-  'Operations':{n:'عبدالله',t:'العمليات والموردون',c:'#2a78d6',ini:'ع',d:'الحملات، تأكيد الموردين، المنتجات والأسعار'},
-  'Finance':{n:'ريم',t:'المالية',c:'#1baf7a',ini:'ر',d:'التحويلات، المطابقة، الاسترداد، إقفال الشهر'},
-  'Logistics':{n:'نواف',t:'اللوجستيات',c:'#eb6834',ini:'ن',d:'البوالص، الاستلام من المورد، التعثرات، المرتجعات'},
-  'CS':{n:'لمى',t:'خدمة العملاء',c:'#e87ba4',ini:'ل',d:'التذاكر، تعديل الطلبات، الاسترداد ضمن القواعد'}};
-const who = () => `${PERSONAS[ME_ADMIN.role].n} (${PERSONAS[ME_ADMIN.role].t})`;
+  'Super Admin':{n:'المدير التنفيذي',t:'Super Admin',c:'#1F2E2A',ini:'SA',d:'كل الصلاحيات والاعتمادات'},
+  'Operations':{n:'العمليات والموردون',t:'Operations',c:'#2a78d6',ini:'OP',d:'الحملات، تأكيد الموردين، المنتجات والأسعار'},
+  'Finance':{n:'المالية',t:'Finance',c:'#1baf7a',ini:'FN',d:'التحويلات، المطابقة، الاسترداد، إقفال الشهر'},
+  'Logistics':{n:'اللوجستيات',t:'Logistics',c:'#eb6834',ini:'LG',d:'البوالص، الاستلام من المورد، التعثرات، المرتجعات'},
+  'CS':{n:'خدمة العملاء',t:'CS',c:'#e87ba4',ini:'CS',d:'التذاكر، تعديل الطلبات، الاسترداد ضمن القواعد'}};
+const who = () => `${ME_ADMIN.role==='Super Admin'?'أنت':'موظف '+PERSONAS[ME_ADMIN.role].n} (${ME_ADMIN.role})`;
 const log = t => AUDIT.unshift(['الآن', who(), t]);
 
 /* ---- extra operational data ---- */
@@ -1360,7 +1361,7 @@ V.work = () => {
     'Operations':[['حملات مفتوحة',CAMPAIGNS.filter(c=>c.status==='Open').length],['أوامر شراء تنتظر المورد',POS.filter(x=>x.status==='بانتظار تأكيد المورد').length],['موردون قيد التحقق',SUPPLIERS.filter(s=>s.status!=='نشط').length],['طلبات تعديل أسعار',PRICE_REQS.filter(r=>r.status==='بانتظار الاعتماد').length]],
     'CS':[['تذاكر مفتوحة',TICKETS.filter(t=>t.st==='مفتوحة').length],['بانتظار العميل',TICKETS.filter(t=>t.st==='بانتظار العميل').length],['متأخرة عن SLA',TICKETS.filter(t=>(t.sla||'').includes('متأخرة')&&t.st!=='مغلقة').length],['رضا العملاء',  '4.6 / 5']],
     'Super Admin':[['كل المهام',TASKS_CUR.length],['عالية الأولوية',hi],['اعتمادات تنتظرك',CAMPAIGNS.filter(c=>c.status==='Review').length+PAYOUTS.filter(x=>x.status==='بانتظار الاعتماد'&&x.amount>50000).length],['حملات مفتوحة',CAMPAIGNS.filter(c=>c.status==='Open').length]]}[ME_ADMIN.role];
-  return `<div class="hello"><span class="av big" style="background:${p.c}">${p.ini}</span><div><h2>صباح الخير يا ${p.n}</h2><p class="note">${p.t} · عندك <b>${TASKS_CUR.length}</b> مهمة، منها <b class="bad-t">${hi}</b> عالية الأولوية.</p></div><button type="button" class="btn sp" data-act="switchUser">تبديل المستخدم</button></div>
+  return `<div class="hello"><span class="av big" style="background:${p.c}">${p.ini}</span><div><h2>مهام ${p.n}</h2><p class="note">${ME_ADMIN.role} · عندك <b>${TASKS_CUR.length}</b> مهمة، منها <b class="bad-t">${hi}</b> عالية الأولوية.</p></div></div>
   <div class="kpis">${kp.map(([a,b])=>`<div class="kpi"><span>${a}</span><b class="num">${b}</b></div>`).join('')}</div>
   ${TASKS_CUR.length?groups.map(g=>`<div class="card"><h3>${g} <span class="act note">${TASKS_CUR.filter(t=>t.dept===g).length} مهمة</span></h3><div class="list">${TASKS_CUR.map((t,i)=>t.dept!==g?'':`<div class="li task"><span class="dot" style="background:${t.pr==='عالية'?'var(--coral)':t.pr==='عادية'?'#eda100':'#1baf7a'}"></span><div class="t"><b>${t.t}</b><span>${t.d}</span></div><span class="due">${t.due}</span><button type="button" class="btn sm co" data-act="task" data-id="${i}">ابدأ</button></div>`).join('')}</div></div>`).join(''):`<div class="card"><div class="empty"><span class="dots3"><i></i><i></i><i></i></span><p><b>خلصت كل مهامك</b></p><p class="note">أي مهمة جديدة تطلع هنا تلقائياً.</p></div></div>`}`;
 };
@@ -1494,7 +1495,7 @@ function wfAction(a,id,b){
   const P2=x=>PICKUPS.find(p=>p.id===x);
   switch(a){
     case 'switchUser': loginModal(); return true;
-    case 'loginAs': { ME_ADMIN.role=id; ME_ADMIN.name=PERSONAS[id].n; closeDrawer(); location.hash='work'; render(); toast(`دخلت كـ ${PERSONAS[id].n} · ${PERSONAS[id].t}`); return true; }
+    case 'loginAs': { ME_ADMIN.role=id; closeDrawer(); location.hash='work'; render(); return true; }
     case 'task': { const t=TASKS_CUR[+id]; if(t) t.fn(); return true; }
     case 'awbSend': awbSend(id); return true;
     case 'puSave': { const p=P2(id); if(!/^05\d{8}$/.test(v('pu-c'))){ $('#pu-err').textContent='اكتب جوال المسؤول بصيغة 05XXXXXXXX'; return true; } p.status='مجدول'; p.date=new Date(v('pu-d')).toLocaleDateString('ar-SA-u-ca-gregory-nu-latn',{day:'numeric',month:'long'}); p.slot=v('pu-s'); p.vehicle=v('pu-v'); log(`جدول استلام ${p.po} · ${p.date} ${p.slot} · ${p.vehicle}`); after('انجدول الاستلام مع الناقل وانرسل للمورد'); return true; }
@@ -1508,7 +1509,7 @@ function wfAction(a,id,b){
     case 'svSave': { const cks=[...document.querySelectorAll('.svc')].filter(x=>x.checked).length, iban=v('sv-iban').replace(/\s/g,''); if(cks<5){ $('#sv-err').textContent=`باقي ${5-cks} مستندات`; return true; } if(!/^SA\d{22}$/.test(iban)){ $('#sv-err').textContent='الآيبان لازم يبدأ بـ SA وبعده 22 رقم'; return true; } const s=S(id); s.status='نشط'; s.iban=iban; s.cr=v('sv-cr')||s.cr; log(`اعتمد المورد ${s.name} بعد التحقق`); after('اعتُمد المورد · يقدر يدخل حملات'); return true; }
     case 'svHold': after('انحفظ التحقق'); return true;
     case 'pqOk': case 'pqNo': case 'pqNeg': { const r=PRICE_REQS.find(x=>x.id===id); r.status=a==='pqOk'?'معتمد':a==='pqNo'?'مرفوض':'تفاوض'; if(a==='pqOk') P(r.sku).cost=r.nw.map(x=>[...x]); log(`${r.status} تعديل أسعار ${S(r.sup).name}`); after(a==='pqOk'?'اعتُمدت الأسعار للحملات الجاية':a==='pqNo'?'رُفض الطلب وانرسل الرد':'انرسل طلب التفاوض للمورد'); return true; }
-    case 'approvePay2': { const p=PAYOUTS.find(x=>x.id===id); if(p.amount>50000&&AUTO.fourEyes&&p.maker&&p.maker.startsWith(PERSONAS[ME_ADMIN.role].n)){ toast('ما تقدر تعتمد تحويل جهزته بنفسك'); return true; } p.status='معتمد'; log(`اعتمد ${p.id} · ${sar(p.amount)}`); wfPayout(id); render(); toast('اعتُمد · سجّل التحويل الحين'); return true; }
+    case 'approvePay2': { const p=PAYOUTS.find(x=>x.id===id); if(p.amount>50000&&AUTO.fourEyes&&p.maker&&p.maker===who()){ toast('ما تقدر تعتمد تحويل جهزته بنفسك'); return true; } p.status='معتمد'; log(`اعتمد ${p.id} · ${sar(p.amount)}`); wfPayout(id); render(); toast('اعتُمد · سجّل التحويل الحين'); return true; }
     case 'paySave': { if(!v('py-ref')){ $('#py-err').textContent='اكتب رقم العملية البنكية'; return true; } const p=PAYOUTS.find(x=>x.id===id); p.status='تم التحويل'; log(`سجّل تحويل ${p.id} · مرجع ${v('py-ref')}`); after('تم تسجيل التحويل وانرسل إشعار للمستفيد'); return true; }
     case 'rxSave': { const r=RECON.find(x=>x.id===id); r.status='مقفل'; log(`أقفل فرق ${r.id}: ${v('rx-a')}`); after('انقفل الفرق'); return true; }
     case 'rrSave': { const r=REFUNDS.find(x=>x.id===id), d=document.querySelector('[name="rr"]:checked').value; r.status=d==='no'?'مرفوض':'تم'; if(d==='part') r.amount=+v('rr-a'); log(`${d==='no'?'رفض':'اعتمد'} الاسترداد ${r.id} · يتحمله ${v('rr-who')}`); after(d==='no'?'رُفض الاسترداد وانرسل السبب للعميل':'نُفذ الاسترداد عبر بوابة الدفع'); return true; }
@@ -1609,7 +1610,7 @@ document.addEventListener('click',e=>{
 const TIP=$('#ftip');
 document.addEventListener('mouseover',e=>{ const t=e.target.closest('[data-tip]'); if(!t){ TIP.classList.remove('on'); return; } TIP.innerHTML=t.dataset.tip; TIP.classList.add('on'); });
 document.addEventListener('mousemove',e=>{ if(!TIP.classList.contains('on')) return; const w=TIP.offsetWidth; let x=e.clientX+14; if(x+w>innerWidth-8) x=e.clientX-w-14; TIP.style.left=x+'px'; TIP.style.top=(e.clientY+14)+'px'; });
-render(); setTimeout(loginModal,250);
+render();
 </script>
 
 </body></html>
