@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="ar" dir="rtl" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ma3na · لوحة الإدارة</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="color-scheme" content="light">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: an operations console — app switcher + sidebar, a dense working area of KPIs, tables and side drawers. */
@@ -14,8 +15,6 @@
   --side:#0B3D33; --sideink:#E4EFE9; --sidemute:#8DBF9F;
   --fd:'Readex Pro','IBM Plex Sans Arabic',Tahoma,sans-serif; --fb:'IBM Plex Sans Arabic','Readex Pro',Tahoma,sans-serif; --fm:'IBM Plex Mono',ui-monospace,monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0D1714;--panel:#13201C;--ink:#E8EFEB;--mute:#93A39B;--line:#25342F;--soft:#18261F;--hover:#1D2C26;--side:#091E19;--coralT:#3A1F1B;--goldT:#3A2F17;--sageT:#1B3027;--brandT:#1A2D27;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0D1714;--panel:#13201C;--ink:#E8EFEB;--mute:#93A39B;--line:#25342F;--soft:#18261F;--hover:#1D2C26;--side:#091E19;--coralT:#3A1F1B;--goldT:#3A2F17;--sageT:#1B3027;--brandT:#1A2D27;color-scheme:dark}
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:14px;line-height:1.55}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -133,7 +132,6 @@ nav a.on::before{content:"";position:absolute;inset-inline-start:0;top:9px;botto
 a.btn{color:inherit;text-decoration:none;display:inline-flex;align-items:center}
 .s-open{background:var(--sageT);color:var(--green)} .s-sched{background:var(--goldT);color:#8A5A00} .s-ship{background:var(--brandT);color:var(--brand)}
 .s-done{background:#EFEAE2;color:#5D655F} .s-fail{background:var(--coralT);color:#B3392A} .s-warn{background:var(--goldT);color:#8A5A00} .s-rev{background:var(--coralT);color:#B3392A}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .s-open{color:#9FD3B2}:root:not([data-theme="light"]) .s-sched,:root:not([data-theme="light"]) .s-warn{color:#F2C46B}:root:not([data-theme="light"]) .s-ship{color:#BFE0D3}:root:not([data-theme="light"]) .s-done{background:#22302B;color:#B5C2BC}:root:not([data-theme="light"]) .s-fail,:root:not([data-theme="light"]) .s-rev{color:#F7A094}}
 .bar i{background:var(--coral)} .bar i.full{background:var(--green)}
 .sample{background:var(--goldT);color:#7A5300}
 .btn.pri{background:var(--brand);border-color:var(--brand)}
@@ -155,7 +153,6 @@ a.btn{color:inherit;text-decoration:none;display:inline-flex;align-items:center}
 .warnbox{border-radius:10px;padding:10px 12px;font-size:13px;background:var(--goldT);color:#7A5300}
 .errbox{border-radius:10px;padding:10px 12px;font-size:13px;background:var(--coralT);color:#A3321F}
 .okbox{border-radius:10px;padding:10px 12px;font-size:13px;background:var(--sageT);color:var(--green)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .warnbox{color:#F2C46B}:root:not([data-theme="light"]) .errbox{color:#F7A094}:root:not([data-theme="light"]) .okbox{color:#9FD3B2}}
 
 /* ---- campaign builder ---- */
 .bld{display:grid;grid-template-columns:190px minmax(0,1fr) 300px;gap:16px;align-items:start}
@@ -212,8 +209,6 @@ a.btn{color:inherit;text-decoration:none;display:inline-flex;align-items:center}
 @media (max-width: 860px){ .bld{grid-template-columns:1fr} .bprev{position:static} }
 /* sidebar: light, the logo carries the colour */
 :root{--brand:#1F2E2A;--side:#FFFDF9;--sideink:#2B3A35;--sidemute:#8A938E;--green:#2E9E76;--sageT:#E6F4EC;--brandT:#EEF1EF}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--side:#13201C;--sideink:#E8EFEB;--sidemute:#93A39B;--brand:#E8EFEB}}
-:root[data-theme="dark"]{--side:#13201C;--sideink:#E8EFEB;--sidemute:#93A39B;--brand:#E8EFEB}
 aside{border-inline-end:1px solid var(--line)}
 .logo{background:none;padding:2px 4px 10px}
 
@@ -232,7 +227,8 @@ nav a.on::before{display:none}
 .steps button[aria-current="step"] .n{background:var(--coral);border-color:var(--coral)}
 .ph-cd{background:#1F2E2A}
 .toast{background:#1F2E2A}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo img{mix-blend-mode:normal;border-radius:10px} :root:not([data-theme="light"]) .btn.pri{background:var(--coral);border-color:var(--coral)}}
+:root{--bg:#F5F6F5;--panel:#FFFFFF;--soft:#F8F9F8;--hover:#F1F3F2;--line:#E5E8E6;--side:#FFFFFF;color-scheme:light}
+body{background:var(--bg)}
 </style>
 </head><body>
 
@@ -254,7 +250,7 @@ nav a.on::before{display:none}
 <div class="drawer" id="drawer" hidden><div class="dpanel" role="dialog" aria-modal="true" aria-labelledby="dtitle"><div class="dh"><h2 id="dtitle"></h2><button type="button" class="btn sm x" id="dclose">إغلاق</button></div><div class="dbody" id="dbody"></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script>
+<script>document.documentElement.setAttribute("data-theme","light");
 const $ = s => document.querySelector(s);
 const sar = n => n.toLocaleString('en-US',{maximumFractionDigits:2}) + ' ر.س';
 const fmt = n => n.toLocaleString('en-US');
