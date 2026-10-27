@@ -349,7 +349,7 @@ let REFUNDS = [
 ];
 let PAYOUTS = [
   {id:'PY-088',to:'مؤسسة الواحة للتوزيع',ref:'PO-5521 · C-1035',amount:11687,maker:'ريم (المالية)',status:'بانتظار الاعتماد'},
-  {id:'PY-087',to:'شركة التوصيل (فاتورة أكتوبر 1)',ref:'INV-3PL-1021 · 131 طرد',amount:2620,maker:'ريم (المالية)',status:'بانتظار الاعتماد'},
+  {id:'PY-087',to:'شركة التوصيل (فاتورة أكتوبر 1)',ref:'INV-3PL-1021 · 1,769 بوليصة',amount:44175,maker:'ريم (المالية)',status:'بانتظار الاعتماد'},
   {id:'PY-084',to:'شركة النقاء للمنظفات',ref:'PO-5517 · C-1035',amount:11238.5,maker:'ريم (المالية)',status:'تم التحويل'},
 ];
 let POS = [
@@ -416,7 +416,7 @@ V.dashboard = () => {
     </tbody></table></div></div>
     <div class="card"><h3>تنبيهات تحتاج إجراء</h3><div class="list">
       <div class="li"><span class="dot" style="background:var(--red)"></span><div class="t"><b>${fails} شحنات فشل توصيلها</b><span>حملة فيري C-1039 · تحتاج إعادة جدولة</span></div><a class="btn sm" href="#logistics">فتح</a></div>
-      <div class="li"><span class="dot" style="background:var(--amber)"></span><div class="t"><b>طلبا صرف بانتظار اعتمادك</b><span>11,687 + 2,620 ر.س</span></div><a class="btn sm" href="#finance">فتح</a></div>
+      <div class="li"><span class="dot" style="background:var(--amber)"></span><div class="t"><b>طلبا صرف بانتظار اعتمادك</b><span>11,687 + 44,175 ر.س</span></div><a class="btn sm" href="#finance">فتح</a></div>
       <div class="li"><span class="dot" style="background:var(--amber)"></span><div class="t"><b>المورد لم يؤكد PO-5527</b><span>شركة النقاء · برسيل · 150 كرتون</span></div><a class="btn sm" href="#pos">فتح</a></div>
       <div class="li"><span class="dot" style="background:var(--blue)"></span><div class="t"><b>بامبرز 4: باقي 37 كرتون للشريحة الثانية</b><span>السعر ينزل من 68 إلى 65 ر.س</span></div><a class="btn sm" href="#campaigns">فتح</a></div>
       <div class="li"><span class="dot" style="background:var(--blue)"></span><div class="t"><b>مورد جديد قيد المراجعة</b><span>مؤسسة الورق الذهبي · ينقص الآيبان</span></div><a class="btn sm" href="#suppliers">فتح</a></div>
@@ -451,7 +451,7 @@ function campaignDrawer(id){
 const payPill = p => ({Authorized:'<span class="pill s-sched">محجوز</span>',Captured:'<span class="pill s-open">مخصوم</span>',Voided:'<span class="pill s-fail">مفكوك</span>',Refunded:'<span class="pill s-fail">مسترد</span>'})[p]||p;
 function newCampaign(){ B=bDefault(); location.hash='builder'; if(location.hash==='#builder') render(); }
 /* ---------- platform settings (editable in Settings) ---------- */
-const CFG = {fee1:22, feeX:12, ship:20, payPct:2.5, minMargin:8, holdDays:7, cancelH:6, minSave:10};
+const CFG = {fee1:22, feeX:12, ship:25, payPct:2.5, minMargin:8, holdDays:7, cancelH:6, minSave:10};
 const costAt = (p,n) => { let k=p.cost[0][1]; p.cost.forEach(x=>{ if(n>=x[0]) k=x[1]; }); return k; };
 const tierAt = (tiers,n) => { let t=tiers[0]; tiers.forEach(x=>{ if(n>=x[0]) t=x; }); return t; };
 const esc = s => String(s??'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
@@ -492,7 +492,7 @@ function bFromCampaign(c, copy){
 /* ---------- economics ---------- */
 function econ(b,n){
   const p=P(b.sku), pr=tierAt(b.tiers,n)[1], cost=costAt(p,n), orders=Math.max(1,Math.round(n/Math.max(1,b.avgQ)));
-  const goods=pr*n, dCol=orders*b.fee1+Math.max(0,n-orders)*b.feeX, dCost=b.ship*n, payFee=(goods+dCol)*CFG.payPct/100, sup=cost*n;
+  const goods=pr*n, dCol=orders*b.fee1+Math.max(0,n-orders)*b.feeX, dCost=b.ship*orders, payFee=(goods+dCol)*CFG.payPct/100, sup=cost*n;
   const contrib=goods-sup-payFee+dCol-dCost;
   return {n,pr,cost,orders,goods,dCol,dCost,payFee,sup,contrib,gmv:goods+dCol,pct:goods?contrib/goods*100:0};
 }
@@ -520,7 +520,7 @@ function bChecks(b){
   else OK.push(`مدة الحملة ${b.start==='now'?days(new Date(),b.close).toFixed(1):d.toFixed(1)} يوم ضمن مدة الحجز`);
   if(!b.cities.length) E.push('اختر مدينة واحدة على الأقل');
   if(!b.methods.length) E.push('اختر طريقة دفع واحدة على الأقل');
-  if(b.ship>b.feeX) W.push(`كل كرتون إضافي يكلف ${sar(b.ship)} ونأخذ عليه ${sar(b.feeX)} بس. الفرق يطلع من الهامش`);
+  if(b.fee1<b.ship){ const be=Math.ceil((b.ship-b.fee1)/Math.max(.01,b.feeX))+1; W.push(`الطلب بكرتون واحد يخسر ${sar(b.ship-b.fee1)} في التوصيل (البوليصة ${sar(b.ship)} والعميل يدفع ${sar(b.fee1)}). من ${be} كراتين يصير التوصيل رابح`); }
   const onlyMargin = E.length===1 && low.length;
   return {E,W,OK,onlyMargin};
 }
@@ -611,8 +611,8 @@ const BF = [
 
 /* 5 payment & delivery */ () => `<div class="bsec"><div><h2 class="bh">الدفع والتوصيل</h2></div>
   <h4>رسوم التوصيل على العميل</h4>
-  <div class="form">${fld('أول كرتون (ر.س)',inp('fee1',B.fee1,'number','min="0" step="0.5"'))}${fld('كل كرتون إضافي (ر.س)',inp('feeX',B.feeX,'number','min="0" step="0.5"'))}${fld('تكلفة الطرد علينا من شركة التوصيل',inp('ship',B.ship,'number','min="0" step="0.5"'))}${fld('متوسط الكراتين في الطلب (للحساب)',inp('avgQ',B.avgQ,'number','min="1" step="0.1"'))}</div>
-  <p class="note">كل كرتون طرد مستقل له بوليصة. التكلفة الداخلية ما تظهر للعميل.</p>
+  <div class="form">${fld('أول كرتون (ر.س)',inp('fee1',B.fee1,'number','min="0" step="0.5"'))}${fld('كل كرتون إضافي (ر.س)',inp('feeX',B.feeX,'number','min="0" step="0.5"'))}${fld('تكلفة البوليصة علينا (للطلب كامل)',inp('ship',B.ship,'number','min="0" step="0.5"'))}${fld('متوسط الكراتين في الطلب (للحساب)',inp('avgQ',B.avgQ,'number','min="1" step="0.1"'))}</div>
+  <p class="note">العميل يدفع رسوم على كل كرتون. شركة التوصيل تحاسبنا على البوليصة، والبوليصة الوحدة تشيل كل كراتين الطلب. عشان كذا كل كرتون زيادة في الطلب ربح إضافي.</p>${(()=>{ const r=[1,2,3,4].map(q=>{ const col=B.fee1+B.feeX*(q-1); return `<tr><td class="num">${q}</td><td class="num">${sar(col)}</td><td class="num">${sar(B.ship)}</td><td class="num ${col-B.ship>=0?'ok-t':'bad-t'}">${sar(col-B.ship)}</td></tr>`; }).join(''); return `<div class="tw"><table><thead><tr><th>كراتين في الطلب</th><th>يدفع العميل للتوصيل</th><th>نحن ندفع (بوليصة وحدة)</th><th>ربح التوصيل</th></tr></thead><tbody>${r}</tbody></table></div>`; })()}
   <h4>طرق الدفع</h4><div class="chips">${METHODS.map(([k,l])=>`<label class="chip"><input type="checkbox" data-arr="methods" value="${k}" ${B.methods.includes(k)?'checked':''}>${l}</label>`).join('')}</div>
   <div class="okbox">طريقة الدفع: يُحجز المبلغ عند الانضمام، ويُخصم فقط إذا نجحت الحملة. وإذا فشلت يُفك الحجز تلقائياً.</div>
   <h4>الإلغاء والتوريد الجزئي</h4>
@@ -640,7 +640,7 @@ const BF = [
   <div class="tw"><table><thead><tr><th>الكمية</th><th>الطلبات</th><th>السعر</th><th>المبيعات + التوصيل</th><th>للمورد</th><th>صافي التوصيل</th><th>مساهمة الحملة</th></tr></thead><tbody>
   ${pts.map(n=>{ const x=econ(B,n); return `<tr><td class="num">${fmt(n)}${n===B.min?' <span class="note">الحد الأدنى</span>':n===B.cap?' <span class="note">السقف</span>':''}</td><td class="num">${fmt(x.orders)}</td><td class="num">${sar(x.pr)}</td><td class="num">${sar(Math.round(x.gmv))}</td><td class="num">${sar(Math.round(x.sup))}</td><td class="num ${x.dCol-x.dCost>=0?'':'bad-t'}">${sar(Math.round(x.dCol-x.dCost))}</td><td class="num ${x.contrib>0?'ok-t':'bad-t'}">${sar(Math.round(x.contrib))}</td></tr>`; }).join('')}
   </tbody></table></div>
-  <p class="note">المساهمة = ما يدفعه العملاء − المورد − تكلفة التوصيل − رسوم الدفع، وقبل التسويق والرواتب والإيجار. الأرقام محاكاة بأسعار تجريبية، وتتغير مع عروض الموردين الفعلية.</p>
+  <p class="note">المساهمة = ما يدفعه العملاء − المورد − البوالص (وحدة لكل طلب) − رسوم الدفع، وقبل التسويق والرواتب والإيجار. الأرقام محاكاة بأسعار تجريبية، وتتغير مع عروض الموردين الفعلية.</p>
   <h4>ملخص</h4>
   <dl class="kv"><dt>المنتج</dt><dd>${esc(B.title)} · <span class="mono">${p.sku}</span></dd><dt>المورد</dt><dd>${S(p.sup).name} · ${S(p.sup).wh.find(w=>w.id===B.wh)?.name||''}</dd><dt>الكمية</dt><dd>من ${fmt(B.min)} إلى ${fmt(B.cap)} كرتون · ${B.tiers.length} شرائح</dd><dt>التوقيت</dt><dd>${B.start==='now'?'فتح فوري':fmtDT(B.open)} ← ${fmtDT(B.close)}</dd><dt>المدن</dt><dd>${B.cities.join('، ')||'—'}</dd><dt>التوصيل</dt><dd>${sar(B.fee1)} لأول كرتون + ${sar(B.feeX)} لكل إضافي</dd><dt>الدفع</dt><dd>${B.methods.map(m=>METHODS.find(x=>x[0]===m)[1]).join('، ')}</dd></dl>
   <div class="tools">
@@ -788,12 +788,12 @@ V.logistics = () => {
     <tr><td class="mono">26 أكتوبر 21:14</td><td class="mono">WEBHOOK</td><td>FAILED_ATTEMPT · ARX7800129 · العميل لم يرد</td><td><span class="pill s-open">200 OK</span></td></tr>
     <tr><td class="mono">25 أكتوبر 13:02</td><td class="mono">WEBHOOK</td><td>PICKED_UP × 118 طلب</td><td><span class="pill s-open">200 OK</span></td></tr>
     <tr><td class="mono">23 أكتوبر 09:31</td><td class="mono">POST /pickups</td><td>WH-02A · جاهز 25 أكتوبر</td><td><span class="pill s-open">201</span></td></tr>
-    <tr><td class="mono">23 أكتوبر 09:30</td><td class="mono">POST /shipments</td><td>118 شحنة · 214 طرد · إعادة محاولة لـ 2</td><td><span class="pill s-warn">207 Partial</span></td></tr>
+    <tr><td class="mono">23 أكتوبر 09:30</td><td class="mono">POST /shipments</td><td>118 بوليصة · 214 كرتون · إعادة محاولة لـ 2</td><td><span class="pill s-warn">207 Partial</span></td></tr>
   </tbody></table></div></div>`;
 };
 function labelDrawer(id){
   const o=ORDERS.find(x=>x.id===id);
-  openDrawer(`ملصقات ${o.awb}`, `<p class="note">ملصق لكل طرد. تطبعها شركة التوصيل في مركز التوزيع وتلصقها على كل كرتون.</p>${Array.from({length:o.q},(_,i)=>`<div class="label"><b>ARAMEX-STYLE 3PL · ${o.awb} · ${i+1}/${o.q}</b><div class="bc"></div><span>TO: ${o.name}</span><span>${o.short} · ${o.dist} · RIYADH</span><span dir="ltr">${o.mobile}</span><span>REF: ${o.id} · COD: 0.00 SAR</span><span>FROM: شركة النقاء · WH-02A</span></div>`).join('')}<p class="note">شكل توضيحي. الملصق الفعلي يصدر من نظام شركة التوصيل (PDF أو ZPL).</p>`);
+  openDrawer(`ملصقات ${o.awb}`, `<p class="note">بوليصة وحدة للطلب كامل (${o.q} كرتون)، وملصق على كل كرتون يحمل نفس رقم البوليصة. شركة التوصيل تحاسب على البوليصة.</p>${Array.from({length:o.q},(_,i)=>`<div class="label"><b>ARAMEX-STYLE 3PL · ${o.awb} · ${i+1}/${o.q}</b><div class="bc"></div><span>TO: ${o.name}</span><span>${o.short} · ${o.dist} · RIYADH</span><span dir="ltr">${o.mobile}</span><span>REF: ${o.id} · BOX ${i+1} OF ${o.q} · COD: 0.00 SAR</span><span>FROM: شركة النقاء · WH-02A</span></div>`).join('')}<p class="note">شكل توضيحي. الملصق الفعلي يصدر من نظام شركة التوصيل (PDF أو ZPL).</p>`);
 }
 
 V.suppliers = () => {
@@ -843,7 +843,7 @@ const FM = (()=>{
   return N.map((name,i)=>{ const v=1.15, c=C[i], orders=Math.round(c/Q[i]);
     const salesG=c*P[i], delG=orders*22+(c-orders)*12, cogsG=salesG*CR[i];
     const failed=Math.round(orders*FR[i]), returns=Math.round(c*RR[i]);
-    const shipG=c*20, failG=failed*20, retG=returns*28;
+    const shipG=orders*25, failG=failed*12, retG=returns*25;
     const pm={}; let feeG=0; Object.keys(MIX).forEach(m=>{ const amt=(salesG+delG)*MIX[m][i]; pm[m]={amt,fee:amt*FEE[m]}; feeG+=amt*FEE[m]; });
     const refundG=returns*P[i]*0.55 + salesG*0.0015;
     const sales=salesG/v, del=delG/v, cogs=cogsG/v, ship=shipG/v, failc=failG/v, ret=retG/v, fee=feeG/v, refund=refundG/v;
@@ -974,7 +974,7 @@ function finBody(){
 
   T.costs=()=>{ const ox=Object.keys(LBL); return `<div class="kpis fk">
      <div class="kpi"><span>تكلفة البضاعة (الموردون)</span><b class="num">${sr(m.cogs)}</b>${delta(m,p,'cogs',true)}<small>${pc(m.cogs/m.sales)} من المبيعات</small></div>
-     <div class="kpi"><span>اللوجستيات</span><b class="num">${sr(m.logi)}</b>${delta(m,p,'logi',true)}<small>${sr(m.logi/m.c)} لكل كرتون</small></div>
+     <div class="kpi"><span>اللوجستيات</span><b class="num">${sr(m.logi)}</b>${delta(m,p,'logi',true)}<small>${sr(m.logi/m.orders)} لكل بوليصة</small></div>
      <div class="kpi"><span>رسوم الدفع</span><b class="num">${sr(m.fee)}</b><small>${pc(m.fee/m.revenue)} من الإيرادات</small></div>
      <div class="kpi"><span>الاسترداد والتالف</span><b class="num">${sr(m.refund)}</b><small>${pc(m.refund/m.sales)} من المبيعات</small></div>
      <div class="kpi"><span>المصاريف التشغيلية</span><b class="num">${sr(m.opexT)}</b>${delta(m,p,'opexT',true)}<small>ثابتة وشبه ثابتة</small></div>
@@ -983,7 +983,7 @@ function finBody(){
    <div class="grid2 g2e"><div class="card"><h3>تفصيل المصاريف · ${m.name}</h3><div class="pad">${hbars(ox.map((x,i)=>({n:LBL[x],v:m.opex[x],c:SER[i],s:pc(m.opex[x]/m.opexT)})))}</div></div>
    <div class="card"><h3>مصدر كل تكلفة</h3><div class="tw"><table><thead><tr><th>البند</th><th>يُسجّل من</th><th>المبلغ</th></tr></thead><tbody>
      <tr><td>تكلفة البضاعة</td><td class="note">أوامر الشراء المؤكدة × سعر الجملة</td><td class="num">${sr(m.cogs)}</td></tr>
-     <tr><td>الشحن</td><td class="note">فاتورة شركة التوصيل عبر الربط</td><td class="num">${sr(m.ship)}</td></tr>
+     <tr><td>البوالص</td><td class="note">فاتورة شركة التوصيل عبر الربط (لكل بوليصة)</td><td class="num">${sr(m.ship)}</td></tr>
      <tr><td>المحاولات الفاشلة والمرتجعات</td><td class="note">أحداث التتبع من شركة التوصيل</td><td class="num">${sr(m.failc+m.ret)}</td></tr>
      <tr><td>رسوم الدفع</td><td class="note">تقرير التسوية اليومي من بوابة الدفع</td><td class="num">${sr(m.fee)}</td></tr>
      <tr><td>التسويق</td><td class="note">حسابات الإعلانات المرتبطة</td><td class="num">${sr(m.opex.mkt)}</td></tr>
@@ -991,22 +991,26 @@ function finBody(){
      <tr><td>الرواتب والاشتراكات</td><td class="note">قيود شهرية متكررة تنزل تلقائياً</td><td class="num">${sr(m.opex.sal+m.opex.cs+m.opex.tech+m.opex.acc)}</td></tr>
    </tbody></table></div></div></div>`; };
 
-  T.logistics=()=>{ const perC=FM.map(x=>({label:x.name,v:[x.del/x.c,(x.logi)/x.c]})); return `<div class="kpis fk">
-     <div class="kpi"><span>طرود مشحونة</span><b class="num">${fmt(Math.round(m.c))}</b>${delta(m,p,'c')}<small>${fmt(m.orders)} بوليصة</small></div>
-     <div class="kpi"><span>تكلفة الشحن الكلية</span><b class="num">${sr(m.logi)}</b><small>${sr(m.logi/m.c)} للطرد</small></div>
-     <div class="kpi"><span>المحصّل من العملاء للتوصيل</span><b class="num">${sr(m.del)}</b><small>${sr(m.del/m.c)} للطرد</small></div>
-     <div class="kpi ${m.del-m.logi<0?'warn':''}"><span>صافي التوصيل</span><b class="num ${m.del-m.logi<0?'bad-t':'ok-t'}">${sr(m.del-m.logi)}</b><small>${m.del-m.logi<0?'التوصيل ياكل من الهامش':'التوصيل يغطي نفسه'}</small></div>
+  T.logistics=()=>{ const perO=FM.map(x=>({label:x.name,v:[x.del/x.orders,x.logi/x.orders]})); const fee1=22/1.15, feeX=12/1.15, awb=25/1.15;
+    const dist=[[1,.36],[2,.41],[3,.15],[4,.08]]; return `<div class="kpis fk">
+     <div class="kpi"><span>بوالص صادرة</span><b class="num">${fmt(m.orders)}</b>${delta(m,p,'orders')}<small>${fmt(Math.round(m.c))} كرتون · ${(m.c/m.orders).toFixed(2)} للبوليصة</small></div>
+     <div class="kpi"><span>ندفع لشركة التوصيل</span><b class="num">${sr(m.logi)}</b><small>${sr(m.logi/m.orders)} للبوليصة شاملة الفاشل والمرتجع</small></div>
+     <div class="kpi"><span>يدفع العملاء للتوصيل</span><b class="num">${sr(m.del)}</b><small>${sr(m.del/m.orders)} للطلب</small></div>
+     <div class="kpi ${m.del-m.logi<0?'warn':''}"><span>ربح التوصيل</span><b class="num ${m.del-m.logi<0?'bad-t':'ok-t'}">${sr(m.del-m.logi)}</b><small>${sr((m.del-m.logi)/m.orders)} لكل طلب</small></div>
      <div class="kpi"><span>نسبة التسليم من أول محاولة</span><b class="num">${pc(1-m.failed/m.orders)}</b><small>${fmt(Math.round(m.failed))} محاولة فاشلة</small></div>
      <div class="kpi"><span>متوسط مدة التوصيل</span><b class="num">${m.delivAvg} يوم</b><small>من إغلاق الحملة</small></div>
    </div>
-   <div class="grid2 g2e"><div class="card"><h3>للطرد الواحد: المحصّل مقابل التكلفة</h3><div class="pad">${linec(perC,[{n:'المحصّل',c:SER[0]},{n:'التكلفة',c:SER[1]}],{fmtY:v=>v.toFixed(1)})}<p class="note">الفرق سببه إن الكرتون الإضافي نحصّل عليه 12 ريال بس وتكلفته 20. كل ما زاد عدد الكراتين في الطلب زاد الفرق.</p></div></div>
-   <div class="card"><h3>تفصيل تكلفة اللوجستيات · ${m.name}</h3><div class="pad">${hbars([{n:'شحن الطرود',v:m.ship,c:SER[1]},{n:'محاولات فاشلة',v:m.failc,c:SER[3]},{n:'مرتجعات',v:m.ret,c:SER[4]}])}</div></div></div>
-   <div class="card"><h3>حسب المنطقة · ${m.name}</h3><div class="tw"><table><thead><tr><th>المنطقة</th><th>طرود</th><th>تسليم من أول مرة</th><th>متوسط المدة</th><th>التكلفة</th></tr></thead><tbody>${[['شمال الرياض',.38,.975,2.4],['شرق الرياض',.24,.97,2.7],['غرب الرياض',.16,.965,2.9],['جنوب الرياض',.13,.95,3.1],['وسط الرياض',.09,.96,2.6]].map(([n,s,ok,d])=>`<tr><td>${n}</td><td class="num">${fmt(Math.round(m.c*s))}</td><td class="num">${pc(ok)}</td><td class="num">${d} يوم</td><td class="num">${sr(m.logi*s)}</td></tr>`).join('')}</tbody></table></div></div>
-   <div class="card"><h3>مطابقة فاتورة شركة التوصيل <span class="act pill s-open">تلقائية</span></h3><div class="tw"><table><thead><tr><th>الفاتورة</th><th>طرود حسب النظام</th><th>طرود في الفاتورة</th><th>النتيجة</th></tr></thead><tbody>
-     <tr><td class="mono">INV-3PL-1021</td><td class="num">1,312</td><td class="num">1,314</td><td><span class="pill s-warn">اعتراض آلي على طردين · خُصم 40 ر.س من الدفعة</span></td></tr>
-     <tr><td class="mono">INV-3PL-1014</td><td class="num">1,780</td><td class="num">1,780</td><td><span class="pill s-open">مطابقة · دُفعت تلقائياً</span></td></tr>
+   <div class="card insight"><h3><span class="dots3"><i></i><i></i><i></i></span> كيف يربح التوصيل</h3><div class="pad"><p style="margin:0 0 10px">العميل يدفع رسوم على كل كرتون (22 لأول كرتون و12 لكل كرتون زيادة). شركة التوصيل تحاسبنا على البوليصة بحد أعلى 25 ريال، والبوليصة الوحدة تشيل كل كراتين الطلب. يعني الطلب بكرتون واحد يخسر 3 ريال، ومن كرتونين وفوق التوصيل يربح.</p>
+   <div class="tw"><table><thead><tr><th>كراتين في الطلب</th><th>نسبة الطلبات</th><th>يدفع العميل</th><th>ندفع</th><th>ربح الطلب</th><th>الإجمالي بدون الضريبة · ${m.name}</th></tr></thead><tbody>${dist.map(([q,sh])=>{ const col=22+12*(q-1), n=Math.round(m.orders*sh); return `<tr><td class="num">${q}${q===4?'+':''}</td><td class="num">${pc(sh)}</td><td class="num">${sr(col)}</td><td class="num">${sr(25)}</td><td class="num ${col-25>=0?'ok-t':'bad-t'}"><b>${sr(col-25)}</b></td><td class="num ${col-25>=0?'ok-t':'bad-t'}">${sr((col-25)*n/1.15)}</td></tr>`; }).join('')}</tbody></table></div>
+   <p class="note" style="margin-top:8px">الأرقام شاملة الضريبة. النظام يعرض في السلة «أضف كرتون ثاني والتوصيل له 12 ريال بس» لأن كل كرتون زيادة يرفع ربح التوصيل.</p></div></div>
+   <div class="grid2 g2e"><div class="card"><h3>للطلب الواحد: المحصّل مقابل التكلفة <span class="act note">بدون الضريبة</span></h3><div class="pad">${linec(perO,[{n:'يدفع العميل',c:SER[0]},{n:'ندفع',c:SER[1]}],{fmtY:v=>v.toFixed(1)})}<p class="note">الفرق يكبر مع ارتفاع متوسط الكراتين في الطلب من ${(FM[0].c/FM[0].orders).toFixed(2)} إلى ${(FM[5].c/FM[5].orders).toFixed(2)}.</p></div></div>
+   <div class="card"><h3>تفصيل تكلفة اللوجستيات · ${m.name}</h3><div class="pad">${hbars([{n:'بوالص التوصيل',v:m.ship,c:SER[1]},{n:'إعادة محاولة التوصيل',v:m.failc,c:SER[3]},{n:'بوالص المرتجعات',v:m.ret,c:SER[4]}])}</div></div></div>
+   <div class="card"><h3>حسب المنطقة · ${m.name}</h3><div class="tw"><table><thead><tr><th>المنطقة</th><th>بوالص</th><th>كراتين</th><th>تسليم من أول مرة</th><th>متوسط المدة</th><th>التكلفة</th></tr></thead><tbody>${[['شمال الرياض',.38,.975,2.4],['شرق الرياض',.24,.97,2.7],['غرب الرياض',.16,.965,2.9],['جنوب الرياض',.13,.95,3.1],['وسط الرياض',.09,.96,2.6]].map(([n,s2,ok,d])=>`<tr><td>${n}</td><td class="num">${fmt(Math.round(m.orders*s2))}</td><td class="num">${fmt(Math.round(m.c*s2))}</td><td class="num">${pc(ok)}</td><td class="num">${d} يوم</td><td class="num">${sr(m.logi*s2)}</td></tr>`).join('')}</tbody></table></div></div>
+   <div class="card"><h3>مطابقة فاتورة شركة التوصيل <span class="act pill s-open">تلقائية</span></h3><div class="tw"><table><thead><tr><th>الفاتورة</th><th>بوالص حسب النظام</th><th>بوالص في الفاتورة</th><th>النتيجة</th></tr></thead><tbody>
+     <tr><td class="mono">INV-3PL-1021</td><td class="num">1,769</td><td class="num">1,771</td><td><span class="pill s-warn">اعتراض آلي على بوليصتين · خُصم 50 ر.س من الدفعة</span></td></tr>
+     <tr><td class="mono">INV-3PL-1014</td><td class="num">1,690</td><td class="num">1,690</td><td><span class="pill s-open">مطابقة · دُفعت تلقائياً</span></td></tr>
+     <tr><td class="mono">INV-3PL-1027</td><td class="num">بوليصة بـ 4 كراتين</td><td class="num">محسوبة 4 بوالص</td><td><span class="pill s-warn">اعتراض آلي · الاتفاق على البوليصة مو الكرتون</span></td></tr>
    </tbody></table></div></div>`; };
-
   T.payments=()=>{ const L={mada:'مدى',apple:'Apple Pay',card:'Visa / Mastercard',stc:'STC Pay'}; const tot=Object.values(m.pm).reduce((a,x)=>a+x.amt,0);
     const r=rng(3), sets=Array.from({length:7},(_,i)=>{ const g=(m.salesG+m.delG)/m.days*(0.6+r()*0.8), f=g*0.022, rf=r()*600; return {d:`${27-i} أكتوبر`,g,f,rf,net:g-f-rf,ok:i!==4}; });
     return `<div class="kpis fk">
@@ -1020,8 +1024,8 @@ function finBody(){
    <div class="card"><h3>رسوم كل طريقة</h3><div class="tw"><table><thead><tr><th>الطريقة</th><th>المبلغ</th><th>الرسوم</th><th>النسبة</th></tr></thead><tbody>${Object.keys(L).map(x=>`<tr><td>${L[x]}</td><td class="num">${sr(m.pm[x].amt)}</td><td class="num">${sr(m.pm[x].fee)}</td><td class="num">${pc(m.pm[x].fee/m.pm[x].amt)}</td></tr>`).join('')}</tbody></table><p class="pad note">نسب الرسوم افتراضية للمحاكاة. الفعلية تجي من عقد بوابة الدفع (القرار D-01).</p></div></div></div>
    <div class="card"><h3>التسويات اليومية من بوابة الدفع <span class="act pill s-open">مطابقة آلية</span></h3><div class="tw"><table><thead><tr><th>اليوم</th><th>مخصوم</th><th>الرسوم</th><th>استردادات</th><th>صافي الإيداع</th><th>الحالة</th></tr></thead><tbody>${sets.map(s=>`<tr><td>${s.d}</td><td class="num">${sr(s.g)}</td><td class="num">${sr(-s.f)}</td><td class="num">${sr(-s.rf)}</td><td class="num"><b>${sr(s.net)}</b></td><td>${s.ok?'<span class="pill s-open">مطابق</span>':'<span class="pill s-warn">فرق 122 ر.س · استرداد بيظهر بالتسوية الجاية</span>'}</td></tr>`).join('')}</tbody></table></div></div>`; };
 
-  T.payables=()=>{ const due=[{s:'مؤسسة الواحة للتوزيع',ref:'PO-5521 · C-1035',amt:11687,when:'14 نوفمبر',terms:'30 يوم',st:'مجدول'},{s:'شركة النقاء للمنظفات',ref:'PO-5524 · C-1039',amt:25038,when:'عند اكتمال التسليم',terms:'عند التسليم',st:'ينتظر آخر تسليم (96%)'},{s:'شركة التوصيل',ref:'INV-3PL-1021',amt:26240,when:'5 نوفمبر',terms:'15 يوم',st:'مجدول'},{s:'مؤسسة الواحة للتوزيع',ref:'PO-5526 · C-1042',amt:21054,when:'بعد إغلاق الحملة + 30 يوم',terms:'30 يوم',st:'متوقع'}];
-    return `<div class="kpis fk"><div class="kpi"><span>مستحق للموردين</span><b class="num">${sr(due.filter(d=>d.s!=='شركة التوصيل').reduce((a,d)=>a+d.amt,0))}</b><small>3 أوامر شراء</small></div><div class="kpi"><span>مستحق لشركة التوصيل</span><b class="num">${sr(26240)}</b></div><div class="kpi"><span>مدفوع ${m.name}</span><b class="num">${sr(m.cogs*1.15*0.8)}</b></div><div class="kpi"><span>متوسط مدة السداد</span><b class="num">21 يوم</b><small>العميل يدفع قبلها، فالنقد في صالحنا</small></div></div>
+  T.payables=()=>{ const due=[{s:'مؤسسة الواحة للتوزيع',ref:'PO-5521 · C-1035',amt:11687,when:'14 نوفمبر',terms:'30 يوم',st:'مجدول'},{s:'شركة النقاء للمنظفات',ref:'PO-5524 · C-1039',amt:25038,when:'عند اكتمال التسليم',terms:'عند التسليم',st:'ينتظر آخر تسليم (96%)'},{s:'شركة التوصيل',ref:'INV-3PL-1021 · 1,769 بوليصة',amt:44175,when:'5 نوفمبر',terms:'15 يوم',st:'مجدول'},{s:'مؤسسة الواحة للتوزيع',ref:'PO-5526 · C-1042',amt:21054,when:'بعد إغلاق الحملة + 30 يوم',terms:'30 يوم',st:'متوقع'}];
+    return `<div class="kpis fk"><div class="kpi"><span>مستحق للموردين</span><b class="num">${sr(due.filter(d=>d.s!=='شركة التوصيل').reduce((a,d)=>a+d.amt,0))}</b><small>3 أوامر شراء</small></div><div class="kpi"><span>مستحق لشركة التوصيل</span><b class="num">${sr(44175)}</b><small>1,769 بوليصة × 25</small></div><div class="kpi"><span>مدفوع ${m.name}</span><b class="num">${sr(m.cogs*1.15*0.8)}</b></div><div class="kpi"><span>متوسط مدة السداد</span><b class="num">21 يوم</b><small>العميل يدفع قبلها، فالنقد في صالحنا</small></div></div>
     <div class="card"><h3>جدول الصرف القادم <span class="act pill s-open">يُصرف تلقائياً في موعده</span></h3><div class="tw"><table><thead><tr><th>المستفيد</th><th>المرجع</th><th>الشروط</th><th>الاستحقاق</th><th>المبلغ</th><th>الحالة</th></tr></thead><tbody>${due.map(d=>`<tr><td>${d.s}</td><td class="mono">${d.ref}</td><td>${d.terms}</td><td>${d.when}</td><td class="num">${sr(d.amt)}</td><td><span class="pill ${d.st==='مجدول'?'s-sched':d.st==='متوقع'?'s-done':'s-warn'}">${d.st}</span></td></tr>`).join('')}</tbody></table></div>
     <div class="pad"><b>كيف يُحسب المبلغ تلقائياً</b><p class="note">الكمية اللي استلمتها شركة التوصيل من المورد فعلاً × سعر الجملة في أمر الشراء، ناقص أي نقص أو تالف سجّله مركز التوزيع. فاتورة المورد تُطابق مع أمر الشراء والاستلام قبل الصرف، وإذا فيه فرق ينوقف الصرف تلقائياً.</p>
     <label class="chk"><input type="checkbox" id="fourEyes" ${AUTO.fourEyes?'checked':''}><span>اعتماد شخص ثاني للتحويلات فوق <b class="num">50,000 ر.س</b> (موصى به)</span></label></div></div>
@@ -1046,9 +1050,9 @@ function finBody(){
 
   T.campaigns=()=>{ const r=rng(11); const list=[...CAMPAIGNS.filter(c=>['Shipping','Settled','Completed'].includes(c.status)).map(c=>({id:c.id,n:c.title||P(c.sku).name,c:c.joined,o:c.orders,pr:price(c),u:unitCost(c)})),
       ...[['C-1031','بامبرز مقاس 5 · 2×46',412,128,84],['C-1029','برسيل جل 2.9 لتر × 4',356,96,74],['C-1027','مناديل فاين 5×4',298,64,53],['C-1025','مناديل بامبرز المبللة',188,122,100],['C-1023','فيري ليمون × 6',240,134,114]].map(([id,n,c,pr,u])=>({id,n,c,o:Math.round(c/1.9),pr,u}))];
-    const rows=list.map(x=>{ const rev=x.pr*x.c, del=x.o*22+(x.c-x.o)*12, sup=x.u*x.c, ship=20*x.c, fee=(rev+del)*0.022, net=(rev+del-sup-ship-fee)/1.15; return {...x,rev,del,sup,ship,fee,net,pct:net/((rev+del)/1.15)}; }).sort((a,b)=>b.net-a.net);
+    const rows=list.map(x=>{ const rev=x.pr*x.c, del=x.o*22+(x.c-x.o)*12, sup=x.u*x.c, ship=25*x.o, fee=(rev+del)*0.022, net=(rev+del-sup-ship-fee)/1.15; return {...x,rev,del,sup,ship,fee,net,pct:net/((rev+del)/1.15)}; }).sort((a,b)=>b.net-a.net);
     return `<div class="card"><h3>مساهمة كل حملة</h3><div class="pad">${hbars(rows.map(x=>({n:`${x.id} · ${x.n}`,v:x.net,c:x.net>=0?VC.pos:VC.neg,s:pc(x.pct)})))}</div></div>
-    <div class="card"><div class="tw"><table><thead><tr><th>الحملة</th><th>كراتين</th><th>طلبات</th><th>المبيعات</th><th>التوصيل</th><th>الموردون</th><th>الشحن</th><th>رسوم الدفع</th><th>المساهمة</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${x.n}</b><div class="note mono">${x.id}</div></td><td class="num">${fmt(x.c)}</td><td class="num">${fmt(x.o)}</td><td class="num">${sr(x.rev)}</td><td class="num">${sr(x.del)}</td><td class="num">${sr(-x.sup)}</td><td class="num">${sr(-x.ship)}</td><td class="num">${sr(-x.fee)}</td><td class="num ${x.net>=0?'ok-t':'bad-t'}"><b>${sr(x.net)}</b></td></tr>`).join('')}</tbody></table></div></div>`; };
+    <div class="card"><div class="tw"><table><thead><tr><th>الحملة</th><th>كراتين</th><th>طلبات</th><th>المبيعات</th><th>التوصيل</th><th>الموردون</th><th>البوالص</th><th>رسوم الدفع</th><th>المساهمة</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${x.n}</b><div class="note mono">${x.id}</div></td><td class="num">${fmt(x.c)}</td><td class="num">${fmt(x.o)}</td><td class="num">${sr(x.rev)}</td><td class="num">${sr(x.del)}</td><td class="num">${sr(-x.sup)}</td><td class="num">${sr(-x.ship)}</td><td class="num">${sr(-x.fee)}</td><td class="num ${x.net>=0?'ok-t':'bad-t'}"><b>${sr(x.net)}</b></td></tr>`).join('')}</tbody></table></div></div>`; };
 
   T.auto=()=>`<div class="grid2 g2e"><div class="card"><h3>القواعد الآلية</h3><div class="list">${[
      ['خصم المبالغ عند نجاح الحملة','فوراً عند الإغلاق'],['فك الحجز عند فشل الحملة','فوراً'],['إصدار أمر الشراء للمورد','بعد الخصم بدقيقة'],['إصدار البوالص لشركة التوصيل','بعد تأكيد المورد'],['إصدار الفاتورة الضريبية','مع كل خصم'],['مطابقة تسوية بوابة الدفع','يومياً 2:00 ص'],['مطابقة فاتورة شركة التوصيل','عند استلامها'],['صرف مستحقات الموردين','في تاريخ الاستحقاق'],['تسجيل المصاريف المتكررة','أول كل شهر'],['تقرير الإدارة الشهري','أول كل شهر 8:00 ص']].map(([a,b])=>`<div class="li"><span class="dot" style="background:${VC.pos}"></span><div class="t"><b>${a}</b><span>${b}</span></div><span class="pill s-open">مفعّلة</span></div>`).join('')}</div></div>
@@ -1081,7 +1085,7 @@ const CH = (()=>{ const r=rng(42), out=[]; const prods=[['بامبرز مقاس 
       let fill=(0.95+(save-0.16)*2.6)*catf*(dur===5?1.08:dur===7?.97:.88)*(evening?1.06:.93)*(0.8+r()*0.4)*(1+mi*0.03);
       const min=p[3], joined=Math.round(min*fill), ok=joined>=min, sharePct=0.2+r()*0.25+(ok?0.08:0);
       const priceG=p[2]*(1-save), cost=priceG*(1-(0.11+r()*0.06)), orders=Math.round(joined/1.9);
-      const contrib=ok?((priceG-cost)*joined + orders*22+(joined-orders)*12 - joined*20 - (priceG*joined)*0.022)/1.15:0;
+      const contrib=ok?((priceG-cost)*joined + orders*22+(joined-orders)*12 - orders*25 - (priceG*joined)*0.022)/1.15:0;
       const tMin = ok? Math.min(.98, (min/joined)**1.6 * (0.6+r()*0.35)) : null;
       out.push({id:'C-'+(id++),m:mi,month:m.name,prod:p[0],cat:p[1],save,dur,day,evening,min,joined,fill,ok,sharePct,orders,contrib,tMin,custSave:ok?p[2]*save*joined:0,rating:ok?+(4.3+r()*0.6).toFixed(1):null}); } });
   return out; })();
@@ -1202,7 +1206,7 @@ V.settings = () => {
   head('الإعدادات والصلاحيات','Admin Web · Settings');
   const R=['Super Admin','Operations','Finance','Logistics','CS'];
   const M=[['الموردون والمنتجات','●','●','عرض','عرض','—'],['إنشاء ونشر الحملات','●','●','عرض','—','—'],['اعتماد استثناء الهامش','●','—','—','—','—'],['إلغاء حملة','●','طلب','—','—','—'],['الشحنات والبوالص','●','عرض','—','●','عرض'],['الاسترداد','●','—','●','—','طلب'],['تجهيز طلب صرف','●','—','●','—','—'],['اعتماد طلب صرف','●','—','مدير المالية','—','—'],['إعدادات المنصة','●','—','—','—','—'],['المستخدمون والأدوار','●','—','—','—','—']];
-  const P_=[['fee1','رسوم توصيل أول كرتون (ر.س)'],['feeX','رسوم كل كرتون إضافي (ر.س)'],['ship','تكلفة الطرد من شركة التوصيل (ر.س)'],['payPct','رسوم بوابة الدفع %'],['minMargin','أقل هامش مسموح للحملة %'],['minSave','أقل توفير مقبول للعميل %'],['holdDays','أقصى مدة حجز المبلغ (أيام)'],['cancelH','آخر موعد إلغاء للعميل (ساعات قبل الإغلاق)']];
+  const P_=[['fee1','رسوم توصيل أول كرتون (ر.س)'],['feeX','رسوم كل كرتون إضافي (ر.س)'],['ship','تكلفة البوليصة من شركة التوصيل (ر.س · للطلب كامل)'],['payPct','رسوم بوابة الدفع %'],['minMargin','أقل هامش مسموح للحملة %'],['minSave','أقل توفير مقبول للعميل %'],['holdDays','أقصى مدة حجز المبلغ (أيام)'],['cancelH','آخر موعد إلغاء للعميل (ساعات قبل الإغلاق)']];
   const su = ME_ADMIN.role==='Super Admin';
   return `<div class="card"><h3>إعدادات المنصة <span class="act note">القيم الافتراضية لكل حملة جديدة</span></h3><div class="pad"><div class="form">${P_.map(([k,l])=>`<div class="f"><label for="cfg-${k}">${l}</label><input id="cfg-${k}" type="number" step="0.5" min="0" value="${CFG[k]}" ${su?'':'disabled'}></div>`).join('')}</div>
   <div class="tools" style="margin-top:12px">${su?'<button type="button" class="btn pri" data-act="saveCfg">حفظ الإعدادات</button>':'<span class="note">التعديل لـ Super Admin فقط</span>'}<span class="note">كل تغيير ينحفظ في سجل التدقيق. الحملات المفتوحة ما تتأثر.</span></div></div></div>
