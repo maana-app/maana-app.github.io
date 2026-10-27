@@ -1,0 +1,511 @@
+<title>ma3na Back-office</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an operations console — app switcher + sidebar, a dense working area of KPIs, tables and side drawers. */
+:root{
+  --bg:#F4F3EF; --panel:#FFFFFF; --ink:#18231F; --mute:#64706B; --line:#E4E0D7; --soft:#F8F7F3; --hover:#F1EFE9;
+  --brand:#0B3D33; --green:#0B725D; --coral:#F06757; --amber:#C98A12; --blue:#2D4FA3; --plum:#8E2C62; --red:#C2412E;
+  --side:#0B3D33; --sideink:#D9EBE3; --sidemute:#8DB3A5;
+  --fd:'Readex Pro','IBM Plex Sans Arabic',Tahoma,sans-serif; --fb:'IBM Plex Sans Arabic','Readex Pro',Tahoma,sans-serif; --fm:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F1513;--panel:#172019;--ink:#E6EDEA;--mute:#94A39C;--line:#28332F;--soft:#1B2521;--hover:#202B27;--side:#0A1F1A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1513;--panel:#172019;--ink:#E6EDEA;--mute:#94A39C;--line:#28332F;--soft:#1B2521;--hover:#202B27;--side:#0A1F1A;color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:14px;line-height:1.55}
+button,input,select,textarea{font:inherit;color:inherit}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100%}
+aside{background:var(--side);color:var(--sideink);display:flex;flex-direction:column;gap:6px;padding:16px 12px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{display:flex;align-items:center;gap:8px;font:700 22px var(--fd);color:#fff;padding:2px 8px 10px}
+.logo b{color:#FEC051}
+.sw{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.08);border-radius:10px;padding:3px;margin-bottom:8px}
+.sw button{border:0;background:transparent;color:var(--sidemute);border-radius:8px;padding:7px 4px;font:600 12.5px var(--fd);cursor:pointer}
+.sw button[aria-pressed="true"]{background:#fff;color:var(--side)}
+nav a{display:flex;align-items:center;gap:10px;color:var(--sideink);text-decoration:none;padding:8px 10px;border-radius:8px;font-size:14px}
+nav a:hover{background:rgba(255,255,255,.07)}
+nav a.on{background:rgba(255,255,255,.14);color:#fff;font-weight:600}
+nav a .c{margin-inline-start:auto;background:var(--coral);color:#fff;border-radius:99px;font:600 11px var(--fm);padding:0 7px}
+nav .grp{font:500 11px var(--fm);color:var(--sidemute);letter-spacing:.08em;padding:10px 10px 2px;text-transform:uppercase}
+.me{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding:10px 8px 0;font-size:12.5px;color:var(--sidemute)}
+.me b{display:block;color:#fff;font-size:13.5px}
+main{min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.top h1{font:600 18px var(--fd);margin:0}
+.crumb{color:var(--mute);font-size:12.5px}
+.sample{margin-inline-start:auto;font:500 11.5px var(--fm);background:#FFF3D6;color:#7A5300;border-radius:6px;padding:3px 8px;white-space:nowrap}
+.content{padding:18px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.kpi span{color:var(--mute);font-size:12.5px}
+.kpi b{font:600 22px var(--fd);font-variant-numeric:tabular-nums}
+.kpi small{font-size:12px;color:var(--mute)}
+.kpi.warn b{color:var(--red)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;min-width:0}
+.card>h3{font:600 15px var(--fd);margin:0;padding:12px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.card>h3 .act{margin-inline-start:auto}
+.pad{padding:14px}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:start;white-space:nowrap}
+th{font:600 12px var(--fd);color:var(--mute);background:var(--soft)}
+tbody tr{cursor:default} tbody tr.click{cursor:pointer} tbody tr.click:hover{background:var(--hover)}
+td.num,.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--fm);font-size:12.5px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:1px 9px;font:600 11.5px var(--fd);white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.s-open{background:#E3F2EC;color:#0B725D} .s-sched{background:#E7ECF8;color:#2D4FA3} .s-ship{background:#F3E6EE;color:#8E2C62}
+.s-done{background:#ECEEED;color:#4D5955} .s-fail{background:#FBE5E1;color:#B33A27} .s-warn{background:#FFF1D6;color:#8A5A00}
+.bar{height:7px;border-radius:9px;background:var(--line);overflow:hidden;min-width:90px} .bar i{display:block;height:100%;background:var(--green);border-radius:9px}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:7px 13px;cursor:pointer;font:600 13px var(--fd);white-space:nowrap}
+.btn:hover{background:var(--hover)}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.co{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn.dan{color:var(--red);border-color:#F0C7BF}
+.btn.sm{padding:4px 10px;font-size:12px}
+.btn:focus-visible,nav a:focus-visible,.sw button:focus-visible,tr.click:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tools input,.tools select{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:7px 11px;min-width:0}
+.tools .sp{margin-inline-start:auto}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);padding:0 10px;overflow-x:auto}
+.tabs button{border:0;background:none;padding:10px 12px;font:600 13px var(--fd);color:var(--mute);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--coral)}
+.list{display:flex;flex-direction:column}
+.li{display:flex;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+.li:last-child{border-bottom:0}
+.li .t{min-width:0;flex:1} .li .t b{display:block;font-weight:600} .li .t span{color:var(--mute);font-size:12.5px}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.drawer{position:fixed;inset:0;background:rgba(10,20,17,.35);display:flex;justify-content:flex-start;z-index:30}
+.drawer[hidden]{display:none}
+.dpanel{background:var(--panel);width:min(560px,100%);height:100%;overflow:auto;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(0,0,0,.2)}
+.dh{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel)}
+.dh h2{font:600 17px var(--fd);margin:0}
+.dh .x{margin-inline-start:auto}
+.dbody{padding:16px;display:flex;flex-direction:column;gap:14px}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:13.5px}
+dl.kv dt{color:var(--mute)} dl.kv dd{margin:0}
+.tl{display:flex;flex-direction:column;gap:0;margin:0;padding:0;list-style:none}
+.tl li{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:start;padding:6px 0;font-size:13px}
+.tl li i{width:10px;height:10px;border-radius:50%;background:var(--line);margin-top:5px;justify-self:center}
+.tl li.ok i{background:var(--green)} .tl li.now i{background:var(--coral)}
+.tl li small{color:var(--mute)}
+.form{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.f{display:flex;flex-direction:column;gap:4px}
+.f label{font-size:12.5px;color:var(--mute)}
+.f input,.f select{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 10px;min-width:0}
+.calc{background:var(--soft);border:1px dashed var(--line);border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.calc div span{display:block;color:var(--mute);font-size:12px} .calc div b{font:600 17px var(--fd)}
+.ok-t{color:var(--green)} .bad-t{color:var(--red)}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--brand);color:#fff;padding:10px 18px;border-radius:10px;font:600 13.5px var(--fd);opacity:0;transition:opacity .2s;pointer-events:none;z-index:40}
+.toast.on{opacity:1}
+.empty{color:var(--mute);padding:20px;text-align:center}
+.note{font-size:12.5px;color:var(--mute)}
+.perm td:not(:first-child){text-align:center}
+.label{border:2px dashed var(--ink);border-radius:8px;padding:12px;font-family:var(--fm);font-size:12px;display:grid;gap:4px;background:#fff;color:#111}
+.label .bc{height:44px;background:repeating-linear-gradient(90deg,#111 0 2px,#fff 2px 4px,#111 4px 5px,#fff 5px 8px,#111 8px 11px,#fff 11px 12px)}
+@media (max-width: 860px){
+  .app{grid-template-columns:1fr}
+  aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+  .logo{padding:0}
+  .sw{margin:0;flex:1;min-width:200px}
+  nav{display:flex;gap:4px;overflow-x:auto;width:100%}
+  nav .grp,.me{display:none}
+  nav a{white-space:nowrap}
+  .grid2{grid-template-columns:1fr}
+  .top{position:static}
+}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}}
+</style>
+
+<div class="app" dir="rtl">
+  <aside>
+    <div class="logo">ma<b>3</b>na</div>
+    <div class="sw" role="group" aria-label="App">
+      <button type="button" id="sw-admin" aria-pressed="true">Admin Web</button>
+      <button type="button" id="sw-supp" aria-pressed="false">Supplier Portal</button>
+    </div>
+    <nav id="nav" aria-label="Main"></nav>
+    <div class="me" id="me"></div>
+  </aside>
+  <main>
+    <div class="top"><div><div class="crumb" id="crumb"></div><h1 id="title"></h1></div><span class="sample">بيانات تجريبية · محاكاة</span></div>
+    <div class="content" id="view"></div>
+  </main>
+</div>
+<div class="drawer" id="drawer" hidden><div class="dpanel" role="dialog" aria-modal="true" aria-labelledby="dtitle"><div class="dh"><h2 id="dtitle"></h2><button type="button" class="btn sm x" id="dclose">إغلاق</button></div><div class="dbody" id="dbody"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const sar = n => n.toLocaleString('en-US',{maximumFractionDigits:2}) + ' ر.س';
+const fmt = n => n.toLocaleString('en-US');
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2200); }
+
+/* ---------- sample data (fictional) ---------- */
+const SUPPLIERS = [
+  {id:'SUP-01',name:'مؤسسة الواحة للتوزيع',cr:'1010XXXXXX',vat:'3100XXXXXXXXXX3',city:'الرياض',contact:'أبو فهد',terms:'30 يوم',wh:[{id:'WH-01A',name:'مستودع السلي',addr:'RSLA1234 · حي السلي · الرياض',hours:'8ص–4م'}],status:'نشط',payable:23200},
+  {id:'SUP-02',name:'شركة النقاء للمنظفات',cr:'1010XXXXXX',vat:'3101XXXXXXXXXX3',city:'الرياض',contact:'م. خالد',terms:'عند التسليم',wh:[{id:'WH-02A',name:'مستودع المصانع الثانية',addr:'RIND5678 · المدينة الصناعية الثانية',hours:'7ص–3م'}],status:'نشط',payable:4836},
+  {id:'SUP-03',name:'مؤسسة الورق الذهبي',cr:'1010XXXXXX',vat:'3102XXXXXXXXXX3',city:'الخرج',contact:'أبو سعد',terms:'7 أيام',wh:[{id:'WH-03A',name:'مستودع الخرج',addr:'KHRJ9012 · الخرج',hours:'8ص–5م'}],status:'قيد المراجعة',payable:0},
+];
+const PRODUCTS = [
+  {sku:'PMP-S4-96',name:'بامبرز مقاس 4 · 96 حفاضة',cat:'الأطفال',sup:'SUP-01',mkt:89.70,cost:[[250,58],[400,56],[600,54.5]],kg:4.2,dim:'48×38×26',bc:'4015400XXXXXX'},
+  {sku:'PMP-S5-92',name:'بامبرز مقاس 5 · 2×46',cat:'الأطفال',sup:'SUP-01',mkt:134.56,cost:[[150,88],[300,86],[450,84]],kg:5.0,dim:'50×40×28',bc:'4015400XXXXXX'},
+  {sku:'PMP-WP-12',name:'مناديل بامبرز المبللة · 12×64',cat:'الأطفال',sup:'SUP-01',mkt:165,cost:[[100,104],[200,100],[300,97]],kg:4.8,dim:'40×30×25',bc:'8001090XXXXXX'},
+  {sku:'PRS-29-4',name:'برسيل جل 2.9 لتر · 4 عبوات',cat:'المنظفات',sup:'SUP-02',mkt:123.96,cost:[[150,79],[300,76],[450,74]],kg:12.4,dim:'42×30×32',bc:'5011417XXXXXX'},
+  {sku:'FRY-15-6',name:'فيري ليمون 1.5 لتر · 6 عبوات',cat:'المنظفات',sup:'SUP-02',mkt:187.5,cost:[[100,121],[200,117],[300,114]],kg:9.6,dim:'36×24×30',bc:'8001841XXXXXX'},
+  {sku:'CLX-189-6',name:'كلوركس 1.89 لتر · 6 عبوات',cat:'المنظفات',sup:'SUP-02',mkt:77.94,cost:[[120,49],[240,47],[360,45.5]],kg:12.1,dim:'38×26×30',bc:'0044600XXXXXX'},
+  {sku:'FIN-TS-20',name:'مناديل فاين · 4×5 علب',cat:'الورقيات',sup:'SUP-03',mkt:89,cost:[[150,57],[300,55],[450,53]],kg:3.6,dim:'52×46×28',bc:'6281031XXXXXX'},
+];
+const P = sku => PRODUCTS.find(p=>p.sku===sku);
+const S = id => SUPPLIERS.find(s=>s.id===id);
+let CAMPAIGNS = [
+  {id:'C-1042',sku:'PMP-S4-96',status:'Open',min:250,cap:800,joined:363,orders:171,tiers:[[250,68],[400,65],[600,63]],opens:'الأحد 25 أكتوبر 8م',closes:'الخميس 29 أكتوبر 10م',city:'الرياض'},
+  {id:'C-1043',sku:'PRS-29-4',status:'Open',min:150,cap:500,joined:122,orders:64,tiers:[[150,94],[300,90],[450,87]],opens:'الإثنين 26 أكتوبر 8م',closes:'الجمعة 30 أكتوبر 10م',city:'الرياض'},
+  {id:'C-1044',sku:'FIN-TS-20',status:'Scheduled',min:150,cap:600,joined:0,orders:0,tiers:[[150,67],[300,64],[450,62]],opens:'السبت 31 أكتوبر 8م',closes:'الأربعاء 4 نوفمبر 10م',city:'الرياض'},
+  {id:'C-1039',sku:'FRY-15-6',status:'Shipping',min:100,cap:300,joined:214,orders:118,tiers:[[100,142],[200,136],[300,132]],opens:'—',closes:'الخميس 22 أكتوبر',city:'الرياض'},
+  {id:'C-1035',sku:'CLX-189-6',status:'Settled',min:120,cap:360,joined:247,orders:131,tiers:[[120,59],[240,56],[360,54]],opens:'—',closes:'الخميس 15 أكتوبر',city:'الرياض'},
+  {id:'C-1037',sku:'PMP-WP-12',status:'Refunded',min:100,cap:300,joined:71,orders:44,tiers:[[100,125],[200,119],[300,115]],opens:'—',closes:'السبت 17 أكتوبر',city:'الرياض'},
+];
+const ST = {Open:['مفتوحة','s-open'],Scheduled:['مجدولة','s-sched'],Closed:['مغلقة','s-warn'],Succeeded:['ناجحة','s-open'],Confirmed:['مؤكدة','s-open'],Shipping:['قيد التوصيل','s-ship'],Completed:['مكتملة','s-done'],Settled:['مسوّاة','s-done'],Failed:['فشلت','s-fail'],Refunded:['مستردة','s-fail'],Cancelled:['ملغاة','s-fail'],Draft:['مسودة','s-done']};
+const pill = s => `<span class="pill ${(ST[s]||['',''])[1]}">${(ST[s]||[s])[0]}</span>`;
+const curTier = c => { let t=null; c.tiers.forEach(x=>{ if(c.joined>=x[0]) t=x; }); return t; };
+const nextTier = c => c.tiers.find(x=>c.joined<x[0]);
+const price = c => (curTier(c)||c.tiers[0])[1];
+const unitCost = c => { const p=P(c.sku); let k=p.cost[0][1]; p.cost.forEach(x=>{ if(c.joined>=x[0]) k=x[1]; }); return k; };
+const NAMES=['سارة العتيبي','محمد القحطاني','نورة الشمري','عبدالعزيز الدوسري','ريم الحربي','فهد المطيري','هيا السبيعي','تركي الزهراني','أمل الغامدي','سلطان العنزي','منيرة الشهري','بندر العمري'];
+const DIST=['النرجس','الملقا','اليرموك','الياسمين','قرطبة','الصحافة','الربيع','الندى','العارض','حطين'];
+let ORDERS = [];
+(function(){ let n=24860; const mk=(c,i,ship)=>{ const q=1+(i%3===0?1:0)+(i%7===0?1:0); const p=price(c); const fee=22+12*(q-1);
+  return {id:'MA-'+(n++),cmp:c.id,name:NAMES[i%NAMES.length],mobile:'+9665'+String(10000000+i*7919).slice(0,8).replace(/^(\d{2})\d{4}/,'$1XXXX'),dist:DIST[i%DIST.length],short:'R'+['NRJ','MLQ','YRM','YSM','QRT','SHF','RBI','NDA','ARD','HTN'][i%10]+(1000+i*37)%9000,q,amount:+(p*q+fee).toFixed(2),pay:c.status==='Open'?'Authorized':c.status==='Refunded'?'Voided':'Captured',awb:ship?('ARX'+(7800120+i)):null,shipSt:ship?(['DELIVERED','OUT_FOR_DELIVERY','AT_HUB','DELIVERED','FAILED_ATTEMPT'][i%5]):null,joined:'26 أكتوبر · '+(8+i%12)+':'+String((i*13)%60).padStart(2,'0')}; };
+  for(let i=0;i<12;i++) ORDERS.push(mk(CAMPAIGNS[0],i,false));
+  for(let i=0;i<5;i++) ORDERS.push(mk(CAMPAIGNS[1],i+3,false));
+  for(let i=0;i<10;i++) ORDERS.push(mk(CAMPAIGNS[3],i+5,true));
+  for(let i=0;i<3;i++) ORDERS.push(mk(CAMPAIGNS[5],i+9,false));
+})();
+let REFUNDS = [
+  {id:'RF-311',order:'MA-24901',reason:'كرتون تالف عند الاستلام (صورة مرفقة)',amount:142,status:'بانتظار الموافقة',by:'خدمة العملاء'},
+  {id:'RF-310',order:'MA-24896',reason:'فشل التوصيل مرتين · مرتجع',amount:120,status:'بانتظار الموافقة',by:'اللوجستيات'},
+  {id:'RF-305',order:'MA-24877',reason:'فشل الحملة C-1037 · فك حجز تلقائي',amount:147,status:'تم',by:'النظام'},
+];
+let PAYOUTS = [
+  {id:'PY-088',to:'مؤسسة الواحة للتوزيع',ref:'PO-5521 · C-1035',amount:11687,maker:'ريم (المالية)',status:'بانتظار الاعتماد'},
+  {id:'PY-087',to:'شركة التوصيل (فاتورة أكتوبر 1)',ref:'INV-3PL-1021 · 131 طرد',amount:2620,maker:'ريم (المالية)',status:'بانتظار الاعتماد'},
+  {id:'PY-084',to:'شركة النقاء للمنظفات',ref:'PO-5517 · C-1035',amount:11238.5,maker:'ريم (المالية)',status:'تم التحويل'},
+];
+let POS = [
+  {id:'PO-5524',cmp:'C-1039',sup:'SUP-02',sku:'FRY-15-6',qty:214,unit:117,status:'مؤكد',ready:'25 أكتوبر'},
+  {id:'PO-5526',cmp:'C-1042',sup:'SUP-01',sku:'PMP-S4-96',qty:null,unit:null,status:'متوقع بعد الإغلاق',ready:'—'},
+  {id:'PO-5521',cmp:'C-1035',sup:'SUP-01',sku:'CLX-189-6',qty:0,unit:0,status:'مسدد',ready:'17 أكتوبر'},
+  {id:'PO-5527',cmp:'C-1043',sup:'SUP-02',sku:'PRS-29-4',qty:150,unit:79,status:'بانتظار تأكيد المورد',ready:''},
+];
+let TICKETS = [
+  {id:'TK-1201',order:'MA-24901',subj:'وصل كرتون مفتوح',prio:'عالية',st:'مفتوحة',age:'3 ساعات'},
+  {id:'TK-1199',order:'MA-24871',subj:'متى تغلق حملة البامبرز؟',prio:'عادية',st:'مفتوحة',age:'5 ساعات'},
+  {id:'TK-1194',order:'MA-24888',subj:'أبي أغير العنوان قبل التوصيل',prio:'عالية',st:'قيد المعالجة',age:'يوم'},
+  {id:'TK-1188',order:'—',subj:'اقتراح منتج: حليب نيدو',prio:'منخفضة',st:'مغلقة',age:'3 أيام'},
+];
+const AUDIT = [
+  ['27 أكتوبر 08:12','ريم (المالية)','أنشأت طلب صرف PY-088 بقيمة 11,687 ر.س'],
+  ['26 أكتوبر 22:01','النظام','أغلق الحملة C-1041 تلقائياً عند الموعد'],
+  ['26 أكتوبر 19:40','فيصل (العمليات)','عدّل سقف الكمية للحملة C-1042 من 600 إلى 800'],
+  ['26 أكتوبر 16:05','نواف (اللوجستيات)','أعاد إرسال الشحنة ARX7800127 لشركة التوصيل'],
+];
+let mode='admin';
+
+/* ---------- navigation ---------- */
+const NAV = {
+  admin:[['grp','التشغيل'],['dashboard','لوحة المتابعة'],['campaigns','الحملات'],['orders','الطلبات'],['logistics','الشحنات',()=>ORDERS.filter(o=>o.shipSt==='FAILED_ATTEMPT').length],['grp','الموردون'],['suppliers','الموردون'],['catalog','المنتجات'],['pos','أوامر الشراء'],['grp','المالية'],['finance','المالية',()=>PAYOUTS.filter(p=>p.status==='بانتظار الاعتماد').length+REFUNDS.filter(r=>r.status==='بانتظار الموافقة').length],['grp','الخدمة'],['support','خدمة العملاء',()=>TICKETS.filter(t=>t.st==='مفتوحة').length],['settings','المستخدمون والصلاحيات']],
+  supp:[['grp','بوابة المورد'],['s-dashboard','الرئيسية'],['s-products','منتجاتي وأسعاري'],['s-pos','أوامر الشراء',()=>POS.filter(p=>p.sup==='SUP-02'&&p.status==='بانتظار تأكيد المورد').length],['s-pickups','مواعيد الاستلام'],['s-invoices','الفواتير والمدفوعات'],['s-profile','بيانات المنشأة']],
+};
+function buildNav(){
+  $('#nav').innerHTML = NAV[mode].map(([k,l,c])=>{ if(k==='grp') return `<div class="grp">${l}</div>`; const n=c?c():0; return `<a href="#${k}" data-k="${k}">${l}${n?`<span class="c">${n}</span>`:''}</a>`; }).join('');
+  $('#me').innerHTML = mode==='admin' ? '<b>فيصل</b>مدير العمليات · Operations' : '<b>م. خالد</b>شركة النقاء للمنظفات';
+  $('#sw-admin').setAttribute('aria-pressed',mode==='admin'); $('#sw-supp').setAttribute('aria-pressed',mode==='supp');
+}
+$('#sw-admin').onclick=()=>{ mode='admin'; location.hash='dashboard'; };
+$('#sw-supp').onclick=()=>{ mode='supp'; location.hash='s-dashboard'; };
+
+/* ---------- views ---------- */
+const V = {};
+const head = (t,c) => { $('#title').textContent=t; $('#crumb').textContent=c; };
+
+V.dashboard = () => {
+  head('لوحة المتابعة','Admin Web');
+  const open=CAMPAIGNS.filter(c=>c.status==='Open');
+  const auth=ORDERS.filter(o=>o.pay==='Authorized').reduce((a,o)=>a+o.amount,0);
+  const fails=ORDERS.filter(o=>o.shipSt==='FAILED_ATTEMPT').length;
+  return `<div class="kpis">
+    <div class="kpi"><span>حملات مفتوحة</span><b>${open.length}</b><small>${fmt(open.reduce((a,c)=>a+c.joined,0))} كرتون محجوز</small></div>
+    <div class="kpi"><span>مبالغ محجوزة (غير مخصومة)</span><b>${sar(Math.round(auth*14.2))}</b><small>تُخصم عند نجاح الحملة</small></div>
+    <div class="kpi"><span>مبيعات أكتوبر (مخصومة)</span><b>${sar(48215)}</b><small>3 حملات ناجحة</small></div>
+    <div class="kpi warn"><span>شحنات متعثرة</span><b>${fails}</b><small>محاولة توصيل فاشلة</small></div>
+    <div class="kpi"><span>مستحقات الموردين</span><b>${sar(SUPPLIERS.reduce((a,s)=>a+s.payable,0))}</b><small>${PAYOUTS.filter(p=>p.status==='بانتظار الاعتماد').length} طلب صرف ينتظر الاعتماد</small></div>
+    <div class="kpi"><span>طلبات استرداد</span><b>${REFUNDS.filter(r=>r.status==='بانتظار الموافقة').length}</b><small>بانتظار موافقة المالية</small></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>الحملات النشطة <a class="btn sm act" href="#campaigns">كل الحملات</a></h3><div class="tw"><table><thead><tr><th>الحملة</th><th>التقدم</th><th>السعر الحالي</th><th>تغلق</th></tr></thead><tbody>
+      ${CAMPAIGNS.filter(c=>['Open','Scheduled'].includes(c.status)).map(c=>{ const nt=nextTier(c); const goal=nt?nt[0]:c.cap; return `<tr class="click" tabindex="0" data-cmp="${c.id}"><td><b>${P(c.sku).name}</b><div class="note mono">${c.id} · ${pill(c.status)}</div></td><td><div class="bar"><i style="width:${Math.min(100,c.joined/goal*100)}%"></i></div><div class="note num">${fmt(c.joined)} / ${fmt(goal)} ${nt?'للشريحة التالية':''}</div></td><td class="num">${c.joined?sar(price(c)):'—'}</td><td>${c.closes}</td></tr>`; }).join('')}
+    </tbody></table></div></div>
+    <div class="card"><h3>تنبيهات تحتاج إجراء</h3><div class="list">
+      <div class="li"><span class="dot" style="background:var(--red)"></span><div class="t"><b>${fails} شحنات فشل توصيلها</b><span>حملة فيري C-1039 · تحتاج إعادة جدولة</span></div><a class="btn sm" href="#logistics">فتح</a></div>
+      <div class="li"><span class="dot" style="background:var(--amber)"></span><div class="t"><b>طلبا صرف بانتظار اعتمادك</b><span>11,687 + 2,620 ر.س</span></div><a class="btn sm" href="#finance">فتح</a></div>
+      <div class="li"><span class="dot" style="background:var(--amber)"></span><div class="t"><b>المورد لم يؤكد PO-5527</b><span>شركة النقاء · برسيل · 150 كرتون</span></div><a class="btn sm" href="#pos">فتح</a></div>
+      <div class="li"><span class="dot" style="background:var(--blue)"></span><div class="t"><b>بامبرز 4: باقي 37 كرتون للشريحة الثانية</b><span>السعر ينزل من 68 إلى 65 ر.س</span></div><a class="btn sm" href="#campaigns">فتح</a></div>
+      <div class="li"><span class="dot" style="background:var(--blue)"></span><div class="t"><b>مورد جديد قيد المراجعة</b><span>مؤسسة الورق الذهبي · ينقص الآيبان</span></div><a class="btn sm" href="#suppliers">فتح</a></div>
+    </div></div>
+  </div>`;
+};
+
+V.campaigns = () => {
+  head('الحملات','Admin Web · Campaigns');
+  return `<div class="tools"><input id="q" type="search" placeholder="ابحث بالمنتج أو رقم الحملة" aria-label="بحث"><select id="fs" aria-label="الحالة"><option value="">كل الحالات</option>${Object.keys(ST).map(k=>`<option value="${k}">${ST[k][0]}</option>`).join('')}</select><button type="button" class="btn co sp" id="newc">+ حملة جديدة</button></div>
+  <div class="card"><div class="tw"><table><thead><tr><th>رقم</th><th>المنتج</th><th>المورد</th><th>الحالة</th><th>المنضمون / الحد الأدنى</th><th>سعر البيع الحالي</th><th>هامش الكرتون</th><th>الإغلاق</th></tr></thead><tbody id="ctb"></tbody></table></div></div>`;
+};
+function campRows(){
+  const q=($('#q')?.value||'').trim(), f=$('#fs')?.value||'';
+  const rows=CAMPAIGNS.filter(c=>(!f||c.status===f)&&(!q||c.id.includes(q)||P(c.sku).name.includes(q)));
+  $('#ctb').innerHTML = rows.map(c=>{ const pr=price(c), m=+(pr-unitCost(c)-pr*0.025).toFixed(2); return `<tr class="click" tabindex="0" data-cmp="${c.id}"><td class="mono">${c.id}</td><td><b>${P(c.sku).name}</b></td><td>${S(P(c.sku).sup).name}</td><td>${pill(c.status)}</td><td class="num">${fmt(c.joined)} / ${fmt(c.min)}</td><td class="num">${sar(pr)}</td><td class="num ${m>0?'ok-t':'bad-t'}">${sar(m)}</td><td>${c.closes}</td></tr>`; }).join('') || `<tr><td colspan="8" class="empty">ما فيه حملات بهذا البحث</td></tr>`;
+}
+function campaignDrawer(id){
+  const c=CAMPAIGNS.find(x=>x.id===id), p=P(c.sku), pr=price(c), uc=unitCost(c), nt=nextTier(c);
+  const steps=['Draft','Scheduled','Open','Closed','Succeeded','Confirmed','Shipping','Completed','Settled'];
+  const idx=c.status==='Refunded'?3:steps.indexOf(c.status);
+  const ords=ORDERS.filter(o=>o.cmp===c.id);
+  openDrawer(`${p.name} · ${c.id}`, `
+    <div class="tools">${pill(c.status)}<span class="note">${c.city} · يفتح ${c.opens} · يغلق ${c.closes}</span></div>
+    <div class="calc"><div><span>المنضمون</span><b class="num">${fmt(c.joined)} كرتون</b></div><div><span>الطلبات</span><b class="num">${fmt(c.orders)}</b></div><div><span>سعر البيع الحالي</span><b class="num">${sar(pr)}</b></div><div><span>تكلفة المورد</span><b class="num">${sar(uc)}</b></div><div><span>رسوم الدفع 2.5%</span><b class="num">${sar(+(pr*0.025).toFixed(2))}</b></div><div><span>هامش الكرتون</span><b class="num ok-t">${sar(+(pr-uc-pr*0.025).toFixed(2))}</b></div></div>
+    <div><b>شرائح السعر</b><div class="tw"><table><thead><tr><th>من</th><th>سعر البيع</th><th>توفير عن السوق (${sar(p.mkt)})</th><th></th></tr></thead><tbody>${c.tiers.map(t=>`<tr><td class="num">${fmt(t[0])} كرتون</td><td class="num">${sar(t[1])}</td><td class="num">${Math.round((1-t[1]/p.mkt)*100)}%</td><td>${curTier(c)===t?'<span class="pill s-open">الحالية</span>':''}</td></tr>`).join('')}</tbody></table></div>${nt&&c.status==='Open'?`<p class="note">باقي ${fmt(nt[0]-c.joined)} كرتون لشريحة ${sar(nt[1])}.</p>`:''}</div>
+    <div><b>مسار الحملة</b><ul class="tl">${steps.map((s,i)=>`<li class="${i<idx?'ok':i===idx?'now':''}"><i></i><span>${ST[s][0]}</span><small>${i<=idx?'✓':''}</small></li>`).join('')}</ul>${c.status==='Refunded'?'<p class="note bad-t">لم تصل للحد الأدنى · فُك حجز كل المبالغ.</p>':''}</div>
+    <div class="tools">${c.status==='Open'?`<button type="button" class="btn pri" data-act="close" data-id="${c.id}">إغلاق الحملة الآن</button><button type="button" class="btn dan" data-act="cancel" data-id="${c.id}">إلغاء</button>`:''}${c.status==='Scheduled'?`<button type="button" class="btn pri" data-act="openNow" data-id="${c.id}">فتح الآن</button>`:''}${c.status==='Confirmed'?`<button type="button" class="btn pri" data-act="ship" data-id="${c.id}">إرسال الشحنات لشركة التوصيل</button>`:''}</div>
+    <div><b>آخر الطلبات</b>${ords.length?`<div class="tw"><table><tbody>${ords.slice(0,6).map(o=>`<tr><td class="mono">${o.id}</td><td>${o.name}</td><td class="num">${o.q} كرتون</td><td>${payPill(o.pay)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="note">لا يوجد طلبات بعد.</p>'}</div>`);
+}
+const payPill = p => ({Authorized:'<span class="pill s-sched">محجوز</span>',Captured:'<span class="pill s-open">مخصوم</span>',Voided:'<span class="pill s-fail">مفكوك</span>',Refunded:'<span class="pill s-fail">مسترد</span>'})[p]||p;
+function newCampaign(){
+  openDrawer('حملة جديدة', `
+    <div class="form">
+      <div class="f"><label for="nc-p">المنتج</label><select id="nc-p">${PRODUCTS.map(p=>`<option value="${p.sku}">${p.name}</option>`).join('')}</select></div>
+      <div class="f"><label for="nc-city">المدينة</label><select id="nc-city"><option>الرياض</option><option>جدة</option></select></div>
+      <div class="f"><label for="nc-min">الحد الأدنى (كرتون)</label><input id="nc-min" type="number" value="150" min="1"></div>
+      <div class="f"><label for="nc-cap">سقف الكمية</label><input id="nc-cap" type="number" value="500" min="1"></div>
+      <div class="f"><label for="nc-t1">سعر الشريحة 1</label><input id="nc-t1" type="number" step="0.5"></div>
+      <div class="f"><label for="nc-t2">سعر الشريحة 2</label><input id="nc-t2" type="number" step="0.5"></div>
+      <div class="f"><label for="nc-t3">سعر الشريحة 3</label><input id="nc-t3" type="number" step="0.5"></div>
+      <div class="f"><label for="nc-open">موعد الفتح</label><input id="nc-open" type="datetime-local" value="2026-11-01T20:00"></div>
+      <div class="f"><label for="nc-close">موعد الإغلاق</label><input id="nc-close" type="datetime-local" value="2026-11-05T22:00"></div>
+    </div>
+    <div><b>حاسبة الهامش (الشريحة 1)</b><div class="calc" id="nc-calc"></div><p class="note" id="nc-msg"></p></div>
+    <div class="tools"><button type="button" class="btn pri" id="nc-save">جدولة الحملة</button><span class="note">بعد الجدولة يُرسل تنبيه للمفضلين قبل الفتح بيومين ثم بـ 3 ساعات.</span></div>`);
+  const fill=()=>{ const p=P($('#nc-p').value); const t1=p.mkt*0.76, t2=p.mkt*0.725, t3=p.mkt*0.70; $('#nc-t1').value=t1.toFixed(1); $('#nc-t2').value=t2.toFixed(1); $('#nc-t3').value=t3.toFixed(1); $('#nc-min').value=p.cost[0][0]; calc(); };
+  const calc=()=>{ const p=P($('#nc-p').value); const pr=+$('#nc-t1').value||0, cost=p.cost[0][1], fee=pr*0.025, m=pr-cost-fee, mp=pr?m/pr*100:0, save=(1-pr/p.mkt)*100;
+    $('#nc-calc').innerHTML=`<div><span>سعر السوق</span><b class="num">${sar(p.mkt)}</b></div><div><span>سعر البيع</span><b class="num">${sar(pr)}</b></div><div><span>تكلفة المورد</span><b class="num">${sar(cost)}</b></div><div><span>رسوم الدفع</span><b class="num">${sar(+fee.toFixed(2))}</b></div><div><span>الهامش</span><b class="num ${m>0?'ok-t':'bad-t'}">${sar(+m.toFixed(2))} · ${mp.toFixed(1)}%</b></div><div><span>توفير العميل</span><b class="num">${save.toFixed(0)}%</b></div>`;
+    const ok=mp>=8; $('#nc-msg').innerHTML= ok?'<span class="ok-t">الهامش فوق الحد المعتمد (8%). يمكن الجدولة.</span>':'<span class="bad-t">الهامش أقل من الحد المعتمد (8%). النشر ممنوع، ارفع السعر أو فاوض المورد.</span>'; $('#nc-save').disabled=!ok; };
+  $('#nc-p').onchange=fill; ['nc-t1','nc-t2','nc-t3'].forEach(i=>$('#'+i).oninput=calc); fill();
+  $('#nc-save').onclick=()=>{ const sku=$('#nc-p').value; const id='C-'+(1045+CAMPAIGNS.length-6); CAMPAIGNS.unshift({id,sku,status:'Scheduled',min:+$('#nc-min').value,cap:+$('#nc-cap').value,joined:0,orders:0,tiers:[[+$('#nc-min').value,+$('#nc-t1').value],[Math.round(+$('#nc-min').value*2),+$('#nc-t2').value],[Math.round(+$('#nc-min').value*3),+$('#nc-t3').value]],opens:'الأحد 1 نوفمبر 8م',closes:'الخميس 5 نوفمبر 10م',city:$('#nc-city').value}); AUDIT.unshift(['الآن','فيصل (العمليات)',`أنشأ الحملة ${id} وجدولها`]); closeDrawer(); toast(`تمت جدولة الحملة ${id}`); render(); };
+}
+
+V.orders = () => {
+  head('الطلبات','Admin Web · Orders');
+  return `<div class="tools"><input id="oq" type="search" placeholder="رقم الطلب أو الجوال أو الاسم" aria-label="بحث"><select id="oc" aria-label="الحملة"><option value="">كل الحملات</option>${CAMPAIGNS.map(c=>`<option value="${c.id}">${c.id} · ${P(c.sku).name}</option>`).join('')}</select></div>
+  <div class="card"><div class="tw"><table><thead><tr><th>الطلب</th><th>العميل</th><th>الحملة</th><th>الكراتين</th><th>المبلغ</th><th>الدفع</th><th>الشحنة</th></tr></thead><tbody id="otb"></tbody></table></div></div>`;
+};
+const shipLabel = s => ({DELIVERED:'<span class="pill s-open">تم التسليم</span>',OUT_FOR_DELIVERY:'<span class="pill s-ship">خرج للتوصيل</span>',AT_HUB:'<span class="pill s-sched">في مركز التوزيع</span>',FAILED_ATTEMPT:'<span class="pill s-fail">محاولة فاشلة</span>',CREATED:'<span class="pill s-sched">بوليصة صادرة</span>',PICKED_UP:'<span class="pill s-sched">استُلم من المورد</span>'})[s]||'<span class="note">—</span>';
+function orderRows(){
+  const q=($('#oq')?.value||'').trim(), c=$('#oc')?.value||'';
+  const rows=ORDERS.filter(o=>(!c||o.cmp===c)&&(!q||o.id.includes(q)||o.name.includes(q)||o.mobile.includes(q)));
+  $('#otb').innerHTML=rows.map(o=>`<tr class="click" tabindex="0" data-ord="${o.id}"><td class="mono">${o.id}</td><td>${o.name}<div class="note">${o.dist}</div></td><td class="mono">${o.cmp}</td><td class="num">${o.q}</td><td class="num">${sar(o.amount)}</td><td>${payPill(o.pay)}</td><td>${shipLabel(o.shipSt)}</td></tr>`).join('')||`<tr><td colspan="7" class="empty">لا توجد طلبات</td></tr>`;
+}
+function orderDrawer(id){
+  const o=ORDERS.find(x=>x.id===id), c=CAMPAIGNS.find(x=>x.id===o.cmp), p=P(c.sku);
+  const fee=22+12*(o.q-1);
+  const flow=['CREATED','PICKED_UP','AT_HUB','OUT_FOR_DELIVERY','DELIVERED']; const si=o.shipSt==='FAILED_ATTEMPT'?3:flow.indexOf(o.shipSt);
+  openDrawer(`طلب ${o.id}`, `
+    <dl class="kv"><dt>العميل</dt><dd>${o.name}</dd><dt>الجوال</dt><dd class="mono" dir="ltr">${o.mobile}</dd><dt>العنوان الوطني</dt><dd class="mono">${o.short} · حي ${o.dist} · الرياض</dd><dt>الحملة</dt><dd>${p.name} · <span class="mono">${c.id}</span> ${pill(c.status)}</dd><dt>انضم</dt><dd>${o.joined}</dd></dl>
+    <div class="calc"><div><span>الكراتين</span><b class="num">${o.q}</b></div><div><span>سعر الكرتون</span><b class="num">${sar(price(c))}</b></div><div><span>التوصيل</span><b class="num">${sar(fee)}</b></div><div><span>الإجمالي</span><b class="num">${sar(o.amount)}</b></div><div><span>الدفع</span><b>${payPill(o.pay)}</b></div></div>
+    <div><b>الشحنة</b>${o.awb?`<p class="mono">AWB ${o.awb} · ${o.q} طرد</p><ul class="tl">${flow.map((s,i)=>`<li class="${i<si?'ok':i===si?'now':''}"><i></i><span>${shipLabel(s)}</span><small></small></li>`).join('')}</ul>${o.shipSt==='FAILED_ATTEMPT'?'<p class="note bad-t">سبب الفشل: العميل لم يرد · محاولة 1 من 2</p>':''}`:'<p class="note">تُصدر البوليصة تلقائياً بعد تأكيد الحملة.</p>'}</div>
+    <div class="tools"><button type="button" class="btn" data-act="ticket" data-id="${o.id}">فتح تذكرة</button>${o.pay==='Captured'?`<button type="button" class="btn dan" data-act="refundReq" data-id="${o.id}">طلب استرداد</button>`:''}${o.pay==='Authorized'?`<button type="button" class="btn dan" data-act="cancelOrder" data-id="${o.id}">إلغاء الطلب وفك الحجز</button>`:''}</div>`);
+}
+
+V.logistics = () => {
+  head('الشحنات','Admin Web · Logistics · 3PL');
+  const sh=ORDERS.filter(o=>o.awb);
+  const cnt=s=>sh.filter(o=>o.shipSt===s).length;
+  return `<div class="kpis"><div class="kpi"><span>بوالص صادرة</span><b>${sh.length}</b><small>${sh.reduce((a,o)=>a+o.q,0)} طرد</small></div><div class="kpi"><span>في مركز التوزيع</span><b>${cnt('AT_HUB')}</b></div><div class="kpi"><span>خرجت للتوصيل</span><b>${cnt('OUT_FOR_DELIVERY')}</b></div><div class="kpi"><span>تم التسليم</span><b>${cnt('DELIVERED')}</b></div><div class="kpi warn"><span>محاولات فاشلة</span><b>${cnt('FAILED_ATTEMPT')}</b></div></div>
+  <div class="card"><h3>شحنات حملة C-1039 · فيري ليمون <span class="act note">استلام من مستودع المصانع الثانية · 25 أكتوبر</span></h3><div class="tw"><table><thead><tr><th>البوليصة</th><th>الطلب</th><th>المستلم</th><th>العنوان المختصر</th><th>الطرود</th><th>الحالة</th><th></th></tr></thead><tbody>
+  ${sh.map(o=>`<tr><td class="mono">${o.awb}</td><td class="mono">${o.id}</td><td>${o.name}</td><td class="mono">${o.short}</td><td class="num">${o.q}</td><td>${shipLabel(o.shipSt)}</td><td><button type="button" class="btn sm" data-act="label" data-id="${o.id}">الملصق</button>${o.shipSt==='FAILED_ATTEMPT'?` <button type="button" class="btn sm co" data-act="resched" data-id="${o.id}">إعادة جدولة</button>`:''}</td></tr>`).join('')}
+  </tbody></table></div></div>
+  <div class="card"><h3>سجل التكامل مع شركة التوصيل</h3><div class="tw"><table><tbody>
+    <tr><td class="mono">27 أكتوبر 07:58</td><td class="mono">WEBHOOK</td><td>OUT_FOR_DELIVERY × 3</td><td><span class="pill s-open">200 OK</span></td></tr>
+    <tr><td class="mono">26 أكتوبر 21:14</td><td class="mono">WEBHOOK</td><td>FAILED_ATTEMPT · ARX7800129 · العميل لم يرد</td><td><span class="pill s-open">200 OK</span></td></tr>
+    <tr><td class="mono">25 أكتوبر 13:02</td><td class="mono">WEBHOOK</td><td>PICKED_UP × 118 طلب</td><td><span class="pill s-open">200 OK</span></td></tr>
+    <tr><td class="mono">23 أكتوبر 09:31</td><td class="mono">POST /pickups</td><td>WH-02A · جاهز 25 أكتوبر</td><td><span class="pill s-open">201</span></td></tr>
+    <tr><td class="mono">23 أكتوبر 09:30</td><td class="mono">POST /shipments</td><td>118 شحنة · 214 طرد · إعادة محاولة لـ 2</td><td><span class="pill s-warn">207 Partial</span></td></tr>
+  </tbody></table></div></div>`;
+};
+function labelDrawer(id){
+  const o=ORDERS.find(x=>x.id===id);
+  openDrawer(`ملصقات ${o.awb}`, `<p class="note">ملصق لكل طرد. تطبعها شركة التوصيل في مركز التوزيع وتلصقها على كل كرتون.</p>${Array.from({length:o.q},(_,i)=>`<div class="label"><b>ARAMEX-STYLE 3PL · ${o.awb} · ${i+1}/${o.q}</b><div class="bc"></div><span>TO: ${o.name}</span><span>${o.short} · ${o.dist} · RIYADH</span><span dir="ltr">${o.mobile}</span><span>REF: ${o.id} · COD: 0.00 SAR</span><span>FROM: شركة النقاء · WH-02A</span></div>`).join('')}<p class="note">شكل توضيحي. الملصق الفعلي يصدر من نظام شركة التوصيل (PDF أو ZPL).</p>`);
+}
+
+V.suppliers = () => {
+  head('الموردون','Admin Web · Suppliers');
+  return `<div class="tools"><button type="button" class="btn co sp" data-act="newSupp">+ مورد جديد</button></div><div class="card"><div class="tw"><table><thead><tr><th>المورد</th><th>المدينة</th><th>المستودعات</th><th>المنتجات</th><th>شروط الدفع</th><th>المستحق</th><th>الحالة</th></tr></thead><tbody>
+  ${SUPPLIERS.map(s=>`<tr class="click" tabindex="0" data-sup="${s.id}"><td><b>${s.name}</b><div class="note mono">${s.id}</div></td><td>${s.city}</td><td class="num">${s.wh.length}</td><td class="num">${PRODUCTS.filter(p=>p.sup===s.id).length}</td><td>${s.terms}</td><td class="num">${sar(s.payable)}</td><td><span class="pill ${s.status==='نشط'?'s-open':'s-warn'}">${s.status}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+};
+function supplierDrawer(id){
+  const s=S(id);
+  openDrawer(s.name, `<dl class="kv"><dt>السجل التجاري</dt><dd class="mono">${s.cr}</dd><dt>الرقم الضريبي</dt><dd class="mono">${s.vat}</dd><dt>المسؤول</dt><dd>${s.contact}</dd><dt>شروط الدفع</dt><dd>${s.terms}</dd><dt>الآيبان</dt><dd class="mono">${s.status==='نشط'?'SA03 80XX XXXX XXXX XXXX XXXX':'<span class="bad-t">غير مُدخل</span>'}</dd></dl>
+  <div><b>مستودعات الاستلام</b><div class="tw"><table><tbody>${s.wh.map(w=>`<tr><td class="mono">${w.id}</td><td>${w.name}</td><td class="mono">${w.addr}</td><td>${w.hours}</td></tr>`).join('')}</tbody></table></div></div>
+  <div><b>المنتجات</b><div class="tw"><table><tbody>${PRODUCTS.filter(p=>p.sup===id).map(p=>`<tr><td class="mono">${p.sku}</td><td>${p.name}</td><td class="num">${sar(p.cost[0][1])}+</td></tr>`).join('')||'<tr><td class="empty">لا يوجد</td></tr>'}</tbody></table></div></div>
+  ${s.status!=='نشط'?`<div class="tools"><button type="button" class="btn pri" data-act="approveSupp" data-id="${s.id}">اعتماد المورد</button></div>`:''}`);
+}
+
+V.catalog = () => {
+  head('المنتجات','Admin Web · Catalog');
+  return `<div class="tools"><span class="note">المرحلة الأولى: الإدارة تُدخل منتجات الموردين وأسعار الجملة. الوزن والأبعاد إلزامية لأن شركة التوصيل تحتاجها لإصدار البوليصة.</span><button type="button" class="btn co sp" data-act="newProd">+ منتج</button></div>
+  <div class="card"><div class="tw"><table><thead><tr><th>SKU</th><th>المنتج</th><th>القسم</th><th>المورد</th><th>سعر السوق</th><th>جملة (حسب الكمية)</th><th>وزن الكرتون</th><th>الأبعاد سم</th></tr></thead><tbody>
+  ${PRODUCTS.map(p=>`<tr><td class="mono">${p.sku}</td><td><b>${p.name}</b></td><td>${p.cat}</td><td>${S(p.sup).name}</td><td class="num">${sar(p.mkt)}</td><td class="num">${p.cost.map(c=>`${c[0]}+: ${c[1]}`).join(' · ')}</td><td class="num">${p.kg} كجم</td><td class="mono">${p.dim}</td></tr>`).join('')}</tbody></table></div></div>`;
+};
+
+V.pos = () => {
+  head('أوامر الشراء','Admin Web · Purchase Orders');
+  return `<div class="card"><div class="tw"><table><thead><tr><th>أمر الشراء</th><th>الحملة</th><th>المورد</th><th>المنتج</th><th>الكمية</th><th>سعر الجملة</th><th>الإجمالي</th><th>الجاهزية</th><th>الحالة</th></tr></thead><tbody>
+  ${POS.map(o=>`<tr><td class="mono">${o.id}</td><td class="mono">${o.cmp}</td><td>${S(o.sup).name}</td><td>${P(o.sku).name}</td><td class="num">${o.qty??'—'}</td><td class="num">${o.unit?sar(o.unit):'—'}</td><td class="num">${o.qty&&o.unit?sar(o.qty*o.unit):'—'}</td><td>${o.ready||'—'}</td><td><span class="pill ${o.status==='مؤكد'||o.status==='مسدد'?'s-open':'s-warn'}">${o.status}</span></td></tr>`).join('')}</tbody></table></div></div>
+  <p class="note">في المرحلة الأولى يُرسل أمر الشراء للمورد بالإيميل PDF، ويسجل فريق العمليات تأكيده هنا. في المرحلة الثانية يؤكده المورد بنفسه من بوابته (جرّب «Supplier Portal»).</p>`;
+};
+
+let finTab='payouts';
+V.finance = () => {
+  head('المالية','Admin Web · Finance');
+  return `<div class="kpis"><div class="kpi"><span>محجوز (غير مخصوم)</span><b>${sar(37740)}</b><small>حملتان مفتوحتان</small></div><div class="kpi"><span>محصّل في أكتوبر</span><b>${sar(48215)}</b></div><div class="kpi"><span>تسوية بوابة الدفع المتوقعة</span><b>${sar(46990)}</b><small>بعد خصم الرسوم · T+2</small></div><div class="kpi warn"><span>صرف بانتظار الاعتماد</span><b>${sar(PAYOUTS.filter(p=>p.status==='بانتظار الاعتماد').reduce((a,p)=>a+p.amount,0))}</b></div><div class="kpi"><span>ضريبة القيمة المضافة المستحقة</span><b>${sar(6289)}</b><small>تقديري · أكتوبر</small></div></div>
+  <div class="card"><div class="tabs" role="tablist">${[['payouts','الصرف'],['refunds','الاسترداد'],['payables','المستحقات'],['recon','المطابقة'],['pnl','ربحية الحملات']].map(([k,l])=>`<button type="button" role="tab" aria-selected="${finTab===k}" data-tab="${k}">${l}</button>`).join('')}</div><div id="fin"></div></div>`;
+};
+function finBody(){
+  const el=$('#fin'); if(!el) return;
+  if(finTab==='payouts') el.innerHTML=`<div class="pad note">كل طلب صرف يجهّزه شخص ويعتمده شخص ثاني (Maker–Checker). أنت مسجل كمعتمد.</div><div class="tw"><table><thead><tr><th>رقم</th><th>المستفيد</th><th>المرجع</th><th>المبلغ</th><th>جهّزه</th><th>الحالة</th><th></th></tr></thead><tbody>${PAYOUTS.map(p=>`<tr><td class="mono">${p.id}</td><td>${p.to}</td><td>${p.ref}</td><td class="num">${sar(p.amount)}</td><td>${p.maker}</td><td><span class="pill ${p.status==='تم التحويل'?'s-open':p.status==='معتمد'?'s-sched':'s-warn'}">${p.status}</span></td><td>${p.status==='بانتظار الاعتماد'?`<button type="button" class="btn sm pri" data-act="approvePay" data-id="${p.id}">اعتماد</button> <button type="button" class="btn sm dan" data-act="rejectPay" data-id="${p.id}">رفض</button>`:p.status==='معتمد'?`<button type="button" class="btn sm" data-act="paid" data-id="${p.id}">تسجيل التحويل</button>`:''}</td></tr>`).join('')}</tbody></table></div>`;
+  if(finTab==='refunds') el.innerHTML=`<div class="tw"><table><thead><tr><th>رقم</th><th>الطلب</th><th>السبب</th><th>المبلغ</th><th>من</th><th>الحالة</th><th></th></tr></thead><tbody>${REFUNDS.map(r=>`<tr><td class="mono">${r.id}</td><td class="mono">${r.order}</td><td>${r.reason}</td><td class="num">${sar(r.amount)}</td><td>${r.by}</td><td><span class="pill ${r.status==='تم'?'s-open':r.status==='مرفوض'?'s-fail':'s-warn'}">${r.status}</span></td><td>${r.status==='بانتظار الموافقة'?`<button type="button" class="btn sm pri" data-act="approveRef" data-id="${r.id}">موافقة</button> <button type="button" class="btn sm dan" data-act="rejectRef" data-id="${r.id}">رفض</button>`:''}</td></tr>`).join('')}</tbody></table></div>`;
+  if(finTab==='payables') el.innerHTML=`<div class="tw"><table><thead><tr><th>الجهة</th><th>المرجع</th><th>الاستحقاق</th><th>المبلغ</th><th></th></tr></thead><tbody>
+    <tr><td>مؤسسة الواحة للتوزيع</td><td>PO-5521 · كلوركس C-1035</td><td>14 نوفمبر (30 يوم)</td><td class="num">${sar(11687)}</td><td><span class="pill s-warn">طلب صرف PY-088</span></td></tr>
+    <tr><td>شركة النقاء للمنظفات</td><td>PO-5524 · فيري C-1039</td><td>عند التسليم الكامل</td><td class="num">${sar(25038)}</td><td><button type="button" class="btn sm" data-act="mkPay">إنشاء طلب صرف</button></td></tr>
+    <tr><td>شركة التوصيل</td><td>فاتورة أكتوبر 1 · 131 طرد × 20</td><td>5 نوفمبر</td><td class="num">${sar(2620)}</td><td><span class="pill s-warn">طلب صرف PY-087</span></td></tr></tbody></table></div>`;
+  if(finTab==='recon') el.innerHTML=`<div class="tw"><table><thead><tr><th>البند</th><th>حسب النظام</th><th>حسب المصدر</th><th>الفرق</th></tr></thead><tbody>
+    <tr><td>تسوية بوابة الدفع · 26 أكتوبر</td><td class="num">${sar(14230.5)}</td><td class="num">${sar(14230.5)}</td><td class="ok-t">مطابق</td></tr>
+    <tr><td>تسوية بوابة الدفع · 25 أكتوبر</td><td class="num">${sar(9871)}</td><td class="num">${sar(9749)}</td><td class="bad-t">−122 ر.س · استرداد RF-305 لم يظهر بعد</td></tr>
+    <tr><td>فاتورة شركة التوصيل · أكتوبر 1</td><td class="num">131 طرد</td><td class="num">133 طرد</td><td class="bad-t">+2 طرد · اعتراض قبل الصرف</td></tr></tbody></table></div>`;
+  if(finTab==='pnl') el.innerHTML=`<div class="tw"><table><thead><tr><th>الحملة</th><th>المبيعات</th><th>تكلفة المورد</th><th>رسوم الدفع</th><th>توصيل محصّل</th><th>تكلفة التوصيل</th><th>صافي الهامش</th></tr></thead><tbody>
+    ${CAMPAIGNS.filter(c=>['Shipping','Settled'].includes(c.status)).map(c=>{ const pr=price(c), rev=pr*c.joined, cost=unitCost(c)*c.joined, fee=rev*0.025, dCol=22*c.orders+12*(c.joined-c.orders), dCost=20*c.joined, net=rev-cost-fee+dCol-dCost; return `<tr><td>${c.id} · ${P(c.sku).name}</td><td class="num">${sar(Math.round(rev))}</td><td class="num">${sar(Math.round(cost))}</td><td class="num">${sar(Math.round(fee))}</td><td class="num">${sar(dCol)}</td><td class="num">${sar(dCost)}</td><td class="num ${net>0?'ok-t':'bad-t'}">${sar(Math.round(net))}</td></tr>`; }).join('')}</tbody></table></div><p class="pad note">افتراضات المحاكاة: رسوم الدفع 2.5%، تكلفة التوصيل 20 ر.س للطرد، رسوم التوصيل على العميل 22 للأول و12 لكل إضافي.</p>`;
+}
+
+V.support = () => {
+  head('خدمة العملاء','Admin Web · Customer Service');
+  return `<div class="card"><div class="tw"><table><thead><tr><th>التذكرة</th><th>الطلب</th><th>الموضوع</th><th>الأولوية</th><th>الحالة</th><th>منذ</th><th></th></tr></thead><tbody>${TICKETS.map(t=>`<tr><td class="mono">${t.id}</td><td class="mono">${t.order}</td><td>${t.subj}</td><td><span class="pill ${t.prio==='عالية'?'s-fail':t.prio==='عادية'?'s-sched':'s-done'}">${t.prio}</span></td><td>${t.st}</td><td>${t.age}</td><td>${t.st!=='مغلقة'?`<button type="button" class="btn sm" data-act="closeTk" data-id="${t.id}">إغلاق</button>`:''}</td></tr>`).join('')}</tbody></table></div></div>`;
+};
+
+V.settings = () => {
+  head('المستخدمون والصلاحيات','Admin Web · Settings');
+  const R=['Super Admin','Operations','Finance','Logistics','CS'];
+  const M=[['الموردون والمنتجات','●','●','عرض','عرض','—'],['إنشاء ونشر الحملات','●','●','عرض','—','—'],['إلغاء حملة','●','طلب','—','—','—'],['الشحنات والبوالص','●','عرض','—','●','عرض'],['الاسترداد','●','—','●','—','طلب'],['تجهيز طلب صرف','●','—','●','—','—'],['اعتماد طلب صرف','●','—','مدير المالية','—','—'],['المستخدمون والأدوار','●','—','—','—','—']];
+  return `<div class="grid2"><div class="card"><h3>المستخدمون</h3><div class="tw"><table><tbody>
+    <tr><td><b>صاحب الفكرة</b></td><td>Super Admin</td><td><span class="pill s-open">نشط</span></td></tr><tr><td><b>فيصل</b></td><td>Operations</td><td><span class="pill s-open">نشط</span></td></tr><tr><td><b>ريم</b></td><td>Finance</td><td><span class="pill s-open">نشط</span></td></tr><tr><td><b>نواف</b></td><td>Logistics</td><td><span class="pill s-open">نشط</span></td></tr><tr><td><b>عبدالله</b></td><td>Operations · الموردون</td><td><span class="pill s-open">نشط</span></td></tr><tr><td><b>لمى</b></td><td>CS</td><td><span class="pill s-open">نشط</span></td></tr></tbody></table></div></div>
+  <div class="card"><h3>سجل التدقيق</h3><div class="list">${AUDIT.map(a=>`<div class="li"><div class="t"><b>${a[2]}</b><span>${a[1]} · ${a[0]}</span></div></div>`).join('')}</div></div></div>
+  <div class="card"><h3>مصفوفة الصلاحيات</h3><div class="tw"><table class="perm"><thead><tr><th>الصلاحية</th>${R.map(r=>`<th>${r}</th>`).join('')}</tr></thead><tbody>${M.map(r=>`<tr>${r.map((c,i)=>`<td class="${i&&c==='●'?'ok-t':''}">${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`;
+};
+
+/* ---------- Supplier Portal (logged in as SUP-02) ---------- */
+const ME='SUP-02';
+V['s-dashboard'] = () => {
+  head('الرئيسية','Supplier Portal · شركة النقاء للمنظفات');
+  const mine=POS.filter(p=>p.sup===ME);
+  return `<div class="kpis"><div class="kpi warn"><span>أوامر شراء تنتظر تأكيدك</span><b>${mine.filter(p=>p.status==='بانتظار تأكيد المورد').length}</b></div><div class="kpi"><span>حملات مفتوحة على منتجاتك</span><b>${CAMPAIGNS.filter(c=>c.status==='Open'&&P(c.sku).sup===ME).length}</b><small>برسيل · 122 كرتون حتى الآن</small></div><div class="kpi"><span>الاستلام القادم</span><b>—</b><small>بعد تأكيد PO-5527</small></div><div class="kpi"><span>مستحقاتك لدى ma3na</span><b>${sar(25038+4836)}</b><small>منها ${sar(25038)} عند اكتمال التسليم</small></div></div>
+  <div class="card"><h3>حملات منتجاتك</h3><div class="tw"><table><thead><tr><th>الحملة</th><th>المنتج</th><th>الحالة</th><th>الكمية حتى الآن</th><th>تغلق</th></tr></thead><tbody>${CAMPAIGNS.filter(c=>P(c.sku).sup===ME).map(c=>`<tr><td class="mono">${c.id}</td><td>${P(c.sku).name}</td><td>${pill(c.status)}</td><td class="num">${fmt(c.joined)} كرتون</td><td>${c.closes}</td></tr>`).join('')}</tbody></table></div></div>
+  <p class="note">المورد يشوف الكميات المتوقعة فقط، وما يشوف أسعار البيع للعملاء ولا بياناتهم.</p>`;
+};
+V['s-products'] = () => {
+  head('منتجاتي وأسعاري','Supplier Portal');
+  return `<p class="note">حدّث أسعار الجملة حسب الكمية. أي تعديل يروح لفريق ma3na للاعتماد، ولا يغيّر سعر حملة مفتوحة.</p><div class="card"><div class="tw"><table><thead><tr><th>SKU</th><th>المنتج</th><th>الشريحة 1</th><th>الشريحة 2</th><th>الشريحة 3</th><th>المتوفر للشهر القادم</th><th></th></tr></thead><tbody>
+  ${PRODUCTS.filter(p=>p.sup===ME).map(p=>`<tr><td class="mono">${p.sku}</td><td><b>${p.name}</b></td>${p.cost.map((c,i)=>`<td><label class="note" for="sp-${p.sku}-${i}">${c[0]}+ كرتون</label><br><input id="sp-${p.sku}-${i}" type="number" step="0.5" value="${c[1]}" style="width:86px;border:1px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--panel)"></td>`).join('')}<td><input aria-label="الكمية المتوفرة" type="number" value="${p.cost[2][0]+200}" style="width:90px;border:1px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--panel)"></td><td><button type="button" class="btn sm pri" data-act="submitPrice" data-id="${p.sku}">إرسال للاعتماد</button></td></tr>`).join('')}</tbody></table></div></div>`;
+};
+V['s-pos'] = () => {
+  head('أوامر الشراء','Supplier Portal');
+  return `<div class="card"><div class="tw"><table><thead><tr><th>أمر الشراء</th><th>المنتج</th><th>الكمية المطلوبة</th><th>سعر الجملة</th><th>الإجمالي</th><th>الحالة</th><th></th></tr></thead><tbody>
+  ${POS.filter(p=>p.sup===ME).map(o=>`<tr><td class="mono">${o.id}</td><td>${P(o.sku).name}</td><td class="num">${o.qty} كرتون</td><td class="num">${sar(o.unit)}</td><td class="num">${sar(o.qty*o.unit)}</td><td><span class="pill ${o.status==='مؤكد'?'s-open':'s-warn'}">${o.status}</span>${o.ready?`<div class="note">جاهز ${o.ready}</div>`:''}</td><td>${o.status==='بانتظار تأكيد المورد'?`<button type="button" class="btn sm pri" data-act="poOpen" data-id="${o.id}">مراجعة وتأكيد</button>`:''}</td></tr>`).join('')}</tbody></table></div></div>`;
+};
+function poDrawer(id){
+  const o=POS.find(x=>x.id===id);
+  openDrawer(`تأكيد ${o.id}`, `<dl class="kv"><dt>المنتج</dt><dd>${P(o.sku).name}</dd><dt>الحملة</dt><dd class="mono">${o.cmp}</dd><dt>الكمية المطلوبة</dt><dd class="num">${o.qty} كرتون</dd><dt>سعر الجملة</dt><dd class="num">${sar(o.unit)}</dd><dt>مستودع الاستلام</dt><dd>${S(ME).wh[0].name} · <span class="mono">${S(ME).wh[0].addr}</span></dd></dl>
+  <div class="form"><div class="f"><label for="po-q">الكمية اللي تقدر توفرها</label><input id="po-q" type="number" value="${o.qty}" min="0" max="${o.qty}"></div><div class="f"><label for="po-d">تاريخ الجاهزية للاستلام</label><input id="po-d" type="date" value="2026-11-02"></div></div>
+  <p class="note">إذا وفرت أقل من المطلوب، ma3na تخدم العملاء الأقدم انضماماً وتسترد للباقي تلقائياً.</p>
+  <div class="tools"><button type="button" class="btn pri" data-act="poConfirm" data-id="${o.id}">تأكيد</button><button type="button" class="btn dan" data-act="poReject" data-id="${o.id}">اعتذار عن التوريد</button></div>`);
+}
+V['s-pickups'] = () => {
+  head('مواعيد الاستلام','Supplier Portal');
+  return `<div class="card"><div class="tw"><table><thead><tr><th>الموعد</th><th>أمر الشراء</th><th>المستودع</th><th>عدد الكراتين</th><th>شركة التوصيل</th><th>الحالة</th><th></th></tr></thead><tbody>
+    <tr><td>25 أكتوبر · 1–3م</td><td class="mono">PO-5524</td><td>المصانع الثانية</td><td class="num">214</td><td>3PL · شاحنة واحدة</td><td><span class="pill s-open">تم الاستلام</span></td><td><button type="button" class="btn sm" data-act="packing">قائمة التعبئة</button></td></tr>
+    ${POS.filter(p=>p.sup===ME&&p.status==='مؤكد'&&p.id!=='PO-5524').map(o=>`<tr><td>${o.ready} · 9–12ص</td><td class="mono">${o.id}</td><td>المصانع الثانية</td><td class="num">${o.qty}</td><td>3PL</td><td><span class="pill s-sched">مجدول</span></td><td><button type="button" class="btn sm" data-act="packing">قائمة التعبئة</button></td></tr>`).join('')}
+  </tbody></table></div></div><p class="note">المورد يجهز الكراتين بالكمية فقط. الفرز ولصق البوليصة على كل طرد يتم في مركز توزيع شركة التوصيل.</p>`;
+};
+V['s-invoices'] = () => {
+  head('الفواتير والمدفوعات','Supplier Portal');
+  return `<div class="tools"><label class="btn" for="inv-up">رفع فاتورة ضريبية (PDF)</label><input id="inv-up" type="file" accept="application/pdf" hidden></div>
+  <div class="card"><div class="tw"><table><thead><tr><th>الفاتورة</th><th>أمر الشراء</th><th>المبلغ</th><th>الاستحقاق</th><th>الحالة</th></tr></thead><tbody>
+    <tr><td class="mono">INV-NQ-2210</td><td class="mono">PO-5517</td><td class="num">${sar(11238.5)}</td><td>عند التسليم</td><td><span class="pill s-open">مدفوعة · 20 أكتوبر</span></td></tr>
+    <tr><td class="mono">INV-NQ-2231</td><td class="mono">PO-5524</td><td class="num">${sar(25038)}</td><td>بعد اكتمال التسليم</td><td><span class="pill s-sched">قيد المطابقة</span></td></tr>
+  </tbody></table></div></div>`;
+};
+V['s-profile'] = () => {
+  head('بيانات المنشأة','Supplier Portal');
+  const s=S(ME);
+  return `<div class="grid2"><div class="card"><h3>المنشأة</h3><div class="pad"><dl class="kv"><dt>الاسم</dt><dd>${s.name}</dd><dt>السجل التجاري</dt><dd class="mono">${s.cr}</dd><dt>الرقم الضريبي</dt><dd class="mono">${s.vat}</dd><dt>الآيبان</dt><dd class="mono">SA03 80XX XXXX XXXX XXXX XXXX</dd><dt>شروط الدفع</dt><dd>${s.terms}</dd></dl></div></div>
+  <div class="card"><h3>مستودعات الاستلام</h3><div class="list">${s.wh.map(w=>`<div class="li"><div class="t"><b>${w.name}</b><span>${w.addr} · ${w.hours}</span></div></div>`).join('')}</div></div></div>`;
+};
+
+/* ---------- drawer & routing ---------- */
+let lastFocus=null;
+function openDrawer(t,html){ lastFocus=document.activeElement; $('#dtitle').textContent=t; $('#dbody').innerHTML=html; $('#drawer').hidden=false; $('#dclose').focus(); }
+function closeDrawer(){ $('#drawer').hidden=true; if(lastFocus) lastFocus.focus(); }
+$('#dclose').onclick=closeDrawer;
+$('#drawer').addEventListener('click',e=>{ if(e.target.id==='drawer') closeDrawer(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('#drawer').hidden) closeDrawer(); if(e.key==='Enter'&&e.target.matches('tr.click')) e.target.click(); });
+
+function route(){ let k=(location.hash||'').slice(1); if(!V[k]) k= mode==='supp'?'s-dashboard':'dashboard'; mode=k.startsWith('s-')?'supp':'admin'; return k; }
+function render(){
+  const k=route(); buildNav();
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.k===k));
+  $('#view').innerHTML=V[k]();
+  if(k==='campaigns'){ campRows(); $('#q').oninput=campRows; $('#fs').onchange=campRows; $('#newc').onclick=newCampaign; }
+  if(k==='orders'){ orderRows(); $('#oq').oninput=orderRows; $('#oc').onchange=orderRows; }
+  if(k==='finance') finBody();
+  if(k==='s-invoices') $('#inv-up').onchange=()=>toast('تم رفع الفاتورة وإرسالها للمطابقة');
+}
+addEventListener('hashchange',render);
+
+document.addEventListener('click',e=>{
+  const tab=e.target.closest('[data-tab]'); if(tab){ finTab=tab.dataset.tab; document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b===tab)); finBody(); return; }
+  const r=e.target.closest('tr.click'); if(r&&!e.target.closest('button')){ if(r.dataset.cmp) campaignDrawer(r.dataset.cmp); if(r.dataset.ord) orderDrawer(r.dataset.ord); if(r.dataset.sup) supplierDrawer(r.dataset.sup); return; }
+  const b=e.target.closest('[data-act]'); if(!b) return; const id=b.dataset.id, a=b.dataset.act;
+  const C=()=>CAMPAIGNS.find(x=>x.id===id);
+  if(a==='close'){ const c=C(); c.status = c.joined>=c.min?'Succeeded':'Refunded'; if(c.status==='Succeeded'){ c.status='Confirmed'; ORDERS.filter(o=>o.cmp===id).forEach(o=>o.pay='Captured'); toast('نجحت الحملة: خُصمت المبالغ وأُرسل أمر الشراء للمورد'); } else { ORDERS.filter(o=>o.cmp===id).forEach(o=>o.pay='Voided'); toast('لم تصل للحد الأدنى: فُك حجز كل المبالغ'); } campaignDrawer(id); render(); return; }
+  if(a==='cancel'){ C().status='Cancelled'; ORDERS.filter(o=>o.cmp===id).forEach(o=>o.pay='Voided'); closeDrawer(); toast('أُلغيت الحملة وفُك حجز المبالغ'); render(); return; }
+  if(a==='openNow'){ C().status='Open'; campaignDrawer(id); toast('فُتحت الحملة وأُرسل تنبيه للمفضلين'); render(); return; }
+  if(a==='ship'){ const c=C(); c.status='Shipping'; let i=0; ORDERS.filter(o=>o.cmp===id).forEach(o=>{ o.awb='ARX78'+(10500+i++); o.shipSt='CREATED'; }); toast(`أُرسلت ${i} شحنة لشركة التوصيل وصدرت البوالص`); campaignDrawer(id); render(); return; }
+  if(a==='label'){ labelDrawer(id); return; }
+  if(a==='resched'){ const o=ORDERS.find(x=>x.id===id); o.shipSt='OUT_FOR_DELIVERY'; toast('أُعيدت جدولة التوصيل وأُرسل رابط للعميل'); render(); return; }
+  if(a==='cancelOrder'){ const o=ORDERS.find(x=>x.id===id); o.pay='Voided'; const c=CAMPAIGNS.find(x=>x.id===o.cmp); c.joined-=o.q; c.orders--; orderDrawer(id); toast('أُلغي الطلب وفُك الحجز'); render(); return; }
+  if(a==='refundReq'){ const o=ORDERS.find(x=>x.id===id); REFUNDS.unshift({id:'RF-3'+(12+REFUNDS.length),order:o.id,reason:'طلب من خدمة العملاء',amount:o.amount,status:'بانتظار الموافقة',by:'خدمة العملاء'}); toast('أُرسل طلب الاسترداد للمالية'); render(); return; }
+  if(a==='ticket'){ TICKETS.unshift({id:'TK-12'+(10+TICKETS.length),order:id,subj:'تذكرة جديدة من صفحة الطلب',prio:'عادية',st:'مفتوحة',age:'الآن'}); toast('فُتحت تذكرة'); render(); return; }
+  if(a==='approvePay'){ PAYOUTS.find(x=>x.id===id).status='معتمد'; AUDIT.unshift(['الآن','صاحب الفكرة (Super Admin)',`اعتمد طلب الصرف ${id}`]); toast('اعتُمد طلب الصرف · جاهز للتحويل'); render(); return; }
+  if(a==='rejectPay'){ PAYOUTS.find(x=>x.id===id).status='مرفوض'; toast('رُفض طلب الصرف'); render(); return; }
+  if(a==='paid'){ PAYOUTS.find(x=>x.id===id).status='تم التحويل'; toast('سُجل التحويل وأُرفق الإيصال'); render(); return; }
+  if(a==='mkPay'){ PAYOUTS.unshift({id:'PY-0'+(89+PAYOUTS.length-3),to:'شركة النقاء للمنظفات',ref:'PO-5524 · C-1039',amount:25038,maker:'أنت',status:'بانتظار الاعتماد'}); toast('أُنشئ طلب صرف · يحتاج اعتماد شخص ثاني'); render(); return; }
+  if(a==='approveRef'){ REFUNDS.find(x=>x.id===id).status='تم'; toast('تمت الموافقة · أُرسل الاسترداد لبوابة الدفع وصدر إشعار دائن'); render(); return; }
+  if(a==='rejectRef'){ REFUNDS.find(x=>x.id===id).status='مرفوض'; toast('رُفض الاسترداد'); render(); return; }
+  if(a==='closeTk'){ TICKETS.find(x=>x.id===id).st='مغلقة'; toast('أُغلقت التذكرة'); render(); return; }
+  if(a==='approveSupp'){ const s=S(id); s.status='نشط'; closeDrawer(); toast('اعتُمد المورد'); render(); return; }
+  if(a==='newSupp'||a==='newProd'){ toast('في النسخة الفعلية: نموذج إدخال كامل'); return; }
+  if(a==='submitPrice'){ toast('أُرسلت الأسعار لفريق ma3na للاعتماد'); return; }
+  if(a==='poOpen'){ poDrawer(id); return; }
+  if(a==='poConfirm'){ const o=POS.find(x=>x.id===id); const q=+$('#po-q').value; o.qty=q; o.status='مؤكد'; o.ready=new Date($('#po-d').value).toLocaleDateString('ar-SA-u-ca-gregory',{day:'numeric',month:'long'}); closeDrawer(); toast(q<150?`تأكيد جزئي ${q} كرتون · سيُسترد للباقي`:'تم التأكيد · سيُجدول الاستلام مع شركة التوصيل'); render(); return; }
+  if(a==='poReject'){ POS.find(x=>x.id===id).status='اعتذر المورد'; closeDrawer(); toast('سُجل الاعتذار · فريق ma3na بيتواصل معك'); render(); return; }
+  if(a==='packing'){ toast('قائمة التعبئة: عدد الكراتين ورقم أمر الشراء فقط'); return; }
+});
+render();
+</script>
