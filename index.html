@@ -47,6 +47,20 @@
 .ban>img.banph{position:absolute;top:0;bottom:0;inset-inline-end:0;width:46%!important;height:100%;margin:0!important;object-fit:cover;object-position:center 30%;-webkit-mask-image:linear-gradient(to right,#000 62%,transparent);mask-image:linear-gradient(to right,#000 62%,transparent)}
 .ban>img.banph:dir(ltr){-webkit-mask-image:linear-gradient(to left,#000 62%,transparent);mask-image:linear-gradient(to left,#000 62%,transparent)}
 .ban>.col{position:relative;z-index:1;max-width:58%}
+
+/* onboarding v2: full-height real visuals, CTA pinned to bottom */
+.ob-scr .ob-vis{height:440px;border-radius:28px}
+.ob-scr>.col:last-child{margin-top:auto;padding-bottom:30px!important}
+.ob-scr .wtitle{font-size:24px!important;margin-top:6px}
+.ob-vis.v1 .ob-pin{display:none!important}
+.ob-vis.v1{background:#EDE6DA url(img/shop.jpg) 36% center/cover!important}
+.ob-vis.v1 .ob-hub{right:16px;bottom:16px;width:150px;padding:10px 10px 12px;border-radius:24px}
+.ob-vis.v1 .ob-hubimg{width:104px;height:92px}
+.ob-vis.v1 .ob-hubp b{font-size:28px}
+.ob-vis.v2{background:url(img/baby.jpg) 74% 100%/auto 118%!important;align-items:flex-start!important;padding-top:14px;box-sizing:border-box}
+.ob-vis.v2::before{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.25))}
+.ob-vis.v2 .ob-blob{display:none}
+.ob-vis.v2 .ob-card{width:90%;z-index:1}
 </style></head><body><title>تجربة تطبيق معنا</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
