@@ -5,7 +5,7 @@ import { FlatList, Pressable, ScrollView, useWindowDimensions, View } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CampaignCard } from '@/components/CampaignCard';
 import { Bell, Check, Grid, Pin, Search, Shield } from '@/components/icons';
-import { Button, ProductImage, Row, T } from '@/components/ui';
+import { blend, Button, ProductImage, Row, T } from '@/components/ui';
 import { CATEGORIES } from '@/lib/catalog';
 import { currentPrice, formatSAR } from '@/lib/pricing';
 import { useApp } from '@/lib/store';
@@ -61,13 +61,13 @@ export default function Home() {
           onScroll={e => setSlide(Math.round(Math.abs(e.nativeEvent.contentOffset.x) / (bw + 10)))} scrollEventThrottle={32}
           renderItem={({ item: b }) => (
             <Pressable onPress={() => open(b.ids[0])} style={{ width: bw, height: 150, borderRadius: 16, backgroundColor: b.bg, padding: 16, overflow: 'hidden', justifyContent: 'space-between' }}>
-              <View style={{ maxWidth: '60%' }}>
+              <View style={{ maxWidth: '56%' }}>
                 <T w="bold" size={16.5} color={b.fg} style={{ lineHeight: 23 }}>{b.title}</T>
                 <T size={12} color={b.fg} style={{ opacity: 0.85, marginTop: 3 }}>{b.sub}</T>
               </View>
               <View style={{ alignSelf: 'flex-start', backgroundColor: b.ctaBg, borderRadius: 9, paddingHorizontal: 12, paddingVertical: 6 }}><T w="bold" size={12} color="#fff">{b.cta}</T></View>
               <Row gap={0} style={{ position: 'absolute', left: 8, bottom: -4, alignItems: 'flex-end' }}>
-                {b.ids.map((id, i) => byId(id) ? <Image key={id} source={{ uri: byId(id)!.image }} style={{ width: i ? 84 : 104, height: i ? 84 : 104, marginLeft: i ? -24 : 0 }} contentFit="contain" /> : null)}
+                {b.ids.map((id, i) => byId(id) ? <View key={id} style={{ marginLeft: i ? -6 : 0, backgroundColor: b.bg }}><Image source={{ uri: byId(id)!.image }} style={[{ width: i ? 78 : 96, height: i ? 78 : 96 }, blend as any]} contentFit="contain" /></View> : null)}
               </Row>
             </Pressable>
           )} />
@@ -82,7 +82,7 @@ export default function Home() {
             return (
               <Pressable key={k.id} onPress={() => setCat(k.id)} style={{ width: 66, alignItems: 'center', gap: 6 }} accessibilityState={{ selected: on }}>
                 <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: on ? colors.brand : 'transparent', overflow: 'hidden' }}>
-                  {sample ? <Image source={{ uri: sample.image }} style={{ width: 46, height: 46 }} contentFit="contain" /> : <Grid color={colors.brand} size={26} />}
+                  {sample ? <Image source={{ uri: sample.image }} style={[{ width: 46, height: 46 }, blend as any]} contentFit="contain" /> : <Grid color={colors.brand} size={26} />}
                 </View>
                 <T w={on ? 'bold' : 'medium'} size={12} color={on ? colors.brand : colors.ink}>{k.label}</T>
               </Pressable>

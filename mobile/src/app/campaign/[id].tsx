@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Share as RNShare, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Back, Clock, Heart, Refund, Share, Shield, Truck, WhatsApp } from '@/components/icons';
-import { Bar, Card, Countdown, Row, T } from '@/components/ui';
+import { blend, Bar, Card, Countdown, Row, T } from '@/components/ui';
 import { currentPrice, discountPct, formatSAR, nextTier, unitPrice } from '@/lib/pricing';
 import { useApp } from '@/lib/store';
 import { colors } from '@/lib/theme';
@@ -37,7 +37,7 @@ export default function CampaignScreen() {
       </Row>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={{ backgroundColor: colors.surface, height: 320, alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={{ uri: c.image }} style={{ width: '74%', height: 250 }} contentFit="contain" transition={200} />
+          <Image source={{ uri: c.image }} style={[{ width: '74%', height: 250 }, blend as any]} contentFit="contain" transition={200} />
           <Row gap={5} style={{ position: 'absolute', top: 12, right: 12, backgroundColor: '#fff', borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 }}>
             <Clock color={colors.accentText} /><Countdown endsAt={c.endsAt} color={colors.accentText} size={12} />
           </Row>
