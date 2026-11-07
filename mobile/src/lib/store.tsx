@@ -11,6 +11,7 @@ interface AppState {
   signIn(p: Profile): void;
   signOut(): Promise<void>;
   join(campaignId: string, qty: number, payment: PaymentMethod): Promise<Order>;
+  cancel(orderId: string): Promise<void>;
   campaign(id: string): Campaign | undefined;
 }
 
@@ -41,6 +42,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     signIn: p => setProfile(p),
     signOut: async () => { await api.signOut(); setProfile(null); },
     join: async (id, qty, pm) => { const o = await api.joinCampaign(id, qty, pm); await refresh(); return o; },
+    cancel: async id => { await api.cancelOrder(id); await refresh(); },
     campaign: id => campaigns.find(c => c.id === id),
   }), [ready, profile, campaigns, orders, refresh]);
 

@@ -1,9 +1,10 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Back, Check, Chev, Doc, Help } from '@/components/icons';
 import { PAYMENT_LABEL } from '@/components/OrderStatus';
-import { Card, Countdown, ProductImage, Row, T } from '@/components/ui';
+import { Button, Card, Countdown, ProductImage, Row, T } from '@/components/ui';
 import { formatSAR } from '@/lib/pricing';
 import { useApp } from '@/lib/store';
 import { colors } from '@/lib/theme';
@@ -22,7 +23,9 @@ const REACHED: Record<OrderStatus, number> = { pending: 1, confirmed: 3, shipped
 export default function OrderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { orders, campaign } = useApp();
+  const { orders, campaign, cancel } = useApp();
+  const [ask, setAsk] = useState(false);
+  const [busy, setBusy] = useState(false);
   const o = orders.find(x => x.id === id);
   const c = o ? campaign(o.campaignId) : undefined;
   if (!o || !c) return null;
@@ -30,7 +33,7 @@ export default function OrderScreen() {
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.bg }}>
       <Row style={{ paddingHorizontal: 12, height: 52 }}>
-        <Pressable onPress={() => router.back()} style={{ padding: 6 }} accessibilityLabel="رجوع"><Back /></Pressable>
+        <Pressable onPress={() => router.back()} style={{ padding: 10 }} accessibilityRole="button" accessibilityLabel="رجوع"><Back /></Pressable>
         <T w="bold" size={16} style={{ flex: 1, textAlign: 'center' }}>طلب {o.id}</T>
         <View style={{ width: 36 }} />
       </Row>
@@ -62,6 +65,23 @@ export default function OrderScreen() {
             );
           })}
         </Card>
+        {o.status === 'pending' ? (
+          <Card style={{ backgroundColor: ask ? colors.accentSoft : '#fff' }}>
+            {!ask ? (
+              <Pressable onPress={() => setAsk(true)} accessibilityRole="button"><T w="semibold" size={13.5} color={colors.accentText}>إلغاء الانضمام واسترداد المبلغ</T><T size={12} color={colors.muted}>متاح لين تقفل الحملة · يرجع المبلغ كامل</T></Pressable>
+            ) : (
+              <View>
+                <T w="semibold" size={13.5}>متأكد تبي تلغي انضمامك؟</T>
+                <T size={12} color={colors.muted} style={{ marginTop: 2 }}>نفك حجز {formatSAR(o.total)} ر.س فوراً، ويرجع لحسابك حسب البنك.</T>
+                <Row gap={10} style={{ marginTop: 12 }}>
+                  <Button title="تراجع" variant="ghost" onPress={() => setAsk(false)} style={{ flex: 1, height: 44 }} />
+                  <Button title={busy ? 'جاري الإلغاء…' : 'نعم، ألغِ'} disabled={busy} onPress={async () => { setBusy(true); try { await cancel(o.id); } finally { setBusy(false); setAsk(false); } }} style={{ flex: 1, height: 44 }} />
+                </Row>
+              </View>
+            )}
+          </Card>
+        ) : null}
+        {o.status === 'refunded' ? <Card style={{ backgroundColor: colors.accentSoft }}><T w="semibold" size={13.5} color={colors.accentText}>تم إلغاء الطلب واسترداد المبلغ</T><T size={12} color={colors.muted}>{formatSAR(o.total)} ر.س · {PAYMENT_LABEL[o.payment]}</T></Card> : null}
         <Card style={{ paddingVertical: 4 }}>
           {[{ i: <Doc />, t: 'الفاتورة الضريبية', s: 'تُصدر بعد اكتمال الحملة' }, { i: <Help />, t: 'مساعدة في هذا الطلب', s: 'تالف، ناقص، أو إلغاء' }].map((r, j) => (
             <Row key={r.t} gap={12} style={{ paddingVertical: 12, borderTopWidth: j ? 1 : 0, borderTopColor: colors.line }}>

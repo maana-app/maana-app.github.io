@@ -97,6 +97,18 @@ begin
   return o;
 end $$;
 
+-- Cancel while the campaign is running (authorisation is released by the payment worker on status change).
+create or replace function cancel_order(p_code text)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  update orders o set status = 'refunded'
+  from campaigns c
+  where o.code = p_code and o.user_id = auth.uid() and o.status = 'pending'
+    and c.id = o.campaign_id and c.status = 'live' and now() < c.ends_at;
+  if not found then raise exception 'cannot cancel'; end if;
+end $$;
+grant execute on function cancel_order(text) to authenticated;
+
 -- Row-level security
 alter table profiles enable row level security;
 alter table orders enable row level security;

@@ -19,6 +19,8 @@ export interface Api {
   listCampaigns(): Promise<Campaign[]>;
   joinCampaign(campaignId: string, qty: number, payment: PaymentMethod): Promise<Order>;
   listOrders(): Promise<Order[]>;
+  /** Cancel while the campaign is still running: releases the authorisation (full refund). */
+  cancelOrder(orderId: string): Promise<void>;
 }
 
 const K = { profile: 'ma3na.profile', orders: 'ma3na.orders', joined: 'ma3na.joined' };
@@ -73,6 +75,17 @@ class SimulatedApi implements Api {
   async listOrders() {
     return JSON.parse((await AsyncStorage.getItem(K.orders)) || '[]') as Order[];
   }
+  async cancelOrder(orderId: string) {
+    await wait(700);
+    const orders = await this.listOrders();
+    const o = orders.find(x => x.id === orderId);
+    if (!o || o.status !== 'pending') throw new Error('ما يمكن إلغاء هذا الطلب');
+    o.status = 'refunded';
+    await AsyncStorage.setItem(K.orders, JSON.stringify(orders));
+    const j = await this.joinedMap();
+    j[o.campaignId] = Math.max(0, (j[o.campaignId] || 0) - o.qty);
+    await AsyncStorage.setItem(K.joined, JSON.stringify(j));
+  }
 }
 
 class SupabaseApi implements Api {
@@ -115,6 +128,10 @@ class SupabaseApi implements Api {
     const { data, error } = await this.sb.from('orders').select('*').order('created_at', { ascending: false });
     if (error) throw error;
     return (data ?? []).map(mapOrder);
+  }
+  async cancelOrder(orderId: string) {
+    const { error } = await this.sb.rpc('cancel_order', { p_code: orderId });
+    if (error) throw error;
   }
 }
 const mapOrder = (r: any): Order => ({

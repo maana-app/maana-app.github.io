@@ -33,6 +33,7 @@ function Root() {
         <Stack.Screen name="checkout/[id]" />
         <Stack.Screen name="joined/[orderId]" options={{ gestureEnabled: false }} />
         <Stack.Screen name="order/[id]" />
+        <Stack.Screen name="search" options={{ animation: 'fade' }} />
       </Stack.Protected>
     </Stack>
   );

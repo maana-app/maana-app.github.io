@@ -30,10 +30,10 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
   return <View style={[s.card, style]}>{children}</View>;
 }
 
-export function ProductImage({ uri, size, style }: { uri: string; size: number; style?: StyleProp<ViewStyle> }) {
+export function ProductImage({ uri, size, style, alt }: { uri: string; size: number; style?: StyleProp<ViewStyle>; alt?: string }) {
   return (
     <View style={[{ width: size, height: size, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }, style]}>
-      <Image source={{ uri }} style={{ width: size * 0.84, height: size * 0.84 }} contentFit="contain" transition={150} />
+      <Image source={{ uri }} style={{ width: size * 0.84, height: size * 0.84 }} contentFit="contain" transition={150} accessibilityLabel={alt ?? 'صورة المنتج'} alt={alt ?? 'صورة المنتج'} />
     </View>
   );
 }

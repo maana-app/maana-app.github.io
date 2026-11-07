@@ -3,7 +3,7 @@ import { Pressable, Share, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Check, WhatsApp } from '@/components/icons';
 import { PAYMENT_LABEL, StatusBadge } from '@/components/OrderStatus';
-import { Button, Card, ProductImage, Row, T } from '@/components/ui';
+import { Button, Card, Countdown, ProductImage, Row, T } from '@/components/ui';
 import { formatSAR } from '@/lib/pricing';
 import { useApp } from '@/lib/store';
 import { colors } from '@/lib/theme';
@@ -25,7 +25,7 @@ export default function Joined() {
       <Card style={{ marginTop: 24 }}>
         <Row gap={12}>
           <ProductImage uri={c.image} size={58} />
-          <View style={{ flex: 1 }}><T w="semibold" size={13.5}>{c.shortName} × {o.qty}</T><T size={12} color={colors.muted}>طلب رقم {o.id}</T></View>
+          <View style={{ flex: 1 }}><T w="semibold" size={13.5}>{c.shortName} × {o.qty}</T><T size={12} color={colors.muted}>طلب رقم {o.id}</T><Row gap={4}><T size={12} color={colors.muted}>الحملة تقفل خلال</T><Countdown endsAt={c.endsAt} size={12} /></Row></View>
           <StatusBadge status={o.status} />
         </Row>
       </Card>

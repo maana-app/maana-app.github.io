@@ -39,16 +39,16 @@ export default function Home() {
       <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 28 }}>
         <View style={{ backgroundColor: colors.bg, paddingHorizontal: 16, paddingTop: 6, paddingBottom: 10 }}>
           <Row gap={10}>
-            <Image source={require('../../../assets/img/logo.png')} style={{ width: 60, height: 30 }} contentFit="contain" />
+            <Image source={require('../../../assets/img/logo.png')} style={{ width: 60, height: 30 }} contentFit="contain" alt="معنا" accessibilityLabel="معنا" />
             <View style={{ flex: 1 }}>
               <T size={11} color={colors.muted}>التوصيل إلى</T>
               <Row gap={4}><Pin /><T w="semibold" size={13} numberOfLines={1}>{profile?.addressLabel}</T></Row>
             </View>
-            <Pressable style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="الإشعارات"><Bell /></Pressable>
+            <Pressable style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }} accessibilityRole="button" accessibilityLabel="الإشعارات" hitSlop={4}><Bell /></Pressable>
           </Row>
-          <Row style={{ marginTop: 10, height: 44, borderRadius: 12, backgroundColor: colors.surface, paddingHorizontal: 13 }}>
+          <Pressable onPress={() => router.push('/search')} accessibilityRole="search" accessibilityLabel="البحث" style={{ marginTop: 10, height: 44, borderRadius: 12, backgroundColor: colors.surface, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Search /><T size={13.5} color={colors.faint}>ابحث عن حفاضات، منظفات، مناديل…</T>
-          </Row>
+          </Pressable>
           <Row gap={14} style={{ justifyContent: 'center', marginTop: 9 }}>
             {['دفع آمن', 'منتجات أصلية', 'يرجع مبلغك إذا ما اكتملت'].map(t => (
               <Row key={t} gap={4}><Check size={13} color={colors.ok} /><T w="semibold" size={11.5} color={colors.ok}>{t}</T></Row>
@@ -93,7 +93,7 @@ export default function Home() {
         {cat === 'all' ? (
           <>
             <Row style={{ justifyContent: 'space-between', paddingHorizontal: 16, marginTop: 20, marginBottom: 10 }}>
-              <T w="bold" size={16}>تقفل قريباً</T><T w="semibold" size={12} color={colors.accent}>لا تفوّت السعر</T>
+              <T w="bold" size={16}>تقفل قريباً</T><T w="semibold" size={12} color={colors.accentText}>لا تفوّت السعر</T>
             </Row>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 10 }}>
               {soon.map(c => <CampaignCard key={c.id} c={c} width={138} />)}

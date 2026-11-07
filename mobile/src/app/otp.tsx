@@ -28,7 +28,7 @@ export default function Otp() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
-      <Pressable onPress={() => router.back()} style={{ padding: 14 }} accessibilityLabel="رجوع"><Back /></Pressable>
+      <Pressable onPress={() => router.back()} style={{ padding: 14 }} accessibilityRole="button" accessibilityLabel="رجوع"><Back /></Pressable>
       <View style={{ paddingHorizontal: 22 }}>
         <T w="bold" size={24}>أدخل رمز التحقق</T>
         <T size={13.5} color={colors.muted} style={{ marginTop: 6 }}>أرسلنا رمزاً من 4 أرقام إلى <T w="semibold" size={13.5} style={{ writingDirection: 'ltr' }}>+966 {phone}</T></T>
@@ -42,8 +42,8 @@ export default function Otp() {
           </Row>
         </Pressable>
         <TextInput ref={input} value={code} onChangeText={t => { setErr(''); setCode(t.replace(/\D/g, '').slice(0, 4)); }} keyboardType="number-pad" autoFocus
-          textContentType="oneTimeCode" autoComplete="sms-otp" style={{ position: 'absolute', opacity: 0, height: 1, width: 1, fontFamily: font.regular }} />
-        {err ? <T size={12.5} color={colors.accent} style={{ textAlign: 'center', marginTop: 12 }}>{err}</T> : null}
+          textContentType="oneTimeCode" accessibilityLabel="رمز التحقق" autoComplete="sms-otp" style={{ position: 'absolute', opacity: 0, height: 1, width: 1, fontFamily: font.regular }} />
+        {err ? <T size={12.5} color={colors.accentText} style={{ textAlign: 'center', marginTop: 12 }}>{err}</T> : null}
         <T size={12.5} color={colors.muted} style={{ textAlign: 'center', marginTop: 18 }}>
           {secs ? <>إعادة الإرسال بعد <T w="bold" size={12.5} color={colors.brand2}>0:{String(secs).padStart(2, '0')}</T></> : <T w="bold" size={12.5} color={colors.brand2} onPress={() => { setSecs(60); api.sendOtp(phone); }}>إعادة إرسال الرمز</T>}
         </T>

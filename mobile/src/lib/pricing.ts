@@ -40,5 +40,6 @@ export const timeLeft = (endsAt: number, now = Date.now()) => {
   const m = Math.floor((ms % 3.6e6) / 6e4);
   const s = Math.floor((ms % 6e4) / 1e3);
   const pad = (x: number) => String(x).padStart(2, '0');
-  return `${pad(h)}:${pad(m)}:${pad(s)}`;
+  const d = Math.floor(h / 24);
+  return d ? `${d} يوم ${pad(h % 24)}:${pad(m)}` : `${pad(h)}:${pad(m)}:${pad(s)}`;
 };

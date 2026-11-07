@@ -17,11 +17,11 @@ export function CampaignCard({ c, width }: { c: Campaign; width: number }) {
         <View style={{ position: 'absolute', top: 8, right: 8, backgroundColor: colors.accent, borderRadius: 7, paddingHorizontal: 7, paddingVertical: 1 }}>
           <T w="bold" size={11} color="#fff">-{discountPct(c, price)}%</T>
         </View>
-        <Pressable onPress={open} hitSlop={8} accessibilityLabel="انضم"
-          style={{ position: 'absolute', bottom: 8, left: 8, width: 32, height: 32, borderRadius: 10, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center',
+        <View importantForAccessibility="no-hide-descendants" aria-hidden
+          style={{ position: 'absolute', bottom: 8, left: 8, width: 36, height: 36, borderRadius: 11, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center',
             shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, elevation: 3 }}>
           <Plus />
-        </Pressable>
+        </View>
       </View>
       <T w="medium" size={13} numberOfLines={2} style={{ marginTop: 8, minHeight: 36, lineHeight: 18 }}>{c.shortName} · {c.pack}</T>
       <Row gap={6} style={{ marginTop: 3, alignItems: 'baseline' }}>
@@ -31,7 +31,7 @@ export function CampaignCard({ c, width }: { c: Campaign; width: number }) {
       </Row>
       <View style={{ marginTop: 6 }}><Bar value={progress(c)} /></View>
       <Row style={{ justifyContent: 'space-between', marginTop: 4 }}>
-        <T size={11} color={colors.muted}><T w="semibold" size={11} color={colors.accent}>{c.joinedQty}</T>/{c.tiers[0].minQty} انضموا</T>
+        <T size={11} color={colors.muted}><T w="semibold" size={11} color={colors.accentText}>{c.joinedQty}</T>/{c.tiers[0].minQty} انضموا</T>
         <Countdown endsAt={c.endsAt} />
       </Row>
     </Pressable>

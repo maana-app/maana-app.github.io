@@ -46,7 +46,7 @@ export default function Checkout() {
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.bg }}>
       <Row style={{ paddingHorizontal: 12, height: 52 }}>
-        <Pressable onPress={() => router.back()} style={{ padding: 6 }} accessibilityLabel="رجوع"><Back /></Pressable>
+        <Pressable onPress={() => router.back()} style={{ padding: 10 }} accessibilityRole="button" accessibilityLabel="رجوع"><Back /></Pressable>
         <T w="bold" size={16} style={{ flex: 1, textAlign: 'center' }}>تأكيد الانضمام</T>
         <View style={{ width: 36 }} />
       </Row>
@@ -57,12 +57,12 @@ export default function Checkout() {
             <View style={{ flex: 1 }}>
               <T w="semibold" size={13.5}>{c.shortName}</T>
               <T size={12} color={colors.muted}>{c.pack}</T>
-              <T w="semibold" size={12} color={colors.accent}>{formatSAR(price)} ر.س للكرتون · قد ينزل إلى {formatSAR(lowestPrice(c))}</T>
+              <T w="semibold" size={12} color={colors.accentText}>{formatSAR(price)} ر.س للكرتون · قد ينزل إلى {formatSAR(lowestPrice(c))}</T>
             </View>
-            <Row gap={0} style={{ borderWidth: 1, borderColor: colors.line, borderRadius: 12, height: 40 }}>
-              <Pressable onPress={() => setQty(x => Math.min(9, x + 1))} style={{ width: 32, alignItems: 'center' }}><T w="bold" size={18} color={colors.brand}>+</T></Pressable>
+            <Row gap={0} style={{ borderWidth: 1, borderColor: colors.line, borderRadius: 12, height: 44 }}>
+              <Pressable onPress={() => setQty(x => Math.min(9, x + 1))} accessibilityRole="button" accessibilityLabel="زيادة" style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><T w="bold" size={18} color={colors.brand}>+</T></Pressable>
               <T w="bold" size={15}>{qty}</T>
-              <Pressable onPress={() => setQty(x => Math.max(1, x - 1))} style={{ width: 32, alignItems: 'center' }}><T w="bold" size={18} color={colors.brand}>−</T></Pressable>
+              <Pressable onPress={() => setQty(x => Math.max(1, x - 1))} accessibilityRole="button" accessibilityLabel="إنقاص" style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><T w="bold" size={18} color={colors.brand}>−</T></Pressable>
             </Row>
           </Row>
           {qty === 1 ? <T size={12} color="#7A5200" style={{ marginTop: 10, backgroundColor: colors.goldSoft, padding: 8, borderRadius: 8 }}>تنبيه: رسوم التوصيل على كرتون واحد 26 ر.س. كل كرتون إضافي توصيله 12 ر.س بس.</T> : null}
@@ -79,7 +79,7 @@ export default function Checkout() {
           {METHODS.map(m => {
             const on = m.id === pm;
             return (
-              <Pressable key={m.id} onPress={() => setPm(m.id)} accessibilityRole="radio" accessibilityState={{ selected: on }}
+              <Pressable key={m.id} onPress={() => setPm(m.id)} accessibilityRole="radio" accessibilityState={{ checked: on }} aria-checked={on}
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderWidth: 1.5, borderColor: on ? colors.brand : colors.line, backgroundColor: on ? '#F6FAF8' : '#fff', borderRadius: 14, marginTop: 8 }}>
                 <View style={{ width: 58, height: 30, borderRadius: 7, backgroundColor: m.bg, borderWidth: m.id === 'mada' ? 1 : 0, borderColor: '#DDE', alignItems: 'center', justifyContent: 'center' }}>
                   {m.logo ? <T w="bold" size={10.5} color={m.fg}>{m.logo}</T> : <CardIc size={20} color={colors.ink} />}
@@ -104,7 +104,7 @@ export default function Checkout() {
         <Row gap={7} style={{ alignItems: 'flex-start' }}>
           <Shield size={16} /><T size={12} color={colors.muted} style={{ flex: 1, lineHeight: 19 }}>نحجز المبلغ فقط. لا يُخصم إلا إذا اكتملت الحملة، وإذا نزل السعر يُخصم السعر الأقل ويرجع الفرق.{api.mode === 'simulation' ? ' (وضع المحاكاة: لا يتم أي دفع حقيقي)' : ''}</T>
         </Row>
-        {err ? <T size={12.5} color={colors.accent}>{err}</T> : null}
+        {err ? <T size={12.5} color={colors.accentText}>{err}</T> : null}
       </ScrollView>
       <SafeAreaView edges={['bottom']} style={{ borderTopWidth: 1, borderTopColor: colors.line, paddingHorizontal: 16, paddingTop: 10 }}>
         <Button title={`احجز ${formatSAR(total)} ر.س`} sub={METHODS.find(m => m.id === pm)!.title} variant={pm === 'apple_pay' ? 'black' : 'primary'} onPress={pay} disabled={busy} style={{ marginBottom: 6 }} />

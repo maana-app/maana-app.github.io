@@ -30,16 +30,16 @@ export default function CampaignScreen() {
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.bg }}>
       <Row style={{ paddingHorizontal: 12, height: 52 }}>
-        <Pressable onPress={() => router.back()} style={{ padding: 6 }} accessibilityLabel="رجوع"><Back /></Pressable>
+        <Pressable onPress={() => router.back()} style={{ padding: 10 }} accessibilityRole="button" accessibilityLabel="رجوع"><Back /></Pressable>
         <View style={{ flex: 1 }} />
-        <Pressable style={{ padding: 6 }} accessibilityLabel="المفضلة"><Heart /></Pressable>
-        <Pressable onPress={share} style={{ padding: 6 }} accessibilityLabel="مشاركة"><Share /></Pressable>
+        <Pressable style={{ padding: 10 }} accessibilityRole="button" accessibilityLabel="المفضلة"><Heart /></Pressable>
+        <Pressable onPress={share} style={{ padding: 10 }} accessibilityRole="button" accessibilityLabel="مشاركة"><Share /></Pressable>
       </Row>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={{ backgroundColor: colors.surface, height: 320, alignItems: 'center', justifyContent: 'center' }}>
           <Image source={{ uri: c.image }} style={{ width: '74%', height: 250 }} contentFit="contain" transition={200} />
           <Row gap={5} style={{ position: 'absolute', top: 12, right: 12, backgroundColor: '#fff', borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 }}>
-            <Clock /><Countdown endsAt={c.endsAt} color={colors.accent} size={12} />
+            <Clock color={colors.accentText} /><Countdown endsAt={c.endsAt} color={colors.accentText} size={12} />
           </Row>
         </View>
 
@@ -48,10 +48,10 @@ export default function CampaignScreen() {
           <T w="bold" size={18} style={{ marginTop: 2, lineHeight: 26 }}>{c.name}</T>
           <T size={12.5} color={colors.muted} style={{ marginTop: 3 }}>{c.pack} · أصلي ومختوم من الموزع المعتمد</T>
           <Row gap={8} style={{ marginTop: 10, alignItems: 'baseline' }}>
-            <T w="bold" size={26} color={colors.accent}>{formatSAR(price)}</T>
-            <T w="bold" size={13} color={colors.accent}>ر.س</T>
+            <T w="bold" size={26} color={colors.accentText}>{formatSAR(price)}</T>
+            <T w="bold" size={13} color={colors.accentText}>ر.س</T>
             <T size={14} color={colors.faint} style={{ textDecorationLine: 'line-through' }}>{formatSAR(c.marketPrice)}</T>
-            <View style={{ backgroundColor: colors.accentSoft, borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2 }}><T w="bold" size={12} color={colors.accent}>وفّر {discountPct(c, price)}%</T></View>
+            <View style={{ backgroundColor: colors.accentSoft, borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2 }}><T w="bold" size={12} color={colors.accentText}>وفّر {discountPct(c, price)}%</T></View>
           </Row>
           <T size={12.5} color={colors.muted} style={{ marginTop: 3 }}>
             ≈ <T w="semibold" size={12.5} color={colors.ok}>{unitPrice(price, c).toFixed(2)} ر.س</T> لكل {c.unitLabel} · في السوق {unitPrice(c.marketPrice, c).toFixed(2)} · شامل الضريبة
@@ -61,7 +61,7 @@ export default function CampaignScreen() {
         <Card style={{ marginHorizontal: 16, marginTop: 14 }}>
           <Row style={{ justifyContent: 'space-between' }}>
             <T w="bold" size={14.5}>الشراء الجماعي</T>
-            <T w="semibold" size={12} color={colors.accent}>{c.joinedQty < min ? `باقي ${min - c.joinedQty} كرتون وتكتمل` : next ? `باقي ${next.minQty - c.joinedQty} للسعر ${next.price} ر.س` : 'وصلت أقل سعر'}</T>
+            <T w="semibold" size={12} color={colors.accentText}>{c.joinedQty < min ? `باقي ${min - c.joinedQty} كرتون وتكتمل` : next ? `باقي ${next.minQty - c.joinedQty} للسعر ${next.price} ر.س` : 'وصلت أقل سعر'}</T>
           </Row>
           <View style={{ marginTop: 12 }}><Bar value={c.joinedQty / (next?.minQty ?? c.joinedQty)} height={8} /></View>
           <Row style={{ justifyContent: 'space-between', marginTop: 7 }}>
