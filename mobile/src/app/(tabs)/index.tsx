@@ -7,7 +7,7 @@ import { CampaignCard } from '@/components/CampaignCard';
 import { Bell, Check, Grid, Pin, Search, Shield } from '@/components/icons';
 import { blend, Button, ProductImage, Row, T } from '@/components/ui';
 import { CATEGORIES } from '@/lib/catalog';
-import { currentPrice, formatSAR } from '@/lib/pricing';
+import { allInPrice, currentPrice, formatSAR } from '@/lib/pricing';
 import { useApp } from '@/lib/store';
 import { colors } from '@/lib/theme';
 import type { CategoryId } from '@/lib/types';
@@ -106,7 +106,7 @@ export default function Home() {
                     <ProductImage uri={again.image} size={56} brand={again.brand} gallery={again.gallery} />
                     <View style={{ flex: 1 }}>
                       <T w="semibold" size={13.5}>{again.shortName} · {again.pack}</T>
-                      <T size={12} color={colors.muted}>الحملة مفتوحة الآن بـ {formatSAR(currentPrice(again))} ر.س</T>
+                      <T size={12} color={colors.muted}>الحملة مفتوحة الآن بـ {formatSAR(allInPrice(again))} ر.س شامل التوصيل</T>
                     </View>
                     <Button title="انضم" variant="dark" onPress={() => open(again.id)} style={{ height: 36, borderRadius: 10, paddingHorizontal: 14 }} />
                   </Row>
