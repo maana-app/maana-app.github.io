@@ -326,7 +326,6 @@ function pcard(p){ const c=cnt(p), pct=Math.min(100,c/p.th[1]*100);
   <p class="pn">${p.ars} · ${p.arp}</p><div class="pp"><b>${fmt(curT(p))}</b><small>ر.س</small><s>${fmt(p.mkt)}</s></div>
   <div class="gp"><div class="gbar"><i style="width:${pct}%"></i></div><div class="gt"><span><b>${c}</b>/${p.th[1]} انضموا</span><span data-left="${p.id}">${left(p.id)}</span></div></div></div>`; }
 
-const GROUPS=[['أم فهد','حي النرجس',3,'#F06757',2.3],['أبو خالد','حي الملقا',1,'#0B725D',5.1],['ريم','حي الياسمين',4,'#F2B33D',9.6]];
 const V = {};
 V.login = () => `<div class="auth"><img src="img/logo.png" alt="معنا" style="height:40px;align-self:flex-start;margin-top:10px">
   <h1>أهلاً بك في معنا</h1><p>اشترِ مقاضي بيتك الشهرية بسعر الجملة مع جيرانك.<br>سجّل دخولك برقم جوالك.</p>
@@ -370,7 +369,6 @@ V.product = () => { const p=PM[st.pid], c=cnt(p), n=nextT(p), t=curT(p), pct=Mat
    <div class="tiers">${p.th.map((th,i)=>{ const tv=[p.t1,p.t2,p.t3][i]; const cls = tv===t?'cur':(n&&n[0]===th?'nx':''); return `<div class="tier ${cls}"><b>${tv}</b><small>${i===0?'الحد الأدنى · ':''}${th} كرتون</small></div>`; }).join('')}</div>
    <div class="avs"><div class="st">${['#F06757','#0B725D','#F2B33D','#7B9CD6'].map((c,i)=>`<i style="background:${c}">${'سنعم'[i]}</i>`).join('')}</div><span><b style="color:var(--ink)">${c}</b> أسرة انضمت لهذه الحملة</span></div>
    <div class="feed"><span class="ld"></span><span id="feed">نورة من حي النرجس انضمت قبل دقيقتين</span></div></div>
-  <div class="card"><h4>قروبات قريبة منك <small>انضم لقروب أو افتح قروبك</small></h4><div style="margin-top:6px">${GROUPS.map(([n,h,m,c,hr])=>`<div class="grp"><span class="av" style="background:${c}">${n.split(' ').pop()[0]}</span><div class="tx"><b>قروب ${n}</b><small>${h} · <em>ناقصه ${m} ${m>2?'أسر':m===1?'أسرة':'أسرتين'}</em> · ${String(Math.floor(hr)).padStart(2,'0')}:${String(Math.round(hr%1*60)).padStart(2,'0')}:00</small></div><button class="btn pri" data-grp="${n}">انضم</button></div>`).join('')}</div></div>
   <div class="share" data-share><span class="wa">${ICON.wa}</span><div class="tx"><b>شاركها في قروب العائلة</b>${n?`كل مشترك يقرّب الحملة من سعر ${n[1]} ر.س للجميع`:'ساعد جيرانك يلحقون السعر'}</div>${ICON.chev}</div>
   <div class="card" style="padding:4px 14px">
    <div class="li">${ICON.truck}<div class="tx"><b>التوصيل لباب بيتك</b><small>خلال 2–5 أيام عمل من إغلاق الحملة · 26 ر.س لأول كرتون و12 لكل إضافي</small></div></div>
@@ -393,7 +391,6 @@ V.done = () => { const o=st.orders[0]; const p=PM[o.pid];
   return `<div style="padding:60px 24px 0;text-align:center"><div style="width:76px;height:76px;border-radius:50%;background:#E6F4EE;color:var(--ok);display:flex;align-items:center;justify-content:center;margin:0 auto"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></div>
   <h1 style="font-size:21px;margin-top:18px">انضممت للحملة</h1><p style="color:var(--mu);font-size:13.5px;margin-top:6px;line-height:1.7">حجزنا ${fmt(o.tot)} ر.س على ${o.pmn}.<br>نبلغك أول ما تكتمل الحملة، ولن يُخصم شيء قبلها.</p></div>
   <div class="card" style="display:flex;gap:12px;align-items:center;margin-top:24px"><div class="pci" style="width:58px;height:58px;flex:none">${img(p)}</div><div style="flex:1"><b style="font-size:13.5px">${p.ars} × ${o.q}</b><p style="font-size:12px;color:var(--mu)">طلب رقم ${o.no}</p></div><span class="stt" style="background:#FFF4D9;color:#7A5200">الحملة جارية</span></div>
-  ${st.grp?(()=>{ const g=GROUPS.find(x=>x[0]===st.grp); const tot=5, have=tot-g[2]+1; return `<div class="card" style="text-align:center"><h4 style="justify-content:center">قروب ${g[0]} · ${g[1]}</h4><div class="slots">${Array.from({length:tot},(_,i)=>i<have-1?`<i style="background:${['#F06757','#0B725D','#F2B33D','#7B9CD6'][i%4]}">${'ن س ع م'.split(' ')[i%4]}</i>`:i===have-1?`<i class="me" style="background:#0B3D33">أنت</i>`:`<i class="e">+</i>`).join('')}</div><p style="font-size:12.5px;color:var(--mu);margin-top:10px">${tot-have?`ناقص ${tot-have} عشان يكتمل القروب · ادعُ أهلك وجيرانك`:'اكتمل القروب'}</p></div>`; })():''}
   <div class="share" data-share><span class="wa">${ICON.wa}</span><div class="tx"><b>عجّل الحملة: شاركها مع أهلك</b>كل ما زاد العدد نزل السعر عليك وعليهم</div>${ICON.chev}</div>
   <div style="padding:20px 16px"><button class="btn ghost" data-go="orders">عرض طلباتي</button></div>`; };
 V.orders = () => `<div class="tbar"><span style="width:38px"></span><h2>طلباتي</h2><span style="width:38px"></span></div>
@@ -432,14 +429,13 @@ function render(){
 setInterval(()=>document.querySelectorAll('[data-left]').forEach(e=>e.textContent=left(e.dataset.left)),1000);
 const hist=[];
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-grp],[data-go],[data-pid],[data-cat],[data-q],[data-pm],[data-back],[data-toast],[data-share],[data-order],[data-logout],#sendotp,#pay,.otp');
+  const t = e.target.closest('[data-go],[data-pid],[data-cat],[data-q],[data-pm],[data-back],[data-toast],[data-share],[data-order],[data-logout],#sendotp,#pay,.otp');
   if (!t) return; e.stopPropagation();
   if (t.id==='sendotp'){ if (st.phone.length<9){ st.phone = st.phone || '551234567'; } go('otp',{otp:''}); let k=0; const code='4827'; setTimeout(()=>{ toast('رسالة: رمز التحقق لمعنا 4827'); const iv=setInterval(()=>{ st.otp=code.slice(0,++k); render(); if(k===4){ clearInterval(iv); setTimeout(()=>{ st.authed=true; go('home'); },500); } },260); },900); return; }
   if (t.id==='pay'){ const p=PM[st.pid], tot=p.t1*st.q+26+12*(st.q-1); const pmn={apple:'Apple Pay',mada:'مدى',stc:'STC Pay',card:'البطاقة'}[st.pm];
     const sc=document.createElement('div'); sc.className='scrim'; sc.innerHTML = st.pm==='apple' ? `<div class="sheet ap"><div class="gr"></div><div class="aph"><span>Apple Pay</span><span style="font-size:13px;color:#2563EB">Cancel</span></div><div class="row2"><span>البطاقة</span><b dir="ltr">mada •••• 5678</b></div><div class="row2"><span>التاجر</span><b>معنا</b></div><div class="tot"><span>حجز مبلغ</span><span>${fmt(tot)} ر.س</span></div><div class="side"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.6"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M15 8.5a3 3 0 0 0-6 0"/></svg>اضغط مرتين على الزر الجانبي للتأكيد</div></div>` : `<div class="sheet"><div class="gr"></div><p style="font-weight:700;font-size:16px;text-align:center">جاري التحقق من البنك…</p><p style="text-align:center;color:var(--mu);font-size:12.5px;margin-top:6px">رمز التحقق 3D Secure أُرسل لجوالك</p></div>`;
     $('#app').appendChild(sc);
     setTimeout(()=>{ sc.remove(); st.orders.unshift({no:'MN-'+(10480+st.orders.length+2),pid:st.pid,q:st.q,tot,pmn,s:'wait'}); st.joined[st.pid]=(st.joined[st.pid]||0)+st.q; hist.length=0; go('done'); }, 1900); return; }
-  if (t.dataset.grp){ st.grp=t.dataset.grp; hist.push(st.route); go('checkout'); return; }
   if (t.dataset.back!=null){ const r=hist.pop()||'home'; go(r); return; }
   if (t.dataset.logout!=null){ go('login'); return; }
   if (t.dataset.toast){ toast(t.dataset.toast); return; }
