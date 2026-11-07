@@ -54,7 +54,7 @@ export default function Checkout() {
       <ScrollView contentContainerStyle={{ padding: 16, gap: 14, paddingBottom: 24 }}>
         <Card>
           <Row gap={12}>
-            <ProductImage uri={c.image} size={64} brand={c.brand} />
+            <ProductImage uri={c.image} size={64} brand={c.brand} gallery={c.gallery} />
             <View style={{ flex: 1 }}>
               <T w="semibold" size={13.5}>{c.shortName}</T>
               <T size={12} color={colors.muted}>{c.pack}</T>

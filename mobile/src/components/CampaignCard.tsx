@@ -13,7 +13,7 @@ export function CampaignCard({ c, width }: { c: Campaign; width: number }) {
   return (
     <Pressable onPress={open} style={{ width }} accessibilityRole="button" accessibilityLabel={`${c.shortName} ${formatSAR(allInPrice(c, price))} ريال شامل التوصيل`}>
       <View>
-        <ProductImage uri={c.image} size={width} brand={c.brand} />
+        <ProductImage uri={c.image} size={width} brand={c.brand} gallery={c.gallery} />
         <View style={{ position: 'absolute', top: 8, right: 8, backgroundColor: colors.accent, borderRadius: 7, paddingHorizontal: 7, paddingVertical: 1 }}>
           <T w="bold" size={11} color="#fff">-{discountPct(c, price)}%</T>
         </View>

@@ -39,7 +39,7 @@ export default function CampaignScreen() {
       </Row>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={{ backgroundColor: colors.surface, height: 320, alignItems: 'center', justifyContent: 'center' }}>
-          {c.image ? <Image source={{ uri: c.image }} style={[{ width: '74%', height: 250 }, blend as any]} contentFit="contain" transition={200} /> : <ProductImage uri="" size={200} brand={c.brand} />}
+          {c.gallery ? <ProductImage uri={c.image} size={260} gallery={c.gallery} style={{ backgroundColor: 'transparent' }} /> : c.image ? <Image source={{ uri: c.image }} style={[{ width: '74%', height: 250 }, blend as any]} contentFit="contain" transition={200} /> : <ProductImage uri="" size={200} brand={c.brand} />}
           <Row gap={5} style={{ position: 'absolute', top: 12, right: 12, backgroundColor: '#fff', borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 }}>
             <Clock color={colors.accentText} /><Countdown endsAt={c.endsAt} color={colors.accentText} size={12} />
           </Row>

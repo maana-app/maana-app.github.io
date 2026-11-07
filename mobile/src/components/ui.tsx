@@ -34,7 +34,20 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
 // onto whatever tint sits behind it, so no white box shows around the product.
 export const blend: ViewStyle = { mixBlendMode: 'multiply' } as ViewStyle;
 
-export function ProductImage({ uri, size, style, alt, brand }: { uri: string; size: number; style?: StyleProp<ViewStyle>; alt?: string; brand?: string }) {
+export function ProductImage({ uri, size, style, alt, brand, gallery }: { uri: string; size: number; style?: StyleProp<ViewStyle>; alt?: string; brand?: string; gallery?: string[] }) {
+  if (gallery && gallery.length > 1) {
+    // Basket collage: up to three packshots, the first one large and in front.
+    const g = gallery.slice(0, 3);
+    const big = size * 0.62, small = size * 0.44;
+    return (
+      <View accessibilityRole="image" accessibilityLabel={alt ?? 'محتويات السلة'}
+        style={[{ width: size, height: size, borderRadius: radius.md, backgroundColor: colors.surface, overflow: 'hidden' }, style]}>
+        {g[1] ? <Image source={{ uri: g[1] }} style={[{ position: 'absolute', width: small, height: small, top: size * 0.08, left: size * 0.06 }, blend as any]} contentFit="contain" /> : null}
+        {g[2] ? <Image source={{ uri: g[2] }} style={[{ position: 'absolute', width: small, height: small, top: size * 0.08, right: size * 0.06 }, blend as any]} contentFit="contain" /> : null}
+        <Image source={{ uri: g[0] }} style={[{ position: 'absolute', width: big, height: big, bottom: size * 0.04, left: (size - big) / 2 }, blend as any]} contentFit="contain" />
+      </View>
+    );
+  }
   if (!uri) return (
     <View accessibilityRole="image" accessibilityLabel={alt ?? brand ?? 'صورة المنتج'}
       style={[{ width: size, height: size, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', padding: 6 }, style]}>

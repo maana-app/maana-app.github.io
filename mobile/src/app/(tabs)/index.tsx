@@ -103,7 +103,7 @@ export default function Home() {
                 <T w="bold" size={16} style={{ paddingHorizontal: 16, marginTop: 20, marginBottom: 10 }}>اطلب مرة ثانية</T>
                 <Pressable onPress={() => open(again.id)} style={{ marginHorizontal: 16, borderWidth: 1, borderColor: colors.line, borderRadius: 14, padding: 10 }}>
                   <Row gap={12}>
-                    <ProductImage uri={again.image} size={56} brand={again.brand} />
+                    <ProductImage uri={again.image} size={56} brand={again.brand} gallery={again.gallery} />
                     <View style={{ flex: 1 }}>
                       <T w="semibold" size={13.5}>{again.shortName} · {again.pack}</T>
                       <T size={12} color={colors.muted}>الحملة مفتوحة الآن بـ {formatSAR(currentPrice(again))} ر.س</T>

@@ -14,10 +14,12 @@ export interface Campaign {
   shortName: string;
   pack: string;
   category: CategoryId;
-  /** Packshot URL; empty until the supplier sends one (a brand tile is shown instead) */
+  /** Packshot URL (every campaign must have one) */
   image: string;
   /** Shipping weight of one carton in kg: max(actual, volumetric) from the product study */
   weightKg: number;
+  /** For mixed baskets: packshots of what is inside (collage) */
+  gallery?: string[];
   /** For mixed baskets: what is inside */
   contents?: string;
   /** Reference market price per carton (SAR) */

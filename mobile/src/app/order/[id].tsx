@@ -40,7 +40,7 @@ export default function OrderScreen() {
       <ScrollView contentContainerStyle={{ padding: 16, gap: 14 }}>
         <Card>
           <Row gap={12}>
-            <ProductImage uri={c.image} size={58} brand={c.brand} />
+            <ProductImage uri={c.image} size={58} brand={c.brand} gallery={c.gallery} />
             <View style={{ flex: 1 }}>
               <T w="semibold" size={13.5}>{c.shortName} × {o.qty}</T>
               <T size={12} color={colors.muted}>{formatSAR(o.total)} ر.س · {PAYMENT_LABEL[o.payment]}</T>
