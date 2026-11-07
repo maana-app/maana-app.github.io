@@ -305,7 +305,7 @@ const PM = Object.fromEntries(PRODUCTS.map(p=>[p.id,p]));
 const fmt = n => (Math.round(n*100)/100).toFixed(n%1?2:0).replace(/\.00$/,'');
 const st = {route:'login', authed:false, phone:'', otp:'', cat:null, pid:'p4', q:2, pm:'apple', orders:[], tab:'home', joined:{}};
 const now0 = Date.now();
-const END = Object.fromEntries(PRODUCTS.map(p=>[p.id, now0 + p.h*3600e3 + 7*60e3]));
+const END = Object.fromEntries(PRODUCTS.map((p,i)=>[p.id, now0 + (6 + (p.h*7)%42)*3600e3 + i*17*60e3]));
 const left = id => { const ms = Math.max(0, END[id]-Date.now()); const d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4), s=Math.floor(ms%6e4/1e3); const pad=x=>String(x).padStart(2,'0'); return (d?d+' يوم ':'')+pad(h)+':'+pad(m)+':'+pad(s); };
 const curT = p => { const c=p.cnt+(st.joined[p.id]||0); return c>=p.th[2]?p.t3:c>=p.th[1]?p.t2:p.t1; };
 const nextT = p => { const c=p.cnt+(st.joined[p.id]||0); return c<p.th[1]?[p.th[1],p.t2]:c<p.th[2]?[p.th[2],p.t3]:null; };
