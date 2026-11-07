@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Share as RNShare, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Back, Clock, Heart, Refund, Share, Shield, Truck, WhatsApp } from '@/components/icons';
-import { blend, Bar, Card, Countdown, Row, T } from '@/components/ui';
-import { currentPrice, discountPct, formatSAR, nextTier, unitPrice } from '@/lib/pricing';
+import { blend, Bar, Card, Countdown, Row, T , ProductImage } from '@/components/ui';
+import { currentPrice, discountPct, formatSAR, nextTier, unitPrice , allInPrice, deliveryFee, maxQty, orderKg, MAX_ORDER_KG } from '@/lib/pricing';
 import { useApp } from '@/lib/store';
 import { colors } from '@/lib/theme';
 
@@ -17,15 +17,17 @@ export default function CampaignScreen() {
   const router = useRouter();
   const { campaign } = useApp();
   const c = campaign(id);
-  const [qty, setQty] = useState(2);
+  const [qty, setQty] = useState(1);
   const [feed, setFeed] = useState(0);
   useEffect(() => { const t = setInterval(() => setFeed(f => (f + 1) % FEED.length), 3000); return () => clearInterval(t); }, []);
   if (!c) return null;
 
   const price = currentPrice(c);
+  const all = allInPrice(c, price);
+  const cap = maxQty(c);
   const next = nextTier(c);
   const min = c.tiers[0].minQty;
-  const share = () => RNShare.share({ message: `انضم معي لحملة ${c.name} على معنا بـ ${formatSAR(price)} ر.س بدل ${formatSAR(c.marketPrice)}. كل ما زاد العدد نزل السعر.` });
+  const share = () => RNShare.share({ message: `انضم معي لحملة ${c.name} على معنا بـ ${formatSAR(all)} ر.س شامل التوصيل بدل ${formatSAR(c.marketPrice)}. كل ما زاد العدد نزل السعر.` });
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.bg }}>
@@ -37,7 +39,7 @@ export default function CampaignScreen() {
       </Row>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={{ backgroundColor: colors.surface, height: 320, alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={{ uri: c.image }} style={[{ width: '74%', height: 250 }, blend as any]} contentFit="contain" transition={200} />
+          {c.image ? <Image source={{ uri: c.image }} style={[{ width: '74%', height: 250 }, blend as any]} contentFit="contain" transition={200} /> : <ProductImage uri="" size={200} brand={c.brand} />}
           <Row gap={5} style={{ position: 'absolute', top: 12, right: 12, backgroundColor: '#fff', borderRadius: 9, paddingHorizontal: 9, paddingVertical: 5 }}>
             <Clock color={colors.accentText} /><Countdown endsAt={c.endsAt} color={colors.accentText} size={12} />
           </Row>
@@ -48,22 +50,24 @@ export default function CampaignScreen() {
           <T w="bold" size={18} style={{ marginTop: 2, lineHeight: 26 }}>{c.name}</T>
           <T size={12.5} color={colors.muted} style={{ marginTop: 3 }}>{c.pack} · أصلي ومختوم من الموزع المعتمد</T>
           <Row gap={8} style={{ marginTop: 10, alignItems: 'baseline' }}>
-            <T w="bold" size={26} color={colors.accentText}>{formatSAR(price)}</T>
+            <T w="bold" size={26} color={colors.accentText}>{formatSAR(all)}</T>
             <T w="bold" size={13} color={colors.accentText}>ر.س</T>
             <T size={14} color={colors.faint} style={{ textDecorationLine: 'line-through' }}>{formatSAR(c.marketPrice)}</T>
             <View style={{ backgroundColor: colors.accentSoft, borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2 }}><T w="bold" size={12} color={colors.accentText}>وفّر {discountPct(c, price)}%</T></View>
           </Row>
           <T size={12.5} color={colors.muted} style={{ marginTop: 3 }}>
-            ≈ <T w="semibold" size={12.5} color={colors.ok}>{unitPrice(price, c).toFixed(2)} ر.س</T> لكل {c.unitLabel} · في السوق {unitPrice(c.marketPrice, c).toFixed(2)} · شامل الضريبة
+            شامل التوصيل والضريبة{c.unitsPerCarton > 1 ? <> · ≈ <T w="semibold" size={12.5} color={colors.ok}>{unitPrice(all, c).toFixed(2)} ر.س</T> لكل {c.unitLabel} (في السوق {unitPrice(c.marketPrice, c).toFixed(2)})</> : null}
           </T>
+          {c.contents ? <T size={12.5} style={{ marginTop: 8, lineHeight: 20 }}>داخل السلة: {c.contents}</T> : null}
+          <T size={12} color={colors.muted} style={{ marginTop: 6 }}>وزن الكرتون {c.weightKg} كجم · الحد في الطلب {cap} {cap > 1 ? 'كراتين' : 'كرتون'} (سقف النقل {MAX_ORDER_KG} كجم)</T>
         </View>
 
         <Card style={{ marginHorizontal: 16, marginTop: 14 }}>
           <Row style={{ justifyContent: 'space-between' }}>
             <T w="bold" size={14.5}>الشراء الجماعي</T>
-            <T w="semibold" size={12} color={colors.accentText}>{c.joinedQty < min ? `باقي ${min - c.joinedQty} كرتون وتكتمل` : next ? `باقي ${next.minQty - c.joinedQty} للسعر ${next.price} ر.س` : 'وصلت أقل سعر'}</T>
+            <T w="semibold" size={12} color={colors.accentText}>{c.joinedQty < min ? `باقي ${min - c.joinedQty} كرتون وتكتمل` : next ? `باقي ${next.minQty - c.joinedQty} للسعر ${formatSAR(allInPrice(c, next.price))} ر.س` : 'اكتملت الحملة'}</T>
           </Row>
-          <View style={{ marginTop: 12 }}><Bar value={c.joinedQty / (next?.minQty ?? c.joinedQty)} height={8} /></View>
+          <View style={{ marginTop: 12 }}><Bar value={c.joinedQty / (next?.minQty ?? min)} height={8} /></View>
           <Row style={{ justifyContent: 'space-between', marginTop: 7 }}>
             <T size={12.5} color={colors.muted}><T w="bold" size={12.5}>{c.joinedQty}</T> كرتون محجوز</T>
             <Row gap={4}><T size={12.5} color={colors.muted}>تنتهي خلال</T><Countdown endsAt={c.endsAt} size={12.5} /></Row>
@@ -74,7 +78,7 @@ export default function CampaignScreen() {
               const nx = next?.minQty === t.minQty;
               return (
                 <View key={t.minQty} style={{ flex: 1, borderWidth: 1, borderStyle: nx ? 'dashed' : 'solid', borderColor: cur ? colors.brand : nx ? colors.accent : colors.line, backgroundColor: cur ? colors.mint : '#fff', borderRadius: 12, paddingVertical: 9, alignItems: 'center' }}>
-                  <T w="bold" size={17} color={cur ? colors.brand : colors.ink}>{t.price}</T>
+                  <T w="bold" size={17} color={cur ? colors.brand : colors.ink}>{formatSAR(allInPrice(c, t.price))}</T>
                   <T size={11} color={colors.muted}>{i === 0 ? 'الحد الأدنى · ' : ''}{t.minQty} كرتون</T>
                 </View>
               );
@@ -90,7 +94,7 @@ export default function CampaignScreen() {
           <View style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: '#25D366', alignItems: 'center', justifyContent: 'center' }}><WhatsApp /></View>
           <View style={{ flex: 1 }}>
             <T w="semibold" size={13.5}>شاركها مع أهلك</T>
-            <T size={12.5} color="#36524A">{next ? `كل كرتون يقرّب الحملة من سعر ${next.price} ر.س للجميع` : 'ساعد غيرك يلحق السعر'}</T>
+            <T size={12.5} color="#36524A">{next ? `كل كرتون يقرّب الحملة من الاكتمال للجميع` : 'ساعد غيرك يلحق السعر'}</T>
           </View>
         </Pressable>
 
@@ -110,13 +114,13 @@ export default function CampaignScreen() {
       <SafeAreaView edges={['bottom']} style={{ borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: '#fff' }}>
         <Row gap={10} style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: 6 }}>
           <Row gap={0} style={{ borderWidth: 1, borderColor: colors.line, borderRadius: 14, height: 50 }}>
-            <Pressable onPress={() => setQty(q => Math.min(9, q + 1))} style={{ width: 40, height: 50, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="زيادة"><T w="bold" size={20} color={colors.brand}>+</T></Pressable>
+            <Pressable onPress={() => setQty(q => Math.min(cap, q + 1))} style={{ width: 40, height: 50, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="زيادة" disabled={qty >= cap}><T w="bold" size={20} color={qty >= cap ? '#C4C9C6' : colors.brand}>+</T></Pressable>
             <T w="bold" size={16} style={{ minWidth: 20, textAlign: 'center' }}>{qty}</T>
             <Pressable onPress={() => setQty(q => Math.max(1, q - 1))} style={{ width: 40, height: 50, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="إنقاص"><T w="bold" size={20} color={colors.brand}>−</T></Pressable>
           </Row>
           <Row gap={0} style={{ flex: 1, height: 50, borderRadius: 14, overflow: 'hidden' }}>
             <Pressable onPress={() => router.push({ pathname: '/checkout/[id]', params: { id: c.id, qty: String(qty) } })} style={{ flex: 1, height: 50, backgroundColor: colors.accent, alignItems: 'center', justifyContent: 'center' }}>
-              <T w="bold" size={16} color="#fff">{formatSAR(price * qty)} ر.س</T>
+              <T w="bold" size={16} color="#fff">{formatSAR(price * qty + deliveryFee(qty))} ر.س</T>
               <T w="semibold" size={11} color="#fff" style={{ opacity: 0.9 }}>انضم بسعر المجموعة</T>
             </Pressable>
             <View style={{ width: '36%', height: 50, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' }}>

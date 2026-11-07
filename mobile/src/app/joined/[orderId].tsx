@@ -24,7 +24,7 @@ export default function Joined() {
       </View>
       <Card style={{ marginTop: 24 }}>
         <Row gap={12}>
-          <ProductImage uri={c.image} size={58} />
+          <ProductImage uri={c.image} size={58} brand={c.brand} />
           <View style={{ flex: 1 }}><T w="semibold" size={13.5}>{c.shortName} × {o.qty}</T><T size={12} color={colors.muted}>طلب رقم {o.id}</T><Row gap={4}><T size={12} color={colors.muted}>الحملة تقفل خلال</T><Countdown endsAt={c.endsAt} size={12} /></Row></View>
           <StatusBadge status={o.status} />
         </Row>

@@ -26,8 +26,10 @@ create table products (
   name text not null,
   short_name text not null,
   pack text not null,
-  category text not null check (category in ('baby', 'cleaning', 'home', 'tissue')),
-  image_url text not null,
+  category text not null check (category in ('baby', 'cleaning', 'personal', 'home')),
+  image_url text,
+  contents text,                   -- mixed baskets: what is inside
+  weight_kg numeric(5,2) not null check (weight_kg > 0 and weight_kg <= 10),  -- chargeable kg per carton (carrier cap 10 kg)
   units_per_carton int not null check (units_per_carton > 0),
   unit_label text not null,
   market_price numeric(10,2) not null check (market_price > 0)
@@ -66,7 +68,7 @@ create index on orders (user_id, created_at desc);
 -- Public feed: current joined quantity per live campaign (no customer data exposed).
 create view campaign_feed with (security_invoker = false) as
 select c.id, p.brand, p.name, p.short_name, p.pack, p.category, p.image_url, p.market_price,
-       p.units_per_carton, p.unit_label, c.tiers, c.ends_at,
+       p.units_per_carton, p.unit_label, p.weight_kg, p.contents, c.tiers, c.ends_at,
        coalesce((select sum(o.qty) from orders o where o.campaign_id = c.id and o.status <> 'refunded'), 0)::int as joined_qty
 from campaigns c join products p on p.id = c.product_id
 where c.status = 'live' and now() between c.starts_at and c.ends_at;
@@ -82,6 +84,8 @@ begin
   select * into c from campaigns where id = p_campaign and status = 'live' and now() between starts_at and ends_at for update;
   if not found then raise exception 'campaign not open'; end if;
   if p_qty < 1 or p_qty > 9 then raise exception 'qty out of range'; end if;
+  -- carrier rule: one waybill, max 10 kg chargeable weight per order
+  if p_qty * (select weight_kg from products where id = c.product_id) > 10 then raise exception 'order over 10 kg'; end if;
 
   select coalesce(sum(qty), 0) into joined from orders where campaign_id = c.id and status <> 'refunded';
   price := (c.tiers -> 0 ->> 'price')::numeric;

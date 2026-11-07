@@ -10,7 +10,7 @@ import { colors } from '@/lib/theme';
 export default function Account() {
   const { profile, signOut, orders, campaign } = useApp();
   const saved = orders.filter(o => o.status !== 'refunded').reduce((s, o) => {
-    const c = campaign(o.campaignId); return s + (c ? (c.marketPrice - o.unitPrice) * o.qty : 0);
+    const c = campaign(o.campaignId); return s + (c ? c.marketPrice * o.qty - o.total : 0);
   }, 0);
   const items = [
     { icon: <Pin size={22} />, title: 'العناوين', sub: profile?.addressLabel },

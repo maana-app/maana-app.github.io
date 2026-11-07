@@ -39,7 +39,7 @@ export default function Orders() {
             <Pressable key={o.id} onPress={() => router.push({ pathname: '/order/[id]', params: { id: o.id } })} style={{ borderWidth: 1, borderColor: colors.line, borderRadius: 16, padding: 14 }}>
               <Row style={{ justifyContent: 'space-between' }}><T size={12.5} color={colors.muted}>طلب {o.id}</T><StatusBadge status={o.status} /></Row>
               <Row gap={12} style={{ marginTop: 10 }}>
-                {c ? <ProductImage uri={c.image} size={58} /> : null}
+                {c ? <ProductImage uri={c.image} size={58} brand={c.brand} /> : null}
                 <View style={{ flex: 1 }}>
                   <T w="semibold" size={13.5}>{c?.shortName} × {o.qty}</T>
                   <T size={12} color={colors.muted}>{formatSAR(o.total)} ر.س · {PAYMENT_LABEL[o.payment]}</T>

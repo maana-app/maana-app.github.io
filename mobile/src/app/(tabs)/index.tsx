@@ -13,9 +13,9 @@ import { colors } from '@/lib/theme';
 import type { CategoryId } from '@/lib/types';
 
 const BANNERS = [
-  { bg: '#E8F3EE', fg: '#0B3D33', title: 'حفاضات بامبرز بسعر الجملة', sub: 'من 68 ر.س للكرتون بدل 89.70', cta: 'تسوّق الآن', ctaBg: '#0B3D33', ids: ['pampers-4', 'pampers-5'] },
-  { bg: '#FDECE8', fg: '#7A2A1E', title: 'منظفات الشهر في حملة وحدة', sub: 'برسيل وفيري وكلوركس · حتى 25%', cta: 'شوف الحملات', ctaBg: '#F06757', ids: ['persil', 'fairy'] },
-  { bg: '#FFF4D9', fg: '#5A3F00', title: 'كل ما زاد العدد نزل السعر', sub: 'شارك الحملة مع أهلك وجيرانك', cta: 'كيف تشتغل؟', ctaBg: '#5A3F00', ids: ['fine-facial', 'fine-kitchen'] },
+  { bg: '#E8F3EE', fg: '#0B3D33', title: 'سلة البيبي بسعر الجملة', sub: 'بامبرز بريميوم + مناديل مبللة · 181 ر.س شامل التوصيل', cta: 'تسوّق الآن', ctaBg: '#0B3D33', ids: ['basket-baby', 'pampers-wipes'] },
+  { bg: '#FDECE8', fg: '#7A2A1E', title: 'منظفات الشهر في سلة وحدة', sub: 'فنش وداوني وفيري · وفّر 31 ر.س', cta: 'شوف السلال', ctaBg: '#C23F2C', ids: ['basket-dishes', 'fairy-1.5'] },
+  { bg: '#FFF4D9', fg: '#5A3F00', title: 'السعر شامل التوصيل', sub: 'طلب وحد لين 10 كجم يوصلك في شحنة وحدة', cta: 'كيف تشتغل؟', ctaBg: '#5A3F00', ids: ['basket-home'] },
 ];
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
   const list = useMemo(() => campaigns.filter(c => cat === 'all' || c.category === cat), [campaigns, cat]);
   const soon = useMemo(() => [...campaigns].sort((a, b) => a.endsAt - b.endsAt).slice(0, 5), [campaigns]);
   const lastOrder = orders[0];
-  const again = campaigns.find(c => c.id === (lastOrder?.campaignId ?? 'pampers-4'));
+  const again = campaigns.find(c => c.id === (lastOrder?.campaignId ?? 'pampers-premium-4'));
   const byId = (id: string) => campaigns.find(c => c.id === id);
   const bw = W - 34;
   const cw = (W - 32 - 12) / 2;
@@ -67,7 +67,7 @@ export default function Home() {
               </View>
               <View style={{ alignSelf: 'flex-start', backgroundColor: b.ctaBg, borderRadius: 9, paddingHorizontal: 12, paddingVertical: 6 }}><T w="bold" size={12} color="#fff">{b.cta}</T></View>
               <Row gap={0} style={{ position: 'absolute', left: 8, bottom: -4, alignItems: 'flex-end' }}>
-                {b.ids.map((id, i) => byId(id) ? <View key={id} style={{ marginLeft: i ? -6 : 0, backgroundColor: b.bg }}><Image source={{ uri: byId(id)!.image }} style={[{ width: i ? 78 : 96, height: i ? 78 : 96 }, blend as any]} contentFit="contain" /></View> : null)}
+                {b.ids.map((id, i) => byId(id)?.image ? <View key={id} style={{ marginLeft: i ? -6 : 0, backgroundColor: b.bg }}><Image source={{ uri: byId(id)!.image }} style={[{ width: i ? 78 : 96, height: i ? 78 : 96 }, blend as any]} contentFit="contain" /></View> : null)}
               </Row>
             </Pressable>
           )} />
@@ -78,7 +78,7 @@ export default function Home() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 14, marginTop: 16 }}>
           {CATEGORIES.map(k => {
             const on = k.id === cat;
-            const sample = k.id === 'all' ? undefined : campaigns.find(c => c.category === k.id);
+            const sample = k.id === 'all' ? undefined : campaigns.find(c => c.category === k.id && !!c.image);
             return (
               <Pressable key={k.id} onPress={() => setCat(k.id)} style={{ width: 66, alignItems: 'center', gap: 6 }} accessibilityState={{ selected: on }}>
                 <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: on ? colors.brand : 'transparent', overflow: 'hidden' }}>
@@ -103,7 +103,7 @@ export default function Home() {
                 <T w="bold" size={16} style={{ paddingHorizontal: 16, marginTop: 20, marginBottom: 10 }}>اطلب مرة ثانية</T>
                 <Pressable onPress={() => open(again.id)} style={{ marginHorizontal: 16, borderWidth: 1, borderColor: colors.line, borderRadius: 14, padding: 10 }}>
                   <Row gap={12}>
-                    <ProductImage uri={again.image} size={56} />
+                    <ProductImage uri={again.image} size={56} brand={again.brand} />
                     <View style={{ flex: 1 }}>
                       <T w="semibold" size={13.5}>{again.shortName} · {again.pack}</T>
                       <T size={12} color={colors.muted}>الحملة مفتوحة الآن بـ {formatSAR(currentPrice(again))} ر.س</T>

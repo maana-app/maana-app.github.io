@@ -34,7 +34,13 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
 // onto whatever tint sits behind it, so no white box shows around the product.
 export const blend: ViewStyle = { mixBlendMode: 'multiply' } as ViewStyle;
 
-export function ProductImage({ uri, size, style, alt }: { uri: string; size: number; style?: StyleProp<ViewStyle>; alt?: string }) {
+export function ProductImage({ uri, size, style, alt, brand }: { uri: string; size: number; style?: StyleProp<ViewStyle>; alt?: string; brand?: string }) {
+  if (!uri) return (
+    <View accessibilityRole="image" accessibilityLabel={alt ?? brand ?? 'صورة المنتج'}
+      style={[{ width: size, height: size, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', padding: 6 }, style]}>
+      <RNText numberOfLines={2} style={{ fontFamily: font.bold, fontSize: Math.max(10, Math.round(size / 8)), color: colors.brand, textAlign: 'center' }}>{brand ?? 'معنا'}</RNText>
+    </View>
+  );
   return (
     <View style={[{ width: size, height: size, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }, style]}>
       <Image source={{ uri }} style={[{ width: size * 0.84, height: size * 0.84 }, blend as any]} contentFit="contain" transition={150} accessibilityLabel={alt ?? 'صورة المنتج'} alt={alt ?? 'صورة المنتج'} />

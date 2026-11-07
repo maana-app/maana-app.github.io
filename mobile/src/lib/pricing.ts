@@ -4,6 +4,21 @@ import type { Campaign, Tier } from './types';
 export const DELIVERY_FIRST = 26;
 export const DELIVERY_EXTRA = 12;
 
+/**
+ * Carrier rule: one waybill per order, capped at 10 kg chargeable weight.
+ * Break-even rule (product study, doc 22): an order must be worth at least
+ * 112 SAR at market price, otherwise shipping eats the margin.
+ * A product can therefore only be sold on its own if
+ *   ceil(112 / shelfPrice) × unitWeight ≤ 10 kg
+ * i.e. roughly when it is worth 11.2 SAR or more per kg. Anything lighter in
+ * value can only travel inside a mixed basket.
+ */
+export const MAX_ORDER_KG = 10;
+export const BREAK_EVEN_MARKET = 112;
+
+export const maxQty = (c: Campaign) => Math.max(1, Math.min(9, Math.floor(MAX_ORDER_KG / c.weightKg + 1e-9)));
+export const orderKg = (c: Campaign, qty: number) => Math.round(c.weightKg * qty * 10) / 10;
+
 export const deliveryFee = (qty: number) => (qty <= 0 ? 0 : DELIVERY_FIRST + DELIVERY_EXTRA * (qty - 1));
 
 export const currentTier = (c: Campaign, extra = 0): Tier => {
@@ -23,7 +38,12 @@ export const nextTier = (c: Campaign, extra = 0): Tier | null => {
 
 export const lowestPrice = (c: Campaign) => c.tiers[c.tiers.length - 1].price;
 
-export const discountPct = (c: Campaign, price = currentPrice(c)) => Math.round((1 - price / c.marketPrice) * 100);
+/** What the customer pays for `qty` cartons, delivery included. */
+export const orderTotal = (price: number, qty: number) => price * qty + deliveryFee(qty);
+/** Headline price: one carton, delivery included (the study's "ma3na price"). */
+export const allInPrice = (c: Campaign, price = currentPrice(c)) => orderTotal(price, 1);
+
+export const discountPct = (c: Campaign, price = currentPrice(c)) => Math.round((1 - allInPrice(c, price) / c.marketPrice) * 100);
 
 export const unitPrice = (cartonPrice: number, c: Campaign) => cartonPrice / c.unitsPerCarton;
 

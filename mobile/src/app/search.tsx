@@ -8,7 +8,7 @@ import { Row, T } from '@/components/ui';
 import { useApp } from '@/lib/store';
 import { colors, font } from '@/lib/theme';
 
-const SUGGEST = ['حفاضات', 'بامبرز', 'منظفات', 'مناديل', 'برسيل'];
+const SUGGEST = ['حفاضات', 'حليب أطفال', 'فنش', 'سلة', 'ديتول'];
 const norm = (s: string) => s.replace(/[إأآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').toLowerCase();
 
 export default function SearchScreen() {
@@ -20,9 +20,9 @@ export default function SearchScreen() {
   const results = useMemo(() => {
     const n = norm(q.trim());
     if (!n) return [];
-    const alias: Record<string, string[]> = { 'حفاض': ['baby'], 'منظف': ['cleaning'], 'مناديل': ['tissue'], 'منديل': ['tissue'] };
+    const alias: Record<string, string[]> = { 'حفاض': ['baby'], 'حليب اطفال': ['baby'], 'منظف': ['cleaning'], 'عنايه': ['personal'], 'مطبخ': ['home'] };
     const cats = Object.entries(alias).filter(([k]) => n.includes(norm(k))).flatMap(([, v]) => v);
-    return campaigns.filter(c => norm(`${c.name} ${c.brand} ${c.pack}`).includes(n) || cats.includes(c.category));
+    return campaigns.filter(c => norm(`${c.name} ${c.brand} ${c.pack} ${c.contents ?? ''}`).includes(n) || cats.includes(c.category));
   }, [q, campaigns]);
 
   return (

@@ -1,4 +1,4 @@
-export type CategoryId = 'baby' | 'cleaning' | 'home' | 'tissue';
+export type CategoryId = 'baby' | 'cleaning' | 'personal' | 'home';
 
 export interface Tier {
   /** Minimum cartons for this price to apply */
@@ -14,7 +14,12 @@ export interface Campaign {
   shortName: string;
   pack: string;
   category: CategoryId;
+  /** Packshot URL; empty until the supplier sends one (a brand tile is shown instead) */
   image: string;
+  /** Shipping weight of one carton in kg: max(actual, volumetric) from the product study */
+  weightKg: number;
+  /** For mixed baskets: what is inside */
+  contents?: string;
   /** Reference market price per carton (SAR) */
   marketPrice: number;
   /** Ascending minQty; tiers[0] is the minimum to succeed */

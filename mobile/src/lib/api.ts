@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { SEED_CAMPAIGNS } from './catalog';
-import { currentPrice, deliveryFee } from './pricing';
+import { currentPrice, deliveryFee , maxQty, MAX_ORDER_KG } from './pricing';
 import type { Campaign, Order, PaymentMethod, Profile } from './types';
 
 /**
@@ -23,7 +23,7 @@ export interface Api {
   cancelOrder(orderId: string): Promise<void>;
 }
 
-const K = { profile: 'ma3na.profile', orders: 'ma3na.orders', joined: 'ma3na.joined' };
+const K = { profile: 'ma3na.profile', orders: 'ma3na.orders.v2', joined: 'ma3na.joined.v2' };
 const wait = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 class SimulatedApi implements Api {
@@ -56,7 +56,7 @@ class SimulatedApi implements Api {
   async joinCampaign(campaignId: string, qty: number, payment: PaymentMethod) {
     const c = SEED_CAMPAIGNS.find(x => x.id === campaignId);
     if (!c) throw new Error('الحملة غير موجودة');
-    if (qty < 1 || qty > 9) throw new Error('الكمية من 1 إلى 9 كراتين');
+    if (qty < 1 || qty > maxQty(c)) throw new Error(`الطلب الواحد ما يتعدى ${MAX_ORDER_KG} كجم: الحد ${maxQty(c)} من هذا المنتج`);
     if (Date.now() > c.endsAt) throw new Error('الحملة انتهت');
     await wait(1200); // gateway authorisation (simulated)
     const unit = currentPrice(c);
@@ -113,7 +113,7 @@ class SupabaseApi implements Api {
     const { data, error } = await this.sb.from('campaign_feed').select('*').order('ends_at');
     if (error) throw error;
     return (data ?? []).map((r: any): Campaign => ({
-      id: r.id, brand: r.brand, name: r.name, shortName: r.short_name, pack: r.pack, category: r.category, image: r.image_url,
+      id: r.id, brand: r.brand, name: r.name, shortName: r.short_name, pack: r.pack, category: r.category, image: r.image_url ?? '', weightKg: Number(r.weight_kg), contents: r.contents ?? undefined,
       marketPrice: Number(r.market_price), tiers: r.tiers, unitsPerCarton: r.units_per_carton, unitLabel: r.unit_label,
       joinedQty: r.joined_qty, endsAt: new Date(r.ends_at).getTime(),
     }));

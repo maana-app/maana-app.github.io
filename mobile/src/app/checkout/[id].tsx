@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Back, CardIc, Shield } from '@/components/icons';
 import { Button, Card, ProductImage, Row, T } from '@/components/ui';
 import { api } from '@/lib/api';
-import { currentPrice, deliveryFee, formatSAR, lowestPrice } from '@/lib/pricing';
+import { allInPrice, currentPrice, deliveryFee, formatSAR, maxQty, MAX_ORDER_KG, orderKg } from '@/lib/pricing';
 import { useApp } from '@/lib/store';
 import { colors } from '@/lib/theme';
 import type { PaymentMethod } from '@/lib/types';
@@ -23,6 +23,7 @@ export default function Checkout() {
   const { campaign, profile, join } = useApp();
   const c = campaign(id);
   const [qty, setQty] = useState(Math.max(1, Number(q0) || 1));
+  const cap = c ? maxQty(c) : 1;
   const [pm, setPm] = useState<PaymentMethod>('apple_pay');
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -32,8 +33,8 @@ export default function Checkout() {
   const sub = price * qty;
   const fee = deliveryFee(qty);
   const total = sub + fee;
-  const saving = (c.marketPrice - price) * qty;
-
+  const saving = c.marketPrice * qty - total;
+  
   const pay = async () => {
     setErr(''); setBusy(true);
     try {
@@ -53,19 +54,19 @@ export default function Checkout() {
       <ScrollView contentContainerStyle={{ padding: 16, gap: 14, paddingBottom: 24 }}>
         <Card>
           <Row gap={12}>
-            <ProductImage uri={c.image} size={64} />
+            <ProductImage uri={c.image} size={64} brand={c.brand} />
             <View style={{ flex: 1 }}>
               <T w="semibold" size={13.5}>{c.shortName}</T>
               <T size={12} color={colors.muted}>{c.pack}</T>
-              <T w="semibold" size={12} color={colors.accentText}>{formatSAR(price)} ر.س للكرتون · قد ينزل إلى {formatSAR(lowestPrice(c))}</T>
+              <T w="semibold" size={12} color={colors.accentText}>{formatSAR(allInPrice(c, price))} ر.س للكرتون شامل التوصيل · {orderKg(c, qty)} من {MAX_ORDER_KG} كجم</T>
             </View>
             <Row gap={0} style={{ borderWidth: 1, borderColor: colors.line, borderRadius: 12, height: 44 }}>
-              <Pressable onPress={() => setQty(x => Math.min(9, x + 1))} accessibilityRole="button" accessibilityLabel="زيادة" style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><T w="bold" size={18} color={colors.brand}>+</T></Pressable>
+              <Pressable onPress={() => setQty(x => Math.min(cap, x + 1))} accessibilityRole="button" accessibilityLabel="زيادة" style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><T w="bold" size={18} color={colors.brand}>+</T></Pressable>
               <T w="bold" size={15}>{qty}</T>
               <Pressable onPress={() => setQty(x => Math.max(1, x - 1))} accessibilityRole="button" accessibilityLabel="إنقاص" style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><T w="bold" size={18} color={colors.brand}>−</T></Pressable>
             </Row>
           </Row>
-          {qty === 1 ? <T size={12} color="#7A5200" style={{ marginTop: 10, backgroundColor: colors.goldSoft, padding: 8, borderRadius: 8 }}>تنبيه: رسوم التوصيل على كرتون واحد 26 ر.س. كل كرتون إضافي توصيله 12 ر.س بس.</T> : null}
+          {qty >= cap ? <T size={12} color="#7A5200" style={{ marginTop: 10, backgroundColor: colors.goldSoft, padding: 8, borderRadius: 8 }}>وصلت الحد: الطلب الواحد ما يتعدى {MAX_ORDER_KG} كجم عشان يطلع في شحنة وحدة.</T> : <T size={12} color={colors.muted} style={{ marginTop: 10 }}>كل كرتون إضافي توصيله 12 ر.س بس، لين {cap} كراتين.</T>}
         </Card>
 
         <Card>
