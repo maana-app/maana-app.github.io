@@ -64,6 +64,19 @@ const SKUS: Sku[] = [
   { id: 'afia-2x1.5', brand: 'Afia', name: 'زيت عافية ذرة', shortName: 'زيت عافية', unitPack: '2 × 1.5 لتر', category: 'home', shelf: 59.45, kg: 3.0, inner: 2, unitLabel: 'عبوة' , image: 'https://cdn.mafrservices.com/pim-content/UAE/media/product/1723716/1736262003/1723716_main.jpg' },
   { id: 'nido-2.25', brand: 'Nido', name: 'حليب نيدو بودرة', shortName: 'نيدو بودرة', unitPack: '2.25 كجم', category: 'home', shelf: 107.5, kg: 2.4, inner: 1, unitLabel: 'علبة' , image: 'https://cdn.mafrservices.com/sys-master-root/h0d/h33/11618878062622/151675_main.jpg' },
   { id: 'lipton-100', brand: 'Lipton', name: 'شاي ليبتون أكياس', shortName: 'شاي ليبتون', unitPack: '100 كيس', category: 'home', shelf: 22.5, kg: 0.3, inner: 100, unitLabel: 'كيس' , image: 'https://cdn.mafrservices.com/sys-master-root/h61/hec/50270446845982/388804_main.jpg' },
+  // ── Added 8 Nov 2026 from Amazon.sa best-seller lists (ranked by purchases).
+  // shelf = Amazon.sa price on 8 Nov 2026; kg = assumption (pack size estimate) until supplier spec sheets.
+  { id: 'babyjoy-4', brand: 'Baby Joy', name: 'بيبي جوي دايموند مضغوط مقاس 4', shortName: 'بيبي جوي 4', unitPack: '96 حفاضة', category: 'baby', shelf: 75, kg: 4.3, inner: 96, unitLabel: 'حفاضة', image: 'https://m.media-amazon.com/images/I/613yM79dGML._AC_SL500_.jpg' },
+  { id: 'babyjoy-pants-5', brand: 'Baby Joy', name: 'بيبي جوي سروال مضغوط مقاس 5', shortName: 'بيبي جوي سروال 5', unitPack: '72 حفاضة', category: 'baby', shelf: 75.68, kg: 4.3, inner: 72, unitLabel: 'حفاضة', image: 'https://m.media-amazon.com/images/I/712nBBRKGjL._AC_SL500_.jpg' },
+  { id: 'johnsons-shampoo', brand: "Johnson's", name: 'جونسون شامبو الأطفال لا دموع', shortName: 'شامبو جونسون للأطفال', unitPack: '2 × 750 مل', category: 'baby', shelf: 30.5, kg: 1.6, inner: 2, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/71wpaRei3bL._AC_SL500_.jpg' },
+  { id: 'johnsons-wipes', brand: "Johnson's", name: 'جونسون مناديل مبللة للأطفال', shortName: 'مناديل جونسون المبللة', unitPack: '216 منديل', category: 'baby', shelf: 18.9, kg: 1.3, inner: 216, unitLabel: 'منديل', image: 'https://m.media-amazon.com/images/I/71QR%2BBotNJL._AC_SL500_.jpg' },
+  { id: 'huggies-wipes', brand: 'Huggies', name: 'هجيز مناديل مبللة 99% ماء', shortName: 'مناديل هجيز المبللة', unitPack: '192 منديل', category: 'baby', shelf: 60.2, kg: 1.2, inner: 192, unitLabel: 'منديل', image: 'https://m.media-amazon.com/images/I/71wUqY6g94L._AC_SL500_.jpg' },
+  { id: 'bepanthen-30', brand: 'Bepanthen', name: 'بيبانثين كريم واقي من طفح الحفاض', shortName: 'كريم بيبانثين', unitPack: '30 جم', category: 'baby', shelf: 12, kg: 0.05, inner: 1, unitLabel: 'أنبوب', image: 'https://m.media-amazon.com/images/I/613xW1AUE7L._AC_SL500_.jpg' },
+  { id: 'dove-soap-4', brand: 'Dove', name: 'صابون دوف كريمي', shortName: 'صابون دوف', unitPack: '4 × 135 جم', category: 'personal', shelf: 17.5, kg: 0.6, inner: 4, unitLabel: 'صابونة', image: 'https://m.media-amazon.com/images/I/61fHAR68gOL._AC_SL500_.jpg' },
+  { id: 'lifebuoy-700', brand: 'Lifebuoy', name: 'لايفبوي غسول الجسم توتال 10', shortName: 'غسول لايفبوي', unitPack: '700 مل', category: 'personal', shelf: 20.95, kg: 0.75, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/61pbMWPMsRL._AC_SL500_.jpg' },
+  { id: 'vaseline-450', brand: 'Vaseline', name: 'فازلين جيلي الأصلي', shortName: 'فازلين', unitPack: '450 مل', category: 'personal', shelf: 16.95, kg: 0.5, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/71am9YEelHL._AC_SL500_.jpg' },
+  { id: 'nivea-625', brand: 'NIVEA', name: 'نيفيا لوشن الجسم بزيت اللوز', shortName: 'لوشن نيفيا', unitPack: '625 مل', category: 'personal', shelf: 17.99, kg: 0.7, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/61k-9YsumtL._AC_SL500_.jpg' },
+  { id: 'listerine-500', brand: 'Listerine', name: 'ليسترين غسول فم كول منت', shortName: 'غسول ليسترين', unitPack: '500 مل', category: 'personal', shelf: 14.61, kg: 0.6, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/619iPZr6qGL._AC_SL500_.jpg' },
 ];
 
 /** Items from the study that cannot reach 112 SAR before hitting 10 kg. Basket add-ons only. */
@@ -85,6 +98,11 @@ export const BASKET_ONLY = [
   { name: 'سكر الأسرة 10 كجم', shelf: 47.25, kg: 10.1 },
   { name: 'حليب المراعي طويل الأجل 12 × 1 لتر', shelf: 72, kg: 12.9 },
   { name: 'مويه نوفا 40 × 330 مل', shelf: 22.45, kg: 14 },
+  // Amazon.sa best sellers (8 Nov 2026) that fail the formula
+  { name: 'فيري 2.2 لتر', shelf: 19.95, kg: 2.4 },
+  { name: 'تايد جل 4 لتر', shelf: 29.95, kg: 4.3 },
+  { name: 'كلينكس مناديل وجه 10 × 130', shelf: 15.9, kg: 1.5 },
+  { name: 'حليب نادك طويل الأجل 12 × 1 لتر', shelf: 47.5, kg: 12.9 },
 ];
 
 export const packSize = (shelf: number) => Math.ceil(BREAK_EVEN_MARKET / shelf);
@@ -99,6 +117,8 @@ const SIM: Record<string, [number, number, number]> = {
   'finish-90': [250, 188, 16], 'dettol-4l': [120, 70, 27], 'downy-3l': [150, 44, 46], 'fairy-1.5': [150, 102, 20], 'harpic': [120, 31, 47],
   'lux-6': [150, 66, 35], 'always-48': [150, 93, 24], 'hs-600': [120, 40, 43], 'colgate-4': [120, 57, 31],
   'sanita-foil': [120, 49, 38], 'sanita-bags': [120, 72, 19], 'afia-2x1.5': [150, 118, 14], 'nido-2.25': [150, 81, 29], 'lipton-100': [120, 26, 47],
+  'babyjoy-4': [200, 131, 28], 'babyjoy-pants-5': [150, 74, 37], 'johnsons-shampoo': [120, 55, 25], 'johnsons-wipes': [150, 98, 18], 'huggies-wipes': [120, 41, 42],
+  'bepanthen-30': [150, 117, 11], 'dove-soap-4': [120, 63, 32], 'lifebuoy-700': [120, 48, 39], 'vaseline-450': [120, 36, 44], 'nivea-625': [120, 52, 30], 'listerine-500': [120, 29, 46],
   'basket-baby': [150, 109, 21], 'basket-dishes': [150, 77, 34], 'basket-sanitize': [120, 58, 40], 'basket-care': [120, 45, 44], 'basket-home': [120, 33, 46],
 };
 
