@@ -15,8 +15,8 @@ import type { Campaign, CategoryId } from './types';
  * If no n satisfies both, the product loses money on its own and is listed in
  * BASKET_ONLY: it can only ship inside a mixed basket that stays under 10 kg.
  *
- * Images: retailer packshots (Carrefour KSA/UAE/Qatar, Nahdi), checked to load on 8 Nov 2026.
- * Internal simulation only: replace with supplier assets before launch.
+ * Images: removed (retailer packshots are not ours). Add supplier-approved images
+ * to assets/products/ and reference them here before launch.
  * Thresholds, joined counts and timers are simulation values.
  */
 const h = (hours: number) => Date.now() + hours * 3.6e6;
@@ -37,46 +37,44 @@ interface Sku {
 
 const SKUS: Sku[] = [
   // Baby
-  { id: 'pampers-premium-4', brand: 'Pampers', name: 'بامبرز بريميوم كير مقاس 4', shortName: 'بامبرز بريميوم 4', unitPack: '100 حفاضة', category: 'baby', shelf: 156.25, kg: 7.9, inner: 100, unitLabel: 'حفاضة' , image: 'https://cdn.mafrservices.com/sys-master-root/hb4/hd2/62326883254302/843496_main.jpg' },
-  { id: 'huggies-4', brand: 'Huggies', name: 'هقيز إكسترا كير مقاس 4', shortName: 'هقيز إكسترا كير 4', unitPack: '90 حفاضة', category: 'baby', shelf: 129.5, kg: 6.5, inner: 90, unitLabel: 'حفاضة' , image: 'https://cdn.mafrservices.com/sys-master-root/h5d/h6f/51951553019934/670331_main.jpg' },
-  { id: 'molfix-5', brand: 'Molfix', name: 'مولفكس حفاضات مقاس 5', shortName: 'مولفكس 5', unitPack: '88 حفاضة', category: 'baby', shelf: 134.95, kg: 7.9, inner: 88, unitLabel: 'حفاضة' , image: 'https://ecombe.nahdionline.com/media/catalog/product/1/0/103404702_aad35dbc85d3f2c34_91346.jpg' },
-  { id: 'babyjoy-3', brand: 'Baby Joy', name: 'بيبي جوي مقاس 3 مضغوط', shortName: 'بيبي جوي 3', unitPack: '84 حفاضة', category: 'baby', shelf: 104, kg: 4.7, inner: 84, unitLabel: 'حفاضة' , image: 'https://cdn.mafrservices.com/sys-master-root/h64/hcc/12964976394270/537151_main.jpg' },
-  { id: 'pampers-wipes', brand: 'Pampers', name: 'مناديل بامبرز المبللة', shortName: 'مناديل بامبرز المبللة', unitPack: '4 × 64 منديل', category: 'baby', shelf: 56.9, kg: 1.9, inner: 256, unitLabel: 'منديل',
-    image: 'https://cdn.mafrservices.com/sys-master-root/hba/ha3/50834654232606/511264_main.jpg' },
-  { id: 'aptamil-1', brand: 'Aptamil', name: 'حليب أبتاميل أدفانس 1', shortName: 'أبتاميل أدفانس 1', unitPack: 'علبة 800 جم', category: 'baby', shelf: 112.7, kg: 1.1, inner: 1, unitLabel: 'علبة' , image: 'https://cdn.mafrservices.com/pim-content/UAE/media/product/2150757/1758636604/2150757_main.jpg' },
-  { id: 'nan-1', brand: 'NAN', name: 'حليب نان أوبتي برو 1', shortName: 'نان أوبتي برو 1', unitPack: 'علبة 800 جم', category: 'baby', shelf: 118.06, kg: 1.1, inner: 1, unitLabel: 'علبة' , image: 'https://cdn.mafrservices.com/sys-master-root/hfd/h52/47310450163742/1827759_main.jpg' },
-  { id: 'similac-3', brand: 'Similac', name: 'حليب سيميلاك جولد 3', shortName: 'سيميلاك جولد 3', unitPack: 'علبة 800 جم', category: 'baby', shelf: 105.87, kg: 1.1, inner: 1, unitLabel: 'علبة' , image: 'https://cdn.mafrservices.com/sys-master-root/h72/hed/10059056873502/619097_main.jpg' },
+  { id: 'pampers-premium-4', brand: 'Pampers', name: 'بامبرز بريميوم كير مقاس 4', shortName: 'بامبرز بريميوم 4', unitPack: '100 حفاضة', category: 'baby', shelf: 156.25, kg: 7.9, inner: 100, unitLabel: 'حفاضة'  },
+  { id: 'huggies-4', brand: 'Huggies', name: 'هقيز إكسترا كير مقاس 4', shortName: 'هقيز إكسترا كير 4', unitPack: '90 حفاضة', category: 'baby', shelf: 129.5, kg: 6.5, inner: 90, unitLabel: 'حفاضة'  },
+  { id: 'molfix-5', brand: 'Molfix', name: 'مولفكس حفاضات مقاس 5', shortName: 'مولفكس 5', unitPack: '88 حفاضة', category: 'baby', shelf: 134.95, kg: 7.9, inner: 88, unitLabel: 'حفاضة'  },
+  { id: 'babyjoy-3', brand: 'Baby Joy', name: 'بيبي جوي مقاس 3 مضغوط', shortName: 'بيبي جوي 3', unitPack: '84 حفاضة', category: 'baby', shelf: 104, kg: 4.7, inner: 84, unitLabel: 'حفاضة'  },
+  { id: 'pampers-wipes', brand: 'Pampers', name: 'مناديل بامبرز المبللة', shortName: 'مناديل بامبرز المبللة', unitPack: '4 × 64 منديل', category: 'baby', shelf: 56.9, kg: 1.9, inner: 256, unitLabel: 'منديل' },
+  { id: 'aptamil-1', brand: 'Aptamil', name: 'حليب أبتاميل أدفانس 1', shortName: 'أبتاميل أدفانس 1', unitPack: 'علبة 800 جم', category: 'baby', shelf: 112.7, kg: 1.1, inner: 1, unitLabel: 'علبة'  },
+  { id: 'nan-1', brand: 'NAN', name: 'حليب نان أوبتي برو 1', shortName: 'نان أوبتي برو 1', unitPack: 'علبة 800 جم', category: 'baby', shelf: 118.06, kg: 1.1, inner: 1, unitLabel: 'علبة'  },
+  { id: 'similac-3', brand: 'Similac', name: 'حليب سيميلاك جولد 3', shortName: 'سيميلاك جولد 3', unitPack: 'علبة 800 جم', category: 'baby', shelf: 105.87, kg: 1.1, inner: 1, unitLabel: 'علبة'  },
   // Cleaning
-  { id: 'finish-90', brand: 'Finish', name: 'أقراص فنش كوانتم للجلاية', shortName: 'فنش كوانتم', unitPack: '90 قرص', category: 'cleaning', shelf: 76.5, kg: 1.6, inner: 90, unitLabel: 'قرص' , image: 'https://cdn.mafrservices.com/pim-content/SAU/media/product/728028/1760346605/728028_main.jpg' },
-  { id: 'dettol-4l', brand: 'Dettol', name: 'ديتول مطهر متعدد الاستخدام', shortName: 'ديتول مطهر', unitPack: '4 لتر', category: 'cleaning', shelf: 103.5, kg: 4.5, inner: 1, unitLabel: 'عبوة' , image: 'https://cdn.mafrservices.com/pim-content/SAU/media/product/19804/1759930205/19804_main.jpg' },
-  { id: 'downy-3l', brand: 'Downy', name: 'داوني منعم ملابس مركّز', shortName: 'داوني مركّز', unitPack: '3 لتر', category: 'cleaning', shelf: 57.99, kg: 3.4, inner: 1, unitLabel: 'عبوة' , image: 'https://cdn.mafrservices.com/pim-content/SAU/media/product/728538/1787047800/728538_main.jpg' },
-  { id: 'fairy-1.5', brand: 'Fairy', name: 'فيري سائل غسيل الصحون', shortName: 'فيري 1.5 لتر', unitPack: '1.5 لتر', category: 'cleaning', shelf: 36.99, kg: 1.7, inner: 1, unitLabel: 'عبوة',
-    image: 'https://cdn.mafrservices.com/sys-master-root/hbc/h4e/51126588440606/602787_main.jpg' },
-  { id: 'harpic', brand: 'Harpic', name: 'هاربك منظف المراحيض', shortName: 'هاربك', unitPack: '750 مل', category: 'cleaning', shelf: 19.95, kg: 0.8, inner: 1, unitLabel: 'عبوة' , image: 'https://cdn.mafrservices.com/pim-content/SAU/media/product/235628/1759933806/235628_main.jpg' },
+  { id: 'finish-90', brand: 'Finish', name: 'أقراص فنش كوانتم للجلاية', shortName: 'فنش كوانتم', unitPack: '90 قرص', category: 'cleaning', shelf: 76.5, kg: 1.6, inner: 90, unitLabel: 'قرص'  },
+  { id: 'dettol-4l', brand: 'Dettol', name: 'ديتول مطهر متعدد الاستخدام', shortName: 'ديتول مطهر', unitPack: '4 لتر', category: 'cleaning', shelf: 103.5, kg: 4.5, inner: 1, unitLabel: 'عبوة'  },
+  { id: 'downy-3l', brand: 'Downy', name: 'داوني منعم ملابس مركّز', shortName: 'داوني مركّز', unitPack: '3 لتر', category: 'cleaning', shelf: 57.99, kg: 3.4, inner: 1, unitLabel: 'عبوة'  },
+  { id: 'fairy-1.5', brand: 'Fairy', name: 'فيري سائل غسيل الصحون', shortName: 'فيري 1.5 لتر', unitPack: '1.5 لتر', category: 'cleaning', shelf: 36.99, kg: 1.7, inner: 1, unitLabel: 'عبوة' },
+  { id: 'harpic', brand: 'Harpic', name: 'هاربك منظف المراحيض', shortName: 'هاربك', unitPack: '750 مل', category: 'cleaning', shelf: 19.95, kg: 0.8, inner: 1, unitLabel: 'عبوة'  },
   // Personal care
-  { id: 'lux-6', brand: 'Lux', name: 'صابون لوكس', shortName: 'صابون لوكس', unitPack: '6 × 170 جم', category: 'personal', shelf: 49.5, kg: 1.1, inner: 6, unitLabel: 'صابونة' , image: 'https://cdn.mafrservices.com/sys-master-root/hdc/h58/14128673619998/495257_main.jpg' },
-  { id: 'always-48', brand: 'Always', name: 'فوط أولويز الصحية', shortName: 'فوط أولويز', unitPack: '48 حبة', category: 'personal', shelf: 55.2, kg: 1.6, inner: 48, unitLabel: 'فوطة' , image: 'https://cdn.mafrservices.com/pim-content/SAU/media/product/726736/1792932000/726736_main.jpg' },
-  { id: 'hs-600', brand: 'Head & Shoulders', name: 'شامبو هيد آند شولدرز', shortName: 'هيد آند شولدرز', unitPack: '600 مل', category: 'personal', shelf: 31.25, kg: 0.7, inner: 1, unitLabel: 'عبوة' , image: 'https://cdn.mafrservices.com/pim-content/SAU/media/product/564326/1749744005/564326_main.jpg' },
-  { id: 'colgate-4', brand: 'Colgate', name: 'معجون أسنان كولجيت', shortName: 'كولجيت', unitPack: '4 × 75 مل', category: 'personal', shelf: 19.99, kg: 0.5, inner: 4, unitLabel: 'أنبوب' , image: 'https://cdn.mafrservices.com/sys-master-root/h69/h3e/64122694631454/736007_main.jpg' },
+  { id: 'lux-6', brand: 'Lux', name: 'صابون لوكس', shortName: 'صابون لوكس', unitPack: '6 × 170 جم', category: 'personal', shelf: 49.5, kg: 1.1, inner: 6, unitLabel: 'صابونة'  },
+  { id: 'always-48', brand: 'Always', name: 'فوط أولويز الصحية', shortName: 'فوط أولويز', unitPack: '48 حبة', category: 'personal', shelf: 55.2, kg: 1.6, inner: 48, unitLabel: 'فوطة'  },
+  { id: 'hs-600', brand: 'Head & Shoulders', name: 'شامبو هيد آند شولدرز', shortName: 'هيد آند شولدرز', unitPack: '600 مل', category: 'personal', shelf: 31.25, kg: 0.7, inner: 1, unitLabel: 'عبوة'  },
+  { id: 'colgate-4', brand: 'Colgate', name: 'معجون أسنان كولجيت', shortName: 'كولجيت', unitPack: '4 × 75 مل', category: 'personal', shelf: 19.99, kg: 0.5, inner: 4, unitLabel: 'أنبوب'  },
   // Home & kitchen
-  { id: 'sanita-foil', brand: 'Sanita', name: 'ورق قصدير صنيتا', shortName: 'قصدير صنيتا', unitPack: '30سم × 85م', category: 'home', shelf: 46.75, kg: 1.1, inner: 1, unitLabel: 'رول' , image: 'https://cdn.mafrservices.com/sys-master-root/h75/hc2/33386703519774/53699_main.jpg' },
-  { id: 'sanita-bags', brand: 'Sanita', name: 'أكياس نفايات صنيتا', shortName: 'أكياس صنيتا', unitPack: '45 كيس', category: 'home', shelf: 29.5, kg: 1.1, inner: 45, unitLabel: 'كيس' , image: 'https://cdn.mafrservices.com/sys-master-root/hc7/haf/27325406445598/602174_main.jpg' },
-  { id: 'afia-2x1.5', brand: 'Afia', name: 'زيت عافية ذرة', shortName: 'زيت عافية', unitPack: '2 × 1.5 لتر', category: 'home', shelf: 59.45, kg: 3.0, inner: 2, unitLabel: 'عبوة' , image: 'https://cdn.mafrservices.com/pim-content/UAE/media/product/1723716/1736262003/1723716_main.jpg' },
-  { id: 'nido-2.25', brand: 'Nido', name: 'حليب نيدو بودرة', shortName: 'نيدو بودرة', unitPack: '2.25 كجم', category: 'home', shelf: 107.5, kg: 2.4, inner: 1, unitLabel: 'علبة' , image: 'https://cdn.mafrservices.com/sys-master-root/h0d/h33/11618878062622/151675_main.jpg' },
-  { id: 'lipton-100', brand: 'Lipton', name: 'شاي ليبتون أكياس', shortName: 'شاي ليبتون', unitPack: '100 كيس', category: 'home', shelf: 22.5, kg: 0.3, inner: 100, unitLabel: 'كيس' , image: 'https://cdn.mafrservices.com/sys-master-root/h61/hec/50270446845982/388804_main.jpg' },
+  { id: 'sanita-foil', brand: 'Sanita', name: 'ورق قصدير صنيتا', shortName: 'قصدير صنيتا', unitPack: '30سم × 85م', category: 'home', shelf: 46.75, kg: 1.1, inner: 1, unitLabel: 'رول'  },
+  { id: 'sanita-bags', brand: 'Sanita', name: 'أكياس نفايات صنيتا', shortName: 'أكياس صنيتا', unitPack: '45 كيس', category: 'home', shelf: 29.5, kg: 1.1, inner: 45, unitLabel: 'كيس'  },
+  { id: 'afia-2x1.5', brand: 'Afia', name: 'زيت عافية ذرة', shortName: 'زيت عافية', unitPack: '2 × 1.5 لتر', category: 'home', shelf: 59.45, kg: 3.0, inner: 2, unitLabel: 'عبوة'  },
+  { id: 'nido-2.25', brand: 'Nido', name: 'حليب نيدو بودرة', shortName: 'نيدو بودرة', unitPack: '2.25 كجم', category: 'home', shelf: 107.5, kg: 2.4, inner: 1, unitLabel: 'علبة'  },
+  { id: 'lipton-100', brand: 'Lipton', name: 'شاي ليبتون أكياس', shortName: 'شاي ليبتون', unitPack: '100 كيس', category: 'home', shelf: 22.5, kg: 0.3, inner: 100, unitLabel: 'كيس'  },
   // ── Added 8 Nov 2026 from Amazon.sa best-seller lists (ranked by purchases).
   // shelf = Amazon.sa price on 8 Nov 2026; kg = assumption (pack size estimate) until supplier spec sheets.
-  { id: 'babyjoy-4', brand: 'Baby Joy', name: 'بيبي جوي دايموند مضغوط مقاس 4', shortName: 'بيبي جوي 4', unitPack: '96 حفاضة', category: 'baby', shelf: 75, kg: 4.3, inner: 96, unitLabel: 'حفاضة', image: 'https://m.media-amazon.com/images/I/613yM79dGML._AC_SL500_.jpg' },
-  { id: 'babyjoy-pants-5', brand: 'Baby Joy', name: 'بيبي جوي سروال مضغوط مقاس 5', shortName: 'بيبي جوي سروال 5', unitPack: '72 حفاضة', category: 'baby', shelf: 75.68, kg: 4.3, inner: 72, unitLabel: 'حفاضة', image: 'https://m.media-amazon.com/images/I/712nBBRKGjL._AC_SL500_.jpg' },
-  { id: 'johnsons-shampoo', brand: "Johnson's", name: 'جونسون شامبو الأطفال لا دموع', shortName: 'شامبو جونسون للأطفال', unitPack: '2 × 750 مل', category: 'baby', shelf: 30.5, kg: 1.6, inner: 2, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/71wpaRei3bL._AC_SL500_.jpg' },
-  { id: 'johnsons-wipes', brand: "Johnson's", name: 'جونسون مناديل مبللة للأطفال', shortName: 'مناديل جونسون المبللة', unitPack: '216 منديل', category: 'baby', shelf: 18.9, kg: 1.3, inner: 216, unitLabel: 'منديل', image: 'https://m.media-amazon.com/images/I/71QR%2BBotNJL._AC_SL500_.jpg' },
-  { id: 'huggies-wipes', brand: 'Huggies', name: 'هجيز مناديل مبللة 99% ماء', shortName: 'مناديل هجيز المبللة', unitPack: '192 منديل', category: 'baby', shelf: 60.2, kg: 1.2, inner: 192, unitLabel: 'منديل', image: 'https://m.media-amazon.com/images/I/71wUqY6g94L._AC_SL500_.jpg' },
-  { id: 'bepanthen-30', brand: 'Bepanthen', name: 'بيبانثين كريم واقي من طفح الحفاض', shortName: 'كريم بيبانثين', unitPack: '30 جم', category: 'baby', shelf: 12, kg: 0.05, inner: 1, unitLabel: 'أنبوب', image: 'https://m.media-amazon.com/images/I/613xW1AUE7L._AC_SL500_.jpg' },
-  { id: 'dove-soap-4', brand: 'Dove', name: 'صابون دوف كريمي', shortName: 'صابون دوف', unitPack: '4 × 135 جم', category: 'personal', shelf: 17.5, kg: 0.6, inner: 4, unitLabel: 'صابونة', image: 'https://m.media-amazon.com/images/I/61fHAR68gOL._AC_SL500_.jpg' },
-  { id: 'lifebuoy-700', brand: 'Lifebuoy', name: 'لايفبوي غسول الجسم توتال 10', shortName: 'غسول لايفبوي', unitPack: '700 مل', category: 'personal', shelf: 20.95, kg: 0.75, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/61pbMWPMsRL._AC_SL500_.jpg' },
-  { id: 'vaseline-450', brand: 'Vaseline', name: 'فازلين جيلي الأصلي', shortName: 'فازلين', unitPack: '450 مل', category: 'personal', shelf: 16.95, kg: 0.5, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/71am9YEelHL._AC_SL500_.jpg' },
-  { id: 'nivea-625', brand: 'NIVEA', name: 'نيفيا لوشن الجسم بزيت اللوز', shortName: 'لوشن نيفيا', unitPack: '625 مل', category: 'personal', shelf: 17.99, kg: 0.7, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/61k-9YsumtL._AC_SL500_.jpg' },
-  { id: 'listerine-500', brand: 'Listerine', name: 'ليسترين غسول فم كول منت', shortName: 'غسول ليسترين', unitPack: '500 مل', category: 'personal', shelf: 14.61, kg: 0.6, inner: 1, unitLabel: 'عبوة', image: 'https://m.media-amazon.com/images/I/619iPZr6qGL._AC_SL500_.jpg' },
+  { id: 'babyjoy-4', brand: 'Baby Joy', name: 'بيبي جوي دايموند مضغوط مقاس 4', shortName: 'بيبي جوي 4', unitPack: '96 حفاضة', category: 'baby', shelf: 75, kg: 4.3, inner: 96, unitLabel: 'حفاضة' },
+  { id: 'babyjoy-pants-5', brand: 'Baby Joy', name: 'بيبي جوي سروال مضغوط مقاس 5', shortName: 'بيبي جوي سروال 5', unitPack: '72 حفاضة', category: 'baby', shelf: 75.68, kg: 4.3, inner: 72, unitLabel: 'حفاضة' },
+  { id: 'johnsons-shampoo', brand: "Johnson's", name: 'جونسون شامبو الأطفال لا دموع', shortName: 'شامبو جونسون للأطفال', unitPack: '2 × 750 مل', category: 'baby', shelf: 30.5, kg: 1.6, inner: 2, unitLabel: 'عبوة' },
+  { id: 'johnsons-wipes', brand: "Johnson's", name: 'جونسون مناديل مبللة للأطفال', shortName: 'مناديل جونسون المبللة', unitPack: '216 منديل', category: 'baby', shelf: 18.9, kg: 1.3, inner: 216, unitLabel: 'منديل' },
+  { id: 'huggies-wipes', brand: 'Huggies', name: 'هجيز مناديل مبللة 99% ماء', shortName: 'مناديل هجيز المبللة', unitPack: '192 منديل', category: 'baby', shelf: 60.2, kg: 1.2, inner: 192, unitLabel: 'منديل' },
+  { id: 'bepanthen-30', brand: 'Bepanthen', name: 'بيبانثين كريم واقي من طفح الحفاض', shortName: 'كريم بيبانثين', unitPack: '30 جم', category: 'baby', shelf: 12, kg: 0.05, inner: 1, unitLabel: 'أنبوب' },
+  { id: 'dove-soap-4', brand: 'Dove', name: 'صابون دوف كريمي', shortName: 'صابون دوف', unitPack: '4 × 135 جم', category: 'personal', shelf: 17.5, kg: 0.6, inner: 4, unitLabel: 'صابونة' },
+  { id: 'lifebuoy-700', brand: 'Lifebuoy', name: 'لايفبوي غسول الجسم توتال 10', shortName: 'غسول لايفبوي', unitPack: '700 مل', category: 'personal', shelf: 20.95, kg: 0.75, inner: 1, unitLabel: 'عبوة' },
+  { id: 'vaseline-450', brand: 'Vaseline', name: 'فازلين جيلي الأصلي', shortName: 'فازلين', unitPack: '450 مل', category: 'personal', shelf: 16.95, kg: 0.5, inner: 1, unitLabel: 'عبوة' },
+  { id: 'nivea-625', brand: 'NIVEA', name: 'نيفيا لوشن الجسم بزيت اللوز', shortName: 'لوشن نيفيا', unitPack: '625 مل', category: 'personal', shelf: 17.99, kg: 0.7, inner: 1, unitLabel: 'عبوة' },
+  { id: 'listerine-500', brand: 'Listerine', name: 'ليسترين غسول فم كول منت', shortName: 'غسول ليسترين', unitPack: '500 مل', category: 'personal', shelf: 14.61, kg: 0.6, inner: 1, unitLabel: 'عبوة' },
 ];
 
 /** Items from the study that cannot reach 112 SAR before hitting 10 kg. Basket add-ons only. */
@@ -137,7 +135,7 @@ const fromSku = (s: Sku): Campaign => {
 // Mixed baskets: the first four are from the study; "basket-home" shows how a
 // losing item (Clorox) rides along with dense items and still stays under 10 kg.
 const img = (id: string) => SKUS.find(s => s.id === id)?.image ?? '';
-const CLOROX = 'https://cdn.mafrservices.com/sys-master-root/hd6/h0f/12779008032798/83569_main.jpg';
+const CLOROX = ''; // TODO: supplier packshot
 
 const basket = (id: string, name: string, contents: string, category: CategoryId, market: number, kg: number, gallery: string[]): Campaign => {
   const [min, joined, hrs] = SIM[id];
