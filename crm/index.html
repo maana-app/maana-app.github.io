@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ar" dir="rtl" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ma3na · CRM قائمة الانتظار</title>
+<title>معنا · لوحة الإدارة</title>
 <meta name="robots" content="noindex,nofollow">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="logo.png">
@@ -356,7 +356,7 @@ textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;
 <div class="login" id="login" hidden>
   <form class="lbox" id="loginForm" novalidate>
     <img src="logo.png" alt="ma3na · معنا">
-    <h1 id="lTitle">دخول لوحة قائمة الانتظار</h1>
+    <h1 id="lTitle">دخول لوحة إدارة معنا</h1>
     <div class="f"><label for="lEmail">الإيميل</label><input id="lEmail" type="email" autocomplete="email" required dir="ltr"></div>
     <div class="f" id="lPassWrap"><label for="lPass">كلمة المرور</label><input id="lPass" type="password" autocomplete="current-password" minlength="8" required dir="ltr"></div>
     <div class="err" id="lErr" aria-live="assertive"></div>
@@ -374,19 +374,21 @@ textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;
       <a href="#dashboard" data-v="dashboard">لوحة المتابعة</a>
       <a href="#leads" data-v="leads">العملاء المحتملون <span class="c" id="cNew" hidden></span></a>
       <a href="#demand" data-v="demand">خريطة الطلب</a>
+      <div class="grp">التسويق</div>
+      <a href="#ads" data-v="ads">الإعلانات والزيارات</a>
       <div class="grp">القنوات</div>
       <a href="#channels" data-v="channels">الموقع والواتساب</a>
       <a href="#import" data-v="import">استيراد وتصدير</a>
       <div class="grp">الإعدادات</div>
       <a href="#team" data-v="team">الفريق والصلاحيات</a>
-      <a href="../admin.html#dashboard" style="opacity:.75">← لوحة الإدارة (محاكاة)</a>
+      <a href="https://maanaco.com/" target="_blank" rel="noopener" style="opacity:.75">← الموقع</a>
     </nav>
     <div class="me" id="me"></div>
   </aside>
 
   <main>
     <div class="top">
-      <div><div class="crumb">CRM · قائمة الانتظار</div><h1 id="title">لوحة المتابعة</h1></div>
+      <div><div class="crumb">لوحة إدارة معنا</div><h1 id="title">لوحة المتابعة</h1></div>
       <span class="live" title="بيانات حقيقية من قاعدة البيانات">● بيانات حقيقية</span>
       <button class="btn sm" id="refresh" type="button">تحديث</button>
     </div>
@@ -434,6 +436,41 @@ textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;
       <div class="card"><h3>حسب المدينة</h3><div class="tw"><table><thead><tr><th>المدينة</th><th>المسجلين</th><th>موافقين</th><th>الموقع</th><th>واتساب</th><th>كراتين متوقعة</th><th>من حد الحملة</th></tr></thead><tbody id="byCity"></tbody></table></div></div>
     </div>
 
+
+    <!-- ADS -->
+    <div class="content view" id="v-ads" hidden>
+      <div class="tools">
+        <select id="aPeriod"><option value="7">آخر 7 أيام</option><option value="30" selected>آخر 30 يوم</option><option value="3650">من البداية</option></select>
+        <span class="sp note">الزيارات تنحسب مرة لكل زائر باليوم، بدون أي بيانات شخصية.</span>
+      </div>
+      <div class="kpis" id="aKpis"></div>
+      <div class="card"><h3>أداء كل مصدر وحملة <span class="note">من روابط UTM في الإعلانات</span></h3>
+        <div class="tw"><table><thead><tr><th>المصدر</th><th>الحملة</th><th>زيارات</th><th>تسجيلات</th><th>نسبة التحويل</th><th>الصرف (ر.س)</th><th>تكلفة التسجيل</th></tr></thead><tbody id="aRows"></tbody></table></div></div>
+      <div class="grid2">
+        <div class="card"><h3>إضافة صرف إعلاني</h3><div class="pad">
+          <div class="form">
+            <div class="f"><label for="spDay">اليوم</label><input id="spDay" type="date"></div>
+            <div class="f"><label for="spPlat">المنصة</label><select id="spPlat"><option value="tiktok">TikTok</option><option value="snapchat">Snapchat</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="x">X</option><option value="google">Google</option><option value="youtube">YouTube</option><option value="influencer">مؤثر</option><option value="other">أخرى</option></select></div>
+            <div class="f"><label for="spCamp">اسم الحملة (نفس utm_campaign)</label><input id="spCamp" dir="ltr" placeholder="kamelha"></div>
+            <div class="f"><label for="spAmt">المبلغ (ر.س شامل الضريبة)</label><input id="spAmt" type="number" min="0" step="0.01"></div>
+            <div class="f"><label for="spImp">مرات الظهور (اختياري)</label><input id="spImp" type="number" min="0"></div>
+            <div class="f"><label for="spClk">النقرات (اختياري)</label><input id="spClk" type="number" min="0"></div>
+          </div>
+          <div class="tools" style="margin-top:12px"><button class="btn pri" id="spAdd" type="button">حفظ الصرف</button><span class="note">انسخ الأرقام من مدير الإعلانات في كل منصة آخر اليوم.</span></div>
+          <div class="tw" style="margin-top:12px"><table><thead><tr><th>اليوم</th><th>المنصة</th><th>الحملة</th><th>المبلغ</th><th></th></tr></thead><tbody id="spRows"></tbody></table></div>
+        </div></div>
+        <div class="card"><h3>منشئ روابط الإعلانات</h3><div class="pad" style="display:flex;flex-direction:column;gap:10px">
+          <p class="note" style="margin:0">كل إعلان لازم يكون له رابط بهالصيغة، وإلا تسجيلاته تطلع «مباشر» وما نعرف أي إعلان جابها.</p>
+          <div class="form">
+            <div class="f"><label for="uSrc">المنصة</label><select id="uSrc"><option>tiktok</option><option>snapchat</option><option>instagram</option><option>facebook</option><option>x</option><option>google</option><option>youtube</option><option>influencer</option><option>whatsapp</option></select></div>
+            <div class="f"><label for="uMed">النوع</label><select id="uMed"><option value="paid">إعلان ممول</option><option value="organic">منشور عادي</option><option value="influencer">مؤثر</option><option value="bio">رابط البايو</option></select></div>
+            <div class="f"><label for="uCamp">اسم الحملة</label><input id="uCamp" dir="ltr" value="kamelha"></div>
+          </div>
+          <div class="codeb" id="uOut"></div>
+          <div><button class="btn" id="uCopy" type="button">نسخ الرابط</button></div>
+        </div></div>
+      </div>
+    </div>
     <!-- CHANNELS -->
     <div class="content view" id="v-channels" hidden>
       <div class="kpis" id="chKpis"></div>
@@ -517,7 +554,7 @@ const sb = supabase.createClient(SB_URL, SB_KEY);
 const STATUS = { new:'جديد', contacted:'تم التواصل', interested:'مهتم', joined:'انضم لحملة', not_interested:'غير مهتم', unsubscribed:'أوقف الرسائل' };
 const SRC = { web:'الموقع', whatsapp:'واتساب', import:'مستورد', manual:'يدوي' };
 const ROLE = { super_admin:'Super Admin', operations:'Operations', cs:'CS' };
-const TITLES = { dashboard:'لوحة المتابعة', leads:'العملاء المحتملون', demand:'خريطة الطلب', channels:'الموقع والواتساب', import:'استيراد وتصدير', team:'الفريق والصلاحيات' };
+const TITLES = { ads:'الإعلانات والزيارات', dashboard:'لوحة المتابعة', leads:'العملاء المحتملون', demand:'خريطة الطلب', channels:'الموقع والواتساب', import:'استيراد وتصدير', team:'الفريق والصلاحيات' };
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtN = n => Number(n || 0).toLocaleString('en-US');
@@ -532,7 +569,7 @@ let me = { email:null, role:null }, LEADS = [], page = 0; const PER = 50;
 
 /* ---------- auth ---------- */
 let mode = 'in';
-$('lToggle').onclick = () => { mode = mode === 'in' ? 'up' : 'in'; $('lTitle').textContent = mode === 'in' ? 'دخول لوحة قائمة الانتظار' : 'إنشاء حساب للفريق'; $('lBtn').textContent = mode === 'in' ? 'دخول' : 'إنشاء الحساب'; $('lToggle').textContent = mode === 'in' ? 'ما عندك حساب؟ أنشئ حساب' : 'عندك حساب؟ سجّل دخول'; $('lErr').textContent = ''; };
+$('lToggle').onclick = () => { mode = mode === 'in' ? 'up' : 'in'; $('lTitle').textContent = mode === 'in' ? 'دخول لوحة إدارة معنا' : 'إنشاء حساب للفريق'; $('lBtn').textContent = mode === 'in' ? 'دخول' : 'إنشاء الحساب'; $('lToggle').textContent = mode === 'in' ? 'ما عندك حساب؟ أنشئ حساب' : 'عندك حساب؟ سجّل دخول'; $('lErr').textContent = ''; };
 $('lForgot').onclick = async () => { const e = $('lEmail').value.trim(); if (!e) { $('lErr').textContent = 'اكتب إيميلك أول'; return; } const { error } = await sb.auth.resetPasswordForEmail(e, { redirectTo: location.href.split('#')[0] }); $('lErr').textContent = error ? error.message : 'أرسلنا رابط تغيير كلمة المرور لإيميلك.'; };
 $('loginForm').onsubmit = async (e) => {
   e.preventDefault(); $('lErr').textContent = ''; $('lBtn').disabled = true;
@@ -562,7 +599,7 @@ async function boot() {
   $('logout').onclick = e => { e.preventDefault(); sb.auth.signOut().then(() => location.reload()); };
   if (me.role !== 'super_admin') $('staffAdd').hidden = true;
   if (me.role === 'cs') $('importBtn').title = 'الاستيراد لـ Operations و Super Admin';
-  await load(); route();
+  await load(); await loadAds(); startRealtime(); route();
 }
 
 /* ---------- data ---------- */
@@ -575,12 +612,12 @@ async function load() {
   }
   LEADS = all; fillFilters(); renderAll();
 }
-$('refresh').onclick = () => load().then(() => toast('تم التحديث'));
+$('refresh').onclick = () => Promise.all([load(), loadAds()]).then(() => toast('تم التحديث'));
 
 function fillFilters() {
   const uniq = k => [...new Set(LEADS.map(l => l[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
   const set = (id, vals, label) => { const v = $(id).value; $(id).innerHTML = `<option value="">${label}</option>` + vals.map(x => `<option value="${esc(x)}">${esc(x)}</option>`).join(''); $(id).value = v; };
-  set('fCity', uniq('city'), 'كل المدن'); set('fProduct', uniq('product'), 'كل المنتجات');
+  set('fCity', uniq('city'), 'كل المدن'); set('fProduct', [...new Set(LEADS.flatMap(prodsOf))].sort((a,b)=>a.localeCompare(b,'ar')), 'كل المنتجات');
   const v = $('fStatus').value; $('fStatus').innerHTML = '<option value="">كل الحالات</option>' + Object.entries(STATUS).map(([k,t]) => `<option value="${k}">${t}</option>`).join(''); $('fStatus').value = v;
 }
 
@@ -606,10 +643,11 @@ function renderDash() {
   // reco
   renderReco();
 }
-function groupCount(arr, k) { const m = {}; arr.forEach(l => { const v = l[k] || 'غير محدد'; m[v] = (m[v] || 0) + 1; }); return Object.entries(m).sort((a, b) => b[1] - a[1]); }
+const prodsOf = l => (l.product || '').split(/\s*[،,]\s*/).filter(Boolean);
+function groupCount(arr, k) { if (k === 'product') { const m = {}; arr.forEach(l => { const ps = prodsOf(l); (ps.length ? ps : ['غير محدد']).forEach(p => m[p] = (m[p] || 0) + 1); }); return Object.entries(m).sort((a, b) => b[1] - a[1]); } const m = {}; arr.forEach(l => { const v = l[k] || 'غير محدد'; m[v] = (m[v] || 0) + 1; }); return Object.entries(m).sort((a, b) => b[1] - a[1]); }
 function renderReco() {
   const cpl = +$('cpl').value || 2, thr = +$('thr').value || 200;
-  const cnt = {}; LEADS.filter(l => l.consent && l.status !== 'unsubscribed' && l.product).forEach(l => { cnt[l.product] = (cnt[l.product] || 0) + 1; });
+  const cnt = {}; LEADS.filter(l => l.consent && l.status !== 'unsubscribed').forEach(l => prodsOf(l).forEach(p => { cnt[p] = (cnt[p] || 0) + 1; }));
   const best = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
   if (!best) { $('reco').innerHTML = '<p class="note" style="margin:0">تظهر هنا أكثر فئة عليها طلب لما توصل التسجيلات.</p>'; return; }
   const cart = Math.round(best[1] * cpl), pct = Math.min(100, Math.round(cart / thr * 100));
@@ -619,7 +657,7 @@ function renderReco() {
 /* ---------- leads table ---------- */
 function filtered() {
   const q = $('q').value.trim().toLowerCase().replace(/^0/, ''), s = $('fSource').value, c = $('fCity').value, p = $('fProduct').value, st = $('fStatus').value, cn = $('fConsent').value;
-  return LEADS.filter(l => (!q || (l.name || '').toLowerCase().includes(q) || l.phone.includes(q.replace(/\D/g,'') || '###')) && (!s || l.sources.includes(s)) && (!c || l.city === c) && (!p || l.product === p) && (!st || l.status === st) && (cn === '' || String(+l.consent) === cn));
+  return LEADS.filter(l => (!q || (l.name || '').toLowerCase().includes(q) || l.phone.includes(q.replace(/\D/g,'') || '###')) && (!s || l.sources.includes(s)) && (!c || l.city === c) && (!p || prodsOf(l).includes(p)) && (!st || l.status === st) && (cn === '' || String(+l.consent) === cn));
 }
 function renderLeads() {
   const f = filtered(); const pages = Math.max(1, Math.ceil(f.length / PER)); page = Math.min(page, pages - 1);
@@ -700,8 +738,8 @@ function renderDemand() {
   const cpl = +$('cpl').value || 2, thr = +$('thr').value || 200;
   const act = LEADS.filter(l => l.consent && l.status !== 'unsubscribed');
   const cities = groupCount(act, 'city').map(x => x[0]), prods = groupCount(act, 'product').map(x => x[0]);
-  const mx = Math.max(1, ...cities.flatMap(c => prods.map(p => act.filter(l => (l.city||'غير محدد') === c && (l.product||'غير محدد') === p).length)));
-  $('matrix').innerHTML = cities.length ? `<thead><tr><th>المدينة</th>${prods.map(p => `<th>${esc(p)}</th>`).join('')}<th>المجموع</th></tr></thead><tbody>` + cities.map(c => { const r = prods.map(p => act.filter(l => (l.city||'غير محدد') === c && (l.product||'غير محدد') === p).length); return `<tr><td><b>${esc(c)}</b></td>${r.map(n => `<td><span class="heat" style="background:rgba(11,114,93,${n ? .1 + n / mx * .75 : 0});color:${n / mx > .55 ? '#fff' : 'var(--ink)'}">${n || '·'}</span></td>`).join('')}<td class="num"><b>${r.reduce((a, b) => a + b, 0)}</b></td></tr>`; }).join('') + '</tbody>' : '<tbody><tr><td class="empty">ما فيه بيانات للحين</td></tr></tbody>';
+  const mx = Math.max(1, ...cities.flatMap(c => prods.map(p => act.filter(l => (l.city||'غير محدد') === c && (prodsOf(l).length ? prodsOf(l) : ['غير محدد']).includes(p)).length)));
+  $('matrix').innerHTML = cities.length ? `<thead><tr><th>المدينة</th>${prods.map(p => `<th>${esc(p)}</th>`).join('')}<th>المجموع</th></tr></thead><tbody>` + cities.map(c => { const r = prods.map(p => act.filter(l => (l.city||'غير محدد') === c && (prodsOf(l).length ? prodsOf(l) : ['غير محدد']).includes(p)).length); return `<tr><td><b>${esc(c)}</b></td>${r.map(n => `<td><span class="heat" style="background:rgba(11,114,93,${n ? .1 + n / mx * .75 : 0});color:${n / mx > .55 ? '#fff' : 'var(--ink)'}">${n || '·'}</span></td>`).join('')}<td class="num"><b>${r.reduce((a, b) => a + b, 0)}</b></td></tr>`; }).join('') + '</tbody>' : '<tbody><tr><td class="empty">ما فيه بيانات للحين</td></tr></tbody>';
   $('byCity').innerHTML = groupCount(LEADS, 'city').map(([c, n]) => { const ls = LEADS.filter(l => (l.city || 'غير محدد') === c), cons = ls.filter(l => l.consent && l.status !== 'unsubscribed').length, cart = Math.round(cons * cpl), pct = Math.min(100, Math.round(cart / thr * 100)); return `<tr><td><b>${esc(c)}</b></td><td class="num">${n}</td><td class="num">${cons}</td><td class="num">${ls.filter(l => l.sources.includes('web')).length}</td><td class="num">${ls.filter(l => l.sources.includes('whatsapp')).length}</td><td class="num">${fmtN(cart)}</td><td><div class="bar"><i style="width:${pct}%"></i></div><small class="note">${pct}%</small></td></tr>`; }).join('') || '<tr><td colspan="7" class="empty">—</td></tr>';
   renderReco();
 }
@@ -745,6 +783,64 @@ async function renderTeam() {
   document.querySelectorAll('[data-rm]').forEach(b => b.onclick = async () => { const { error } = await sb.from('staff').delete().eq('email', b.dataset.rm); if (error) return toast(error.message); toast('انشالت الصلاحية'); renderTeam(); });
 }
 $('sAdd').onclick = async () => { const email = $('sEmail').value.trim().toLowerCase(); if (!/^\S+@\S+\.\S+$/.test(email)) return toast('اكتب إيميل صحيح'); const { error } = await sb.from('staff').upsert({ email, role: $('sRole').value, title: $('sTitle').value.trim() || null }); if (error) return toast(error.message); toast('انضاف. يقدر ينشئ حساب بنفس الإيميل ويدخل.'); $('sEmail').value = $('sTitle').value = ''; renderTeam(); };
+
+
+/* ---------- ads ---------- */
+let VISITS = [], SPEND = [];
+async function loadAds() {
+  const since = new Date(Date.now() - 400 * 864e5).toISOString().slice(0, 10);
+  let all = [], from = 0;
+  while (true) { const { data, error } = await sb.from('visits').select('day,utm_source,utm_medium,utm_campaign,device').gte('day', since).range(from, from + 999); if (error || !data) break; all = all.concat(data); if (data.length < 1000) break; from += 1000; }
+  VISITS = all;
+  const { data: sp } = await sb.from('ad_spend').select('*').order('day', { ascending: false });
+  SPEND = sp || []; renderAds();
+}
+function renderAds() {
+  const days = +$('aPeriod').value, cut = new Date(Date.now() - days * 864e5), cutD = cut.toISOString().slice(0, 10);
+  const key = (s, c) => (s || 'مباشر') + '||' + (c || '—');
+  const rows = {};
+  const row = k => rows[k] = rows[k] || { v: 0, l: 0, sp: 0 };
+  VISITS.filter(v => v.day >= cutD).forEach(v => row(key(v.utm_source, v.utm_campaign)).v++);
+  LEADS.filter(l => new Date(l.created_at) >= cut && l.sources.includes('web')).forEach(l => row(key(l.utm_source, l.utm_campaign)).l++);
+  LEADS.filter(l => new Date(l.created_at) >= cut && !l.sources.includes('web')).forEach(l => row(key('whatsapp', l.utm_campaign)).l++);
+  SPEND.filter(s => s.day >= cutD).forEach(s => { const k = Object.keys(rows).find(k => k.split('||')[1] === s.campaign && k.split('||')[0] === s.platform) || key(s.platform, s.campaign); row(k).sp += +s.amount_sar; });
+  const tv = Object.values(rows).reduce((a, r) => a + r.v, 0), tl = Object.values(rows).reduce((a, r) => a + r.l, 0), ts = Object.values(rows).reduce((a, r) => a + r.sp, 0);
+  const paidL = Object.values(rows).filter(r => r.sp > 0).reduce((a, r) => a + r.l, 0);
+  $('aKpis').innerHTML = kpi('زيارات الموقع', fmtN(tv), 'زائر فريد باليوم') + kpi('تسجيلات', fmtN(tl), 'الموقع + واتساب') + kpi('نسبة التحويل', tv ? (LEADS.filter(l => new Date(l.created_at) >= cut && l.sources.includes('web')).length / tv * 100).toFixed(1) + '%' : '—', 'من زيارة لتسجيل في الموقع') + kpi('الصرف الإعلاني', fmtN(Math.round(ts)) + ' ر.س', 'المدخل يدوياً') + kpi('تكلفة التسجيل (CPL)', paidL ? (ts / paidL).toFixed(1) + ' ر.س' : '—', 'الصرف ÷ تسجيلات الحملات الممولة');
+  const list = Object.entries(rows).sort((a, b) => (b[1].l - a[1].l) || (b[1].v - a[1].v));
+  $('aRows').innerHTML = list.map(([k, r]) => { const [s, c] = k.split('||'); return `<tr><td><b>${esc(s)}</b></td><td class="mono">${esc(c)}</td><td class="num">${fmtN(r.v)}</td><td class="num"><b>${fmtN(r.l)}</b></td><td class="num">${r.v ? (r.l / r.v * 100).toFixed(1) + '%' : '—'}</td><td class="num">${r.sp ? fmtN(Math.round(r.sp)) : '—'}</td><td class="num">${r.sp && r.l ? (r.sp / r.l).toFixed(1) : '—'}</td></tr>`; }).join('') || '<tr><td colspan="7" class="empty">ما فيه زيارات أو تسجيلات في هالفترة</td></tr>';
+  $('spRows').innerHTML = SPEND.slice(0, 15).map(s => `<tr><td>${s.day}</td><td>${esc(s.platform)}</td><td class="mono">${esc(s.campaign)}</td><td class="num">${fmtN(s.amount_sar)}</td><td>${me.role !== 'cs' ? `<button class="btn sm dan" data-sp="${s.id}" type="button">حذف</button>` : ''}</td></tr>`).join('') || '<tr><td colspan="5" class="empty">ما فيه صرف مسجل</td></tr>';
+  document.querySelectorAll('[data-sp]').forEach(x => x.onclick = async () => { const { error } = await sb.from('ad_spend').delete().eq('id', x.dataset.sp); if (error) return toast(error.message); loadAds(); });
+  utm();
+}
+$('aPeriod').oninput = renderAds;
+$('spDay').value = new Date().toISOString().slice(0, 10);
+$('spAdd').onclick = async () => {
+  const rec = { day: $('spDay').value, platform: $('spPlat').value, campaign: $('spCamp').value.trim(), amount_sar: +$('spAmt').value, impressions: +$('spImp').value || null, clicks: +$('spClk').value || null };
+  if (!rec.day || !rec.campaign || !(rec.amount_sar >= 0) || $('spAmt').value === '') return toast('عبّ اليوم واسم الحملة والمبلغ');
+  const { error } = await sb.from('ad_spend').insert(rec); if (error) return toast(error.message.includes('row-level') ? 'إضافة الصرف لـ Operations و Super Admin' : error.message);
+  $('spAmt').value = $('spImp').value = $('spClk').value = ''; toast('انحفظ الصرف'); loadAds();
+};
+function utm() { const u = `https://maanaco.com/?utm_source=${encodeURIComponent($('uSrc').value)}&utm_medium=${encodeURIComponent($('uMed').value)}&utm_campaign=${encodeURIComponent($('uCamp').value.trim().toLowerCase().replace(/\s+/g, '-'))}`; $('uOut').textContent = u; return u; }
+['uSrc','uMed','uCamp'].forEach(id => $(id).addEventListener('input', utm));
+$('uCopy').onclick = async () => { try { await navigator.clipboard.writeText(utm()); toast('انسخ الرابط'); } catch (e) { toast('انسخه يدوياً'); } };
+
+/* ---------- realtime: new signups ---------- */
+let rtStarted = false;
+function startRealtime() {
+  if (rtStarted) return; rtStarted = true;
+  sb.channel('leads-live').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, ({ new: l }) => {
+    if (LEADS.some(x => x.id === l.id)) return;
+    LEADS.unshift(l); fillFilters(); renderAll(); renderAds();
+    toast(`تسجيل جديد: ${l.name || fmtPhone(l.phone)} · ${l.city || ''} (${SRC[l.first_source] || l.first_source})`);
+    try { if (Notification.permission === 'granted' && document.hidden) new Notification('معنا · تسجيل جديد', { body: `${l.name || ''} · ${l.city || ''} · ${l.product || ''}`, icon: 'logo.png' }); } catch (e) {}
+    document.title = '(●) ' + document.title.replace(/^\(●\) /, '');
+  }).on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'leads' }, ({ new: l }) => {
+    const i = LEADS.findIndex(x => x.id === l.id); if (i >= 0) { LEADS[i] = l; renderAll(); }
+  }).subscribe();
+  addEventListener('focus', () => document.title = document.title.replace(/^\(●\) /, ''));
+  try { if ('Notification' in window && Notification.permission === 'default') document.addEventListener('click', () => Notification.requestPermission(), { once: true }); } catch (e) {}
+}
 
 /* ---------- routing ---------- */
 function route() {

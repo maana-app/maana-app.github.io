@@ -10,6 +10,14 @@
 <meta property="og:description" content="شراء جماعي للاحتياجات المنزلية المتكررة في كل مناطق المملكة. سجّل في قائمة الانتظار.">
 <meta property="og:locale" content="ar_SA">
 <link rel="icon" href="img/mark.png">
+<link rel="canonical" href="https://maanaco.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://maanaco.com/">
+<meta property="og:image" content="https://maanaco.com/img/logo-stack.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@ma3naapp">
+<link rel="apple-touch-icon" href="img/mark.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"معنا | Ma3na","url":"https://maanaco.com/","logo":"https://maanaco.com/img/logo-stack.png","email":"info@maanaco.com","sameAs":["https://x.com/ma3naapp","https://www.instagram.com/ma3naapp","https://www.tiktok.com/@ma3naapp","https://www.linkedin.com/company/ma3na-sa/"]}</script>
 <style>
 @font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-arabic-500-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
 @font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
@@ -325,7 +333,7 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
 .iphone.sm{position:relative;left:auto;top:auto;transform:none;--w:230px;margin:auto}
 .iphone.sm.center{--w:270px}
 .screens figure:not(.mid){opacity:.97}
-.screens figure:nth-child(1),.screens figure:nth-child(5){transform:translateY(30px)}
+.screens figure:nth-child(1),.screens figure:nth-child(4){transform:translateY(30px)}
 .sbar{display:flex;align-items:center;justify-content:space-between;padding:4px calc(var(--w)*.05) 8px;font-size:.95em}
 .sbar svg{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
 .sbar span{width:1.2em}
@@ -456,13 +464,58 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;scroll-behavior:auto!important}
 }
+
+.hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);opacity:0;pointer-events:none}
+.form-err{margin-top:12px;background:#FCDCD6;color:#9A2F22;border-radius:12px;padding:10px 14px;font-size:14.5px;text-align:center}
+.wa-alt{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;color:inherit;font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:4px;opacity:.9}
+.wa-alt:hover{opacity:1}
+.done .wa-alt{margin-top:10px}
+
+/* real product photography (replaces 3D renders) */
+.bc img.real{inset:auto;inset-inline-end:6px;bottom:6px;width:46%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.bc .bci{position:absolute;inset-inline-end:8px;bottom:8px;width:34%;height:auto;color:var(--green-2);opacity:.55}
+.bci,.si{display:block}
+.si{width:62%;height:62%;color:var(--green-2)}
+.live img.real{width:34%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:12px;margin:0;align-self:center;flex:none}
+.small .ph-i img{max-width:none;max-height:none}
+.cat .ph.photo{overflow:hidden;padding:0;background:none}
+.cat .ph.photo img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover}
+.cat .ph.icon{background:var(--mint-t);color:var(--green)}
+.cat .ph.icon .ic{width:52px;height:52px}
+.collage2{position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:14px}
+.collage2 img{width:100%;height:100%;object-fit:cover;border-radius:22px;box-shadow:0 20px 40px -24px rgba(11,61,51,.45)}
+.collage2 .c1,.collage2 .c2{aspect-ratio:1}
+.collage2 .c3{grid-column:1/-1;aspect-ratio:16/8}
+.sup-art.photo{height:auto}
+.sup-art.photo img{position:static;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:22px;filter:none;box-shadow:0 24px 48px -24px rgba(0,0,0,.5)}
+
+/* partner banners */
+.partners-sec{padding:90px 0;background:var(--cream)}
+.ptitle{font-size:clamp(30px,3.6vw,44px);margin-bottom:26px}
+.pbanners{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.pban{position:relative;display:grid;grid-template-columns:1.15fr .85fr;min-height:300px;border-radius:28px;overflow:hidden;isolation:isolate}
+.sup-b{background:#DCF5E6}
+.ship-b{background:#E3F3FB}
+.pban::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:linear-gradient(45deg,rgba(255,255,255,.55) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.55) 75%),linear-gradient(45deg,rgba(255,255,255,.55) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.55) 75%);background-size:44px 44px;background-position:0 0,22px 22px;mask-image:linear-gradient(to left,transparent 35%,#000 100%);-webkit-mask-image:linear-gradient(to left,transparent 35%,#000 100%)}
+.ptxt{padding:38px 36px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px}
+.ptxt h3{font-family:var(--display);font-size:clamp(26px,2.6vw,34px);line-height:1.25;color:var(--green)}
+.ptxt p{color:var(--ink-soft);font-size:16.5px;line-height:1.7;max-width:36ch}
+.pbtn{margin-top:8px;display:inline-flex;align-items:center;background:var(--yellow);color:var(--green);font-family:var(--display);font-weight:600;font-size:16px;padding:13px 26px;border-radius:14px;text-decoration:none;box-shadow:0 8px 18px -10px rgba(180,120,0,.7);transition:transform .15s}
+.pbtn:hover{transform:translateY(-2px)}
+.pimg{position:relative}
+.pimg{padding:18px}
+.pimg img{width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 18px 36px -20px rgba(11,61,51,.45)}
+@media(max-width:980px){.pbanners{grid-template-columns:1fr}}
+@media(max-width:560px){.pban{grid-template-columns:1fr;min-height:0}.pimg{height:210px;order:-1;padding:14px 14px 0}.ptxt{padding:24px 22px 28px}}
+.ph-i{overflow:hidden;padding:0!important}
+.ph-i img{width:100%!important;height:100%!important;max-height:none!important;object-fit:cover}
 </style>
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="#" aria-label="معنا"><img src="img/mark.png" alt="معنا"></a>
+    <a class="logo" href="#" aria-label="معنا"><img width="380" height="154" src="img/mark.webp" alt="معنا"></a>
     <nav class="menu" aria-label="القائمة">
       <a href="#how">كيف تشتغل</a>
       <a href="#cats">المنتجات</a>
@@ -484,7 +537,7 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
       <h1 id="h1">نشتري معاً..<br>نوفّر أكثر</h1>
       <p class="lead">تنضم مع عائلات ثانية على نفس المنتج، نشتري بالجملة من المورد، ويوصلك لباب البيت في أي مكان بالمملكة.</p>
       <ul class="pills" aria-label="المنتجات">
-        <li><img src="img/diapers.png" alt="">حفائظ</li><li><img src="img/detergent.png" alt="">منظفات</li><li><img src="img/tissues.png" alt="">مناديل</li><li><img src="img/personal-care.png" alt="">عناية شخصية</li>
+        <li>حفائظ</li><li>منظفات</li><li>مناديل</li><li>عناية شخصية</li>
       </ul>
       <div class="hero-actions">
         <a class="btn btn-dark" href="#waitlist">انضم لقائمة الانتظار</a>
@@ -533,21 +586,21 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
                 <span class="cnt"><b id="count">0</b> من 50 عائلة</span>
                 <span class="join">انضم</span>
               </div>
-              <img src="img/diapers.png" alt="">
+              <img class="real" loading="lazy" decoding="async" width="640" height="640" src="img/p-diapers.webp" alt="">
             </div>
             <div class="big">
-              <span class="bc"><b>حفائظ</b><small>كل المقاسات</small><em>حملة مفتوحة</em><img src="img/diapers.png" alt=""></span>
-              <span class="bc"><b>منظفات</b><small>جالونات وبخاخات</small><img src="img/detergent.png" alt=""></span>
-              <span class="bc"><b>مناديل</b><small>علب ورولات</small><img src="img/tissues.png" alt=""></span>
-              <span class="bc"><b>عناية شخصية</b><small>شامبو وكريمات</small><img src="img/personal-care.png" alt=""></span>
+              <span class="bc"><b>حفائظ</b><small>كل المقاسات</small><em>حملة مفتوحة</em><img class="real" loading="lazy" decoding="async" width="640" height="640" src="img/p-diapers.webp" alt=""></span>
+              <span class="bc"><b>منظفات</b><small>جالونات وبخاخات</small><img class="real" loading="lazy" decoding="async" width="640" height="637" src="img/p-cleaners.webp" alt=""></span>
+              <span class="bc"><b>مناديل</b><small>علب ورولات</small><img class="real" loading="lazy" decoding="async" width="640" height="640" src="img/p-tissues.webp" alt=""></span>
+              <span class="bc"><b>عناية شخصية</b><small>شامبو وكريمات</small><img class="real" loading="lazy" decoding="async" width="640" height="640" src="img/p-care.webp" alt=""></span>
             </div>
             <div class="small">
-              <span><i><img src="img/dish-soap.png" alt=""></i>صابون</span>
-              <span><i><img src="img/home-supplies.png" alt=""></i>مستلزمات</span>
+              <span><i class="ph-i"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-soap.webp" alt=""></i>صابون</span>
+              <span><i class="ph-i"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-home.webp" alt=""></i>مستلزمات</span>
               <span><i class="more">+</i>المزيد</span>
             </div>
             <p class="q">حملات تفتح قريب</p>
-            <div class="soonrow"><i><img src="img/dish-soap.png" alt=""></i><div><b>صابون سائل 4 لتر</b><small>تفتح السبت 8:00 م</small></div><em>ذكّرني</em></div>
+            <div class="soonrow"><i class="ph-i"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-soap.webp" alt=""></i><div><b>صابون سائل 4 لتر</b><small>تفتح السبت 8:00 م</small></div><em>ذكّرني</em></div>
           </div>
         </div>
       </div>
@@ -574,12 +627,12 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
       <p>نبدأ بالمنتجات اللي ما يخلو منها بيت، ونفتح لكل منتج حملة خاصة فيه.</p>
     </div>
     <div class="cats-grid">
-      <article class="cat"><span class=tag>أول الحملات</span><span class="ph"><img src="img/diapers.png" alt=""></span><div><h3>حفائظ الأطفال</h3><p>كل المقاسات، بالكرتون</p></div></article>
-      <article class="cat"><span class="ph"><img src="img/detergent.png" alt=""></span><div><h3>المنظفات</h3><p>للمطبخ والحمام والأرضيات</p></div></article>
-      <article class="cat"><span class="ph"><img src="img/tissues.png" alt=""></span><div><h3>المناديل</h3><p>مناديل الوجه وورق المطبخ</p></div></article>
-      <article class="cat"><span class="ph"><img src="img/dish-soap.png" alt=""></span><div><h3>صابون اليدين</h3><p>عبوات وتعبئات كبيرة</p></div></article>
-      <article class="cat"><span class="ph"><img src="img/personal-care.png" alt=""></span><div><h3>العناية الشخصية</h3><p>صابون وشامبو ومعجون</p></div></article>
-      <article class="cat"><span class="ph"><img src="img/home-supplies.png" alt=""></span><div><h3>مستلزمات البيت</h3><p>كل شي تشتريه كل شهر</p></div></article>
+      <article class="cat"><span class=tag>أول الحملات</span><span class="ph photo"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-diapers.webp" alt="كرتون حفائظ أطفال"></span><div><h3>حفائظ الأطفال</h3><p>كل المقاسات، بالكرتون</p></div></article>
+      <article class="cat"><span class="ph photo"><img loading="lazy" decoding="async" width="640" height="637" src="img/p-cleaners.webp" alt="منظفات وأدوات تنظيف"></span><div><h3>المنظفات</h3><p>للمطبخ والحمام والأرضيات</p></div></article>
+      <article class="cat"><span class="ph photo"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-tissues.webp" alt="علبة مناديل"></span><div><h3>المناديل</h3><p>مناديل الوجه وورق المطبخ</p></div></article>
+      <article class="cat"><span class="ph photo"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-soap.webp" alt="صابون يدين سائل"></span><div><h3>صابون اليدين</h3><p>عبوات وتعبئات كبيرة</p></div></article>
+      <article class="cat"><span class="ph photo"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-care.webp" alt="عبوات شامبو وصابون"></span><div><h3>العناية الشخصية</h3><p>صابون وشامبو ومعجون</p></div></article>
+      <article class="cat"><span class="ph photo"><img loading="lazy" decoding="async" width="640" height="640" src="img/p-home.webp" alt="مستلزمات البيت"></span><div><h3>مستلزمات البيت</h3><p>كل شي تشتريه كل شهر</p></div></article>
     </div>
   </div>
 </section>
@@ -630,11 +683,11 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
     <div class="head center"><h2 id="scrh">واجهات التطبيق</h2><p>من أول ما تنضم للحملة لين توصلك الكراتين.</p></div>
   </div>
   <div class="screens">
-    <figure><img src="img/app/upcoming.png" alt="شاشة حملات قادمة في تطبيق معنا" loading="lazy"><figcaption><b>حملات قادمة</b><span>تحفظ الحملة في مفضلتك قبل ما تفتح</span></figcaption></figure>
-    <figure><img src="img/app/notifications.png" alt="شاشة الإشعارات في تطبيق معنا" loading="lazy"><figcaption><b>الإشعارات</b><span>نذكّرك لين تنضم</span></figcaption></figure>
-    <figure class="mid"><img src="img/app/welcome.png" alt="شاشة الترحيب في تطبيق معنا" loading="lazy"><figcaption><b>الترحيب</b><span>حساب موثّق برقم جوالك</span></figcaption></figure>
-    <figure><img src="img/app/tracking.png" alt="شاشة تتبع الطلب في تطبيق معنا" loading="lazy"><figcaption><b>تتبع الطلب</b><span>تعرف وين طلبك في كل خطوة</span></figcaption></figure>
-    <figure><img src="img/app/otp.png" alt="شاشة التسليم برمز في تطبيق معنا" loading="lazy"><figcaption><b>التسليم برمز</b><span>تتأكد من الطرد قبل ما تعطي الرمز</span></figcaption></figure>
+    <figure><img width="560" height="1171" src="img/app/upcoming.webp" alt="شاشة حملات قادمة في تطبيق معنا" loading="lazy"><figcaption><b>حملات قادمة</b><span>تحفظ الحملة في مفضلتك قبل ما تفتح</span></figcaption></figure>
+    <figure><img width="560" height="1171" src="img/app/notifications.webp" alt="شاشة الإشعارات في تطبيق معنا" loading="lazy"><figcaption><b>الإشعارات</b><span>نذكّرك لين تنضم</span></figcaption></figure>
+    
+    <figure class="mid"><img width="560" height="1171" src="img/app/tracking.webp" alt="شاشة تتبع الطلب في تطبيق معنا" loading="lazy"><figcaption><b>تتبع الطلب</b><span>تعرف وين طلبك في كل خطوة</span></figcaption></figure>
+    <figure><img width="560" height="1171" src="img/app/otp.webp" alt="شاشة التسليم برمز في تطبيق معنا" loading="lazy"><figcaption><b>التسليم برمز</b><span>تتأكد من الطرد قبل ما تعطي الرمز</span></figcaption></figure>
   </div>
 </section>
 
@@ -646,11 +699,10 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
       <p>معنا منصة سعودية بفكرة جديدة: بدل ما تشتري لحالك بسعر التجزئة، تنضم مع عائلات ثانية على نفس المنتج، ونشتري الكمية كلها مباشرة من المورد بسعر الجملة، ونوصلها لبيتك في أي منطقة بالمملكة.</p>
       <a class="btn btn-dark" href="#waitlist">انضم لقائمة الانتظار</a>
     </div>
-    <div class="collage" aria-hidden="true">
-      <img class="k1" src="img/diapers.png" alt="">
-      <img class="k2" src="img/detergent.png" alt="">
-      <img class="k3" src="img/tissues.png" alt="">
-      <img class="k4" src="img/personal-care.png" alt="">
+    <div class="collage2" aria-hidden="true">
+      <img loading="lazy" decoding="async" class="c1" width="640" height="640" src="img/p-diapers.webp" alt="">
+      <img loading="lazy" decoding="async" class="c2" width="640" height="637" src="img/p-cleaners.webp" alt="">
+      <img loading="lazy" decoding="async" class="c3" width="1100" height="733" src="img/doorstep.webp" alt="">
     </div>
   </div>
 </section>
@@ -674,7 +726,7 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
     <div class="wait-copy">
       <h2 id="waith">كن من أوائل العائلات</h2>
       <p>سجّل الحين، ونرسل لك أول ما تنفتح حملة في مدينتك. قل لنا وش تشتري كل شهر عشان نبدأ فيه.</p>
-      <img src="img/logo-stack.png" alt="معنا ma3na">
+      <img loading="lazy" decoding="async" width="385" height="238" src="img/logo-stack.webp" alt="معنا ma3na">
     </div>
 
     <form id="wl" novalidate>
@@ -709,30 +761,46 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
           </div>
         </fieldset>
         <div class="field consent-field">
-          <label class="consent"><input type="checkbox" id="ok" required><span>أوافق على <button type="button" data-open="privacy" data-en="Privacy policy">سياسة الخصوصية</button> واستخدام رقمي للتواصل معي عن الإطلاق.</span></label>
+          <label class="consent"><input type="checkbox" id="ok" required><span>أوافق على <button type="button" data-open="privacy" data-en="Privacy policy">سياسة الخصوصية</button> وأوافق تراسلوني على واتساب عن الإطلاق والحملات في مدينتي، وأقدر أوقف الرسائل بأي وقت.</span></label>
           <div class="err" style="margin-top:-14px;margin-bottom:14px">لازم توافق عشان نقدر نتواصل معك</div>
         </div>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
         <button class="btn btn-coral" type="submit">سجّلني في قائمة الانتظار</button>
+        <p class="form-err" id="formErr" role="alert" hidden></p>
+        <a class="wa-alt" href="https://wa.me/966555407843?text=%D8%A7%D8%A8%D9%8A%20%D8%A3%D8%B3%D8%AC%D9%84%20%D9%81%D9%8A%20%D9%82%D8%A7%D8%A6%D9%85%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D8%B8%D8%A7%D8%B1" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg><span>أو سجّل من واتساب</span></a>
       </div>
       <div class="done" role="status" aria-live="polite">
         <div class="check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0B3D33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
         <h3>تم تسجيلك</h3>
-        <p>بنرسل لك رسالة أول ما تنفتح حملة في <span id="doneCity">مدينتك</span>.</p>
+        <p>بنرسل لك رسالة على واتساب أول ما تنفتح حملة في <span id="doneCity">مدينتك</span>.</p>
+        <a class="wa-alt" href="https://wa.me/966555407843" target="_blank" rel="noopener"><span>احفظ رقم معنا على واتساب عشان توصلك الرسالة</span></a>
       </div>
     </form>
   </div>
 </section>
 
 <!-- PARTNERS -->
-<section class="supplier" id="partners" aria-labelledby="parth">
-  <div class="wrap sup">
-    <div>
-      <h2 id="parth">هل أنت مورد أو موزّع؟</h2>
-      <p>نجمع لك طلبات مؤكدة ومدفوعة مسبقاً بكميات جملة من عائلات في كل المملكة. تجهّز الطلب في مستودعك، وشركة الشحن تستلمه منك، بدون ما تتعامل مع الأفراد ولا تتحمل تحصيل.</p>
-      <ul class="sup-points"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>طلبات بكميات كبيرة ومدفوعة قبل الشراء</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>أمر شراء واضح لكل حملة</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>وصول لعملاء جدد في كل المناطق</li></ul>
-      <div class="sup-act"><a class="btn btn-yellow" data-mail="مورد" href="#">سجّل كمورد</a><a class="link-light" data-mail="شركة شحن" href="#">شركة شحن؟ تواصل معنا</a></div>
+<section class="partners-sec" id="partners" aria-labelledby="parth">
+  <div class="wrap">
+    <h2 id="parth" class="ptitle">شريك معنا؟</h2>
+    <div class="pbanners">
+      <article class="pban sup-b">
+        <div class="ptxt">
+          <h3>سجّل كمورد أو موزّع</h3>
+          <p>طلبات جملة مؤكدة ومدفوعة مسبقاً من عائلات في كل المملكة، وأمر شراء واضح لكل حملة. بدون تحصيل وبدون تعامل مع أفراد.</p>
+          <a class="pbtn" data-mail="مورد" href="#">سجّل الآن</a>
+        </div>
+        <div class="pimg"><img loading="lazy" decoding="async" width="800" height="800" src="img/b-supplier.webp" alt=""></div>
+      </article>
+      <article class="pban ship-b">
+        <div class="ptxt">
+          <h3>سجّل كشركة شحن</h3>
+          <p>شحنات مجمّعة تستلمها من مستودع المورد وتوصلها لكل مناطق المملكة، ببوليصة وحدة لكل طلب.</p>
+          <a class="pbtn" data-mail="شركة شحن" href="#">تواصل معنا</a>
+        </div>
+        <div class="pimg"><img loading="lazy" decoding="async" width="800" height="800" src="img/b-shipping.webp" alt=""></div>
+      </article>
     </div>
-    <div class="sup-art" aria-hidden="true"><img src="img/detergent.png" alt=""><img src="img/home-supplies.png" alt=""></div>
   </div>
 </section>
 
@@ -752,7 +820,7 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
   <div class="wrap">
     <div class="fgrid">
       <div class="fbrand">
-        <img src="img/mark-light.png" alt="معنا">
+        <img loading="lazy" decoding="async" width="380" height="154" src="img/mark-light.webp" alt="معنا">
         <p>منصة شراء جماعي سعودية للاحتياجات المنزلية المتكررة.</p>
       </div>
       <nav class="fcol" aria-label="معنا"><b>معنا</b><a href="#how">كيف تشتغل</a><a href="#waitlist">قائمة الانتظار</a><button type="button" data-open="privacy" data-en="Privacy policy">سياسة الخصوصية</button></nav>
@@ -781,7 +849,7 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
     <li>ما نبيع بياناتك ولا نشاركها مع أي طرف للتسويق.</li>
     <li>تقدر تطلب حذف بياناتك في أي وقت عن طريق مراسلتنا على <a id="privMail" href="#">البريد</a>.</li>
   </ul>
-  <p>نتعامل مع بياناتك وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية.</p>
+  <p>نحفظ البيانات عند مزودي خدمات تقنية (قاعدة بيانات سحابية ومنصة رسائل واتساب معتمدة من Meta) يعالجونها نيابة عنا، ونحتفظ فيها لين تطلب حذفها أو بحد أقصى 24 شهر من آخر تواصل. تقدر توقف رسائل واتساب بأي وقت بكتابة «إيقاف».</p><p>نتعامل مع بياناتك وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية.</p>
   <button class="btn btn-dark" type="button" onclick="this.closest('dialog').close()">تمام</button>
 </dialog>
 
@@ -789,11 +857,25 @@ dialog ul{padding-inline-start:20px;margin-bottom:14px}
 /* ===== الإعدادات: عدّلها قبل الرفع ===== */
 const CONFIG = {
   // رابط يستقبل بيانات النموذج (Google Apps Script / Formspree / Make). اتركه فاضي للتجربة.
-  WAITLIST_ENDPOINT: "",
+  // قاعدة بيانات قائمة الانتظار (Supabase). المفتاح عام وآمن للنشر: الكتابة تمر فقط عبر submit_waitlist.
+  SB_URL: "https://aopnjxhopckowtnscskk.supabase.co",
+  SB_KEY: "sb_publishable_6Rrx9Xdg2LDtEd48no_-LA_QWnDFaWi",
   EMAIL: "info@maanaco.com",
   SUPPLIER_EMAIL: "supplier@maanaco.com",
   LOGISTICS_EMAIL: "logistics@maanaco.com"
 };
+
+/* زيارة مجهولة الهوية لقياس الإعلانات (بدون أي بيانات شخصية) */
+(function(){
+  try{
+    const q = new URLSearchParams(location.search), k = 'ma3na-v-' + new Date().toDateString();
+    if (sessionStorage.getItem(k)) return; sessionStorage.setItem(k, '1');
+    const w = innerWidth, dev = w < 768 ? 'mobile' : w < 1100 ? 'tablet' : 'desktop';
+    fetch(CONFIG.SB_URL + '/rest/v1/rpc/log_visit', {method:'POST', keepalive:true,
+      headers:{'Content-Type':'application/json', apikey: CONFIG.SB_KEY, Authorization:'Bearer '+CONFIG.SB_KEY},
+      body: JSON.stringify({p_utm_source:q.get('utm_source'), p_utm_medium:q.get('utm_medium'), p_utm_campaign:q.get('utm_campaign'), p_referrer:document.referrer||null, p_device:dev, p_lang:q.get('lang')||'ar'})}).catch(()=>{});
+  }catch(e){}
+})();
 
 /* بريد التواصل */
 document.querySelectorAll('[data-mail]').forEach(a=>{
@@ -851,31 +933,42 @@ form.addEventListener('submit', async e=>{
   ];
   if (valid.includes(false)){ form.querySelector('.bad input, .bad select').focus(); return; }
 
-  const data = {
-    name: name.value.trim(), phone: p, city: city.value,
-    items: [...form.querySelectorAll('[name=items]:checked')].map(i=>i.value).join('، '),
-    source: new URLSearchParams(location.search).get('utm_source') || 'direct',
-    created_at: new Date().toISOString()
-  };
+  if (form.website.value) { form.classList.add('sent'); return; }
+  const qs = new URLSearchParams(location.search);
+  const items = [...form.querySelectorAll('[name=items]:checked')].map(i=>i.value);
+  const errBox = document.getElementById('formErr'); errBox.hidden = true;
   const btn = form.querySelector('[type=submit]');
   btn.disabled = true; btn.textContent = LANG === 'en' ? 'Signing you up…' : 'جاري التسجيل…';
   try{
-    if (CONFIG.WAITLIST_ENDPOINT){
-      await fetch(CONFIG.WAITLIST_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data)});
-    } else {
-      console.log('waitlist (test mode)', data);
-    }
+    const r = await fetch(CONFIG.SB_URL + '/rest/v1/rpc/submit_waitlist', {
+      method:'POST',
+      headers:{'Content-Type':'application/json', apikey: CONFIG.SB_KEY, Authorization:'Bearer '+CONFIG.SB_KEY},
+      body: JSON.stringify({
+        p_phone: p, p_name: name.value.trim(), p_city: city.value,
+        p_product: items.join('، ') || null, p_frequency: null, p_consent: true,
+        p_consent_text: ok.closest('label').textContent.replace(/\s+/g,' ').trim(),
+        p_lang: LANG, p_utm_source: qs.get('utm_source'), p_utm_medium: qs.get('utm_medium'),
+        p_utm_campaign: qs.get('utm_campaign'), p_referrer: document.referrer || null, p_hp: null
+      })
+    });
+    const j = await r.json().catch(()=>({}));
+    if (!r.ok || !j.ok) throw new Error(j.error || ('http_' + r.status));
     const cityLabel = city.options[city.selectedIndex].textContent;
-    document.getElementById('doneCity').textContent = data.city === 'مدينة ثانية' ? (LANG === 'en' ? 'your city' : 'مدينتك') : cityLabel;
+    document.getElementById('doneCity').textContent = city.value === 'مدينة ثانية' ? (LANG === 'en' ? 'your city' : 'مدينتك') : cityLabel;
     form.classList.add('sent');
+    try { window.gtag && gtag('event','generate_lead',{method:'web_form'}); window.ttq && ttq.track('CompleteRegistration'); window.snaptr && snaptr('track','SIGN_UP'); window.fbq && fbq('track','Lead'); } catch(e){}
   }catch(err){
     btn.disabled = false; btn.textContent = LANG === 'en' ? 'Add me to the waitlist' : 'سجّلني في قائمة الانتظار';
-    alert(LANG === 'en' ? "We couldn't sign you up right now. Check your connection and try again." : 'ما قدرنا نسجّلك الحين، تأكد من الاتصال وجرّب مرة ثانية.');
+    const m = String(err.message);
+    errBox.textContent = m === 'invalid_phone' ? (LANG === 'en' ? 'Please enter a valid Saudi mobile number.' : 'رقم الجوال غير صحيح، اكتبه بصيغة 05XXXXXXXX.')
+      : m === 'busy' ? (LANG === 'en' ? 'We are busy right now, try again in a minute.' : 'الضغط عالي الحين، جرّب بعد دقيقة.')
+      : (LANG === 'en' ? "We couldn't sign you up right now. Try again, or sign up on WhatsApp." : 'ما قدرنا نسجّلك الحين. جرّب مرة ثانية، أو سجّل من واتساب.');
+    errBox.hidden = false;
   }
 });
 
 /* ===== Arabic / English ===== */
-const I18N = {"كيف تشتغل": "How it works", "المنتجات": "Products", "التطبيق": "The app", "من نحن": "About us", "للموردين": "For suppliers", "سجّل اهتمامك": "Get early access", "قريباً": "Coming soon", "نشتري معاً..": "Buy together..", "نوفّر أكثر": "save more", "تنضم مع عائلات ثانية على نفس المنتج، نشتري بالجملة من المورد، ويوصلك لباب البيت في أي مكان بالمملكة.": "Join other families on the same product. We buy in bulk from the supplier and deliver to your door anywhere in the Kingdom.", "حفائظ": "Diapers", "منظفات": "Cleaners", "مناديل": "Tissues", "عناية شخصية": "Personal care", "انضم لقائمة الانتظار": "Join the waitlist", "كيف تشتغل؟": "How does it work?", "التطبيق قريباً على": "App coming soon on", "كل مناطق المملكة": "All regions of the Kingdom", "دفع إلكتروني آمن": "Secure online payment", "تسليم موثّق برمز تحقق": "Delivery verified by code", "اكتملت الحملة": "Campaign completed", "حفائظ مقاس 4، 50 من 50 عائلة": "Diapers size 4, 50 of 50 families", "س": "S", "م": "M", "ن": "N", "+12 عائلة انضمت": "+12 families joined", "من الرياض خلال آخر ساعة": "From Riyadh in the last hour", "طلبك في الطريق": "Your order is on the way", "رمز التحقق عند الاستلام: 4821": "Delivery code: 4821", "منطقة نوصل لها من أول يوم": "regions we deliver to from day one", "3 إلى 7": "3 to 7", "أيام مدة كل حملة": "days per campaign", "دفع إلكتروني مسبق": "online prepayment", "رسوم مخفية بعد الدفع": "hidden fees after payment", "الأشياء اللي تشتريها كل شهر": "The things you buy every month", "نبدأ بالمنتجات اللي ما يخلو منها بيت، ونفتح لكل منتج حملة خاصة فيه.": "We start with the products every home needs, and open a dedicated campaign for each one.", "أول الحملات": "First campaigns", "حفائظ الأطفال": "Baby diapers", "كل المقاسات، بالكرتون": "All sizes, by the carton", "المنظفات": "Cleaners", "للمطبخ والحمام والأرضيات": "Kitchen, bathroom and floors", "المناديل": "Tissues", "مناديل الوجه وورق المطبخ": "Facial tissues and kitchen paper", "صابون اليدين": "Hand soap", "عبوات وتعبئات كبيرة": "Bottles and large refills", "العناية الشخصية": "Personal care", "صابون وشامبو ومعجون": "Soap, shampoo and toothpaste", "مستلزمات البيت": "Home essentials", "كل شي تشتريه كل شهر": "Everything you buy every month", "كيف تشتغل معنا؟": "How does Ma3na work?", "كل حملة مفتوحة من 3 إلى 7 أيام على منتج واحد.": "Each campaign is open for 3 to 7 days on a single product.", "انضم لحملة": "Join a campaign", "اختر المنتج اللي تحتاجه وحدد الكمية، وتشوف كم عائلة انضمت وكم باقي.": "Pick the product you need and the quantity, and see how many families have joined and how many are left.", "تكتمل الحملة": "The campaign completes", "لما يوصل العدد للحد المطلوب، نشتري الكمية كلها من المورد بسعر الجملة.": "Once enough families join, we buy the full quantity from the supplier at the wholesale price.", "إذا ما اكتملت، ما ينخصم منك شي.": "If it doesn't complete, you're not charged anything.", "يوصل لبيتك": "Delivered to your home", "تستلم طلبك على عنوانك الوطني برمز تحقق يوصلك على جوالك.": "Receive your order at your national address with a verification code sent to your phone.", "مميزات التطبيق": "App features", "كل شي مصمم عشان توفّر وقتك وفلوسك، وتعرف وش تدفع ووش بيوصلك.": "Everything is designed to save you time and money, so you always know what you pay and what you get.", "سعر الجملة": "Wholesale price", "نجمع طلبات العائلات ونشتري من المورد مباشرة بكميات كبيرة.": "We pool families' orders and buy directly from the supplier in large quantities.", "ما تدفع إلا إذا اكتملت الحملة": "Pay only if the campaign completes", "الدفع إلكتروني ومسبق، والمبلغ ينخصم فقط لما يكتمل عدد العائلات.": "Payment is online and upfront, and you're only charged once enough families join.", "رسوم التوصيل قدامك قبل الدفع": "Delivery fees shown before you pay", "تشوف سعر المنتج والتوصيل كامل قبل ما تأكد، بدون رسوم تطلع لك بعدين.": "See the full product and delivery price before you confirm, with no fees added later.", "تسليم موثّق": "Verified delivery", "رمز تحقق على جوالك وصورة إثبات تسليم في كل شحنة.": "A verification code on your phone and proof-of-delivery photo for every shipment.", "تذكير قبل الحملات": "Campaign reminders", "اختر المنتجات اللي تهمك، ونذكرك قبل ما تفتح حملتها وقبل ما تقفل.": "Choose the products you care about, and we'll remind you before their campaign opens and before it closes.", "تابع حملتك لحظة بلحظة": "Track your campaign live", "تشوف كم عائلة انضمت وكم باقي، وتشارك الرابط مع أهلك وجيرانك.": "See how many families have joined and how many are left, and share the link with family and neighbors.", "واجهات التطبيق": "App screens", "من أول ما تنضم للحملة لين توصلك الكراتين.": "From the moment you join a campaign until the cartons reach you.", "حملات قادمة": "Upcoming campaigns", "تحفظ الحملة في مفضلتك قبل ما تفتح": "Save a campaign to your favorites before it opens", "الإشعارات": "Notifications", "نذكّرك لين تنضم": "We remind you until you join", "الترحيب": "Welcome", "حساب موثّق برقم جوالك": "An account verified with your phone number", "تتبع الطلب": "Order tracking", "تعرف وين طلبك في كل خطوة": "Know where your order is at every step", "التسليم برمز": "Delivery by code", "تتأكد من الطرد قبل ما تعطي الرمز": "Check the package before you give the code", "أوفر طريقة تشتري فيها احتياجات بيتك": "The smarter way to buy your home essentials", "معنا منصة سعودية بفكرة جديدة: بدل ما تشتري لحالك بسعر التجزئة، تنضم مع عائلات ثانية على نفس المنتج، ونشتري الكمية كلها مباشرة من المورد بسعر الجملة، ونوصلها لبيتك في أي منطقة بالمملكة.": "Ma3na is a Saudi platform with a new idea: instead of buying alone at retail prices, you join other families on the same product, we buy the full quantity directly from the supplier at the wholesale price, and deliver it to your home in any region of the Kingdom.", "قريباً في جميع مناطق المملكة": "Coming soon to every region of the Kingdom", "نوصل من أول يوم لكل المناطق عن طريق شركات شحن معتمدة، وكل شحنة على عنوانك الوطني برمز تحقق. وكل ما زاد عدد العائلات في مدينتك، تكتمل الحملات أسرع.": "We deliver to all regions from day one through licensed shipping companies, with every shipment going to your national address with a verification code. The more families in your city, the faster campaigns complete.", "الرياض": "Riyadh", "جدة": "Jeddah", "مكة المكرمة": "Makkah", "المدينة المنورة": "Madinah", "الدمام والخبر": "Dammam & Khobar", "الأحساء": "Al-Ahsa", "القصيم": "Qassim", "حائل": "Hail", "تبوك": "Tabuk", "أبها وخميس مشيط": "Abha & Khamis Mushait", "جازان": "Jazan", "نجران": "Najran", "الباحة": "Al-Baha", "الجوف": "Al-Jouf", "الحدود الشمالية": "Northern Borders", "سجّل مدينتك": "Register your city", "المدينة": "Madinah", "الدمام": "Dammam", "أبها": "Abha", "بريدة": "Buraidah", "سكاكا": "Sakaka", "كن من أوائل العائلات": "Be among the first families", "سجّل الحين، ونرسل لك أول ما تنفتح حملة في مدينتك. قل لنا وش تشتري كل شهر عشان نبدأ فيه.": "Sign up now and we'll message you as soon as a campaign opens in your city. Tell us what you buy every month so we know where to start.", "الاسم": "Name", "اكتب اسمك": "Enter your name", "رقم الجوال": "Mobile number", "اكتب رقم جوال سعودي يبدأ بـ 05": "Enter a Saudi mobile number starting with 05", "اختر مدينتك": "Choose your city", "الخبر": "Khobar", "الظهران": "Dhahran", "الطائف": "Taif", "عنيزة": "Unaizah", "خميس مشيط": "Khamis Mushait", "عرعر": "Arar", "ينبع": "Yanbu", "الجبيل": "Jubail", "حفر الباطن": "Hafar Al-Batin", "مدينة ثانية": "Other city", "وش تشتري كل شهر؟": "What do you buy every month?", "أوافق على": "I agree to the", "سياسة الخصوصية": "privacy policy", "واستخدام رقمي للتواصل معي عن الإطلاق.": "and to being contacted on my number about the launch.", "لازم توافق عشان نقدر نتواصل معك": "You need to agree so we can contact you", "سجّلني في قائمة الانتظار": "Add me to the waitlist", "تم تسجيلك": "You're on the list", "بنرسل لك رسالة أول ما تنفتح حملة في": "We'll message you as soon as a campaign opens in", "مدينتك": "your city", "هل أنت مورد أو موزّع؟": "Are you a supplier or distributor?", "نجمع لك طلبات مؤكدة ومدفوعة مسبقاً بكميات جملة من عائلات في كل المملكة. تجهّز الطلب في مستودعك، وشركة الشحن تستلمه منك، بدون ما تتعامل مع الأفراد ولا تتحمل تحصيل.": "We bring you confirmed, prepaid orders in wholesale quantities from families across the Kingdom. You prepare the order at your warehouse and the shipping company collects it, with no individual customers to deal with and no cash collection.", "طلبات بكميات كبيرة ومدفوعة قبل الشراء": "Large, prepaid orders before purchase", "أمر شراء واضح لكل حملة": "A clear purchase order for every campaign", "وصول لعملاء جدد في كل المناطق": "Reach new customers in every region", "سجّل كمورد": "Register as a supplier", "شركة شحن؟ تواصل معنا": "Shipping company? Contact us", "حمّل التطبيق قريباً": "Download the app soon", "نعلن الإطلاق لأول المسجّلين في قائمة الانتظار.": "We'll announce the launch to the first people on the waitlist.", "منصة شراء جماعي سعودية للاحتياجات المنزلية المتكررة.": "A Saudi group-buying platform for recurring household needs.", "معنا": "Ma3na", "قائمة الانتظار": "Waitlist", "الشركاء": "Partners", "للموردين والموزعين": "Suppliers & distributors", "لشركات الشحن": "Shipping companies", "تابعنا": "Follow us", "© 2026 معنا. جميع الحقوق محفوظة.": "© 2026 Ma3na. All rights reserved.", "نجمع في قائمة الانتظار: اسمك، رقم جوالك، مدينتك، والمنتجات اللي اخترتها.": "On the waitlist we collect your name, mobile number, city, and the products you selected.", "نستخدمها فقط للتواصل معك عن إطلاق معنا والحملات في مدينتك، ولفهم وش المنتجات اللي نبدأ فيها.": "We use them only to contact you about Ma3na's launch and campaigns in your city, and to understand which products to start with.", "ما نبيع بياناتك ولا نشاركها مع أي طرف للتسويق.": "We don't sell your data or share it with anyone for marketing.", "تقدر تطلب حذف بياناتك في أي وقت عن طريق مراسلتنا على": "You can ask us to delete your data at any time by emailing", "نتعامل مع بياناتك وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية.": "We handle your data in accordance with the Personal Data Protection Law of the Kingdom of Saudi Arabia.", "تمام": "OK", "القائمة": "Menu", "شاشة توضيحية من تطبيق معنا": "Preview screen from the Ma3na app", "معنا بالأرقام": "Ma3na in numbers", "شاشة حملات قادمة في تطبيق معنا": "Upcoming campaigns screen in the Ma3na app", "شاشة الإشعارات في تطبيق معنا": "Notifications screen in the Ma3na app", "شاشة الترحيب في تطبيق معنا": "Welcome screen in the Ma3na app", "شاشة تتبع الطلب في تطبيق معنا": "Order tracking screen in the Ma3na app", "شاشة التسليم برمز في تطبيق معنا": "Delivery by code screen in the Ma3na app", "خريطة المملكة العربية السعودية ومدن التوصيل": "Map of Saudi Arabia and delivery cities", "معنا ma3na": "Ma3na logo", "حسابات معنا": "Ma3na accounts", "لينكدإن": "LinkedIn", "إكس": "X", "إنستقرام": "Instagram", "تيك توك": "TikTok", "جاري التسجيل…": "Signing you up…", "ما قدرنا نسجّلك الحين، تأكد من الاتصال وجرّب مرة ثانية.": "We couldn't sign you up right now. Check your connection and try again.", "شراكة مع معنا: ": "Partnership with Ma3na: "};
+const I18N = {"شريك معنا؟": "Partner with Ma3na?", "سجّل كمورد أو موزّع": "Join as a supplier or distributor", "طلبات جملة مؤكدة ومدفوعة مسبقاً من عائلات في كل المملكة، وأمر شراء واضح لكل حملة. بدون تحصيل وبدون تعامل مع أفراد.": "Confirmed, prepaid wholesale orders from families across the Kingdom, with a clear purchase order for every campaign. No cash collection and no individual customers.", "سجّل الآن": "Register now", "سجّل كشركة شحن": "Join as a shipping company", "شحنات مجمّعة تستلمها من مستودع المورد وتوصلها لكل مناطق المملكة، ببوليصة وحدة لكل طلب.": "Consolidated shipments collected from the supplier's warehouse and delivered across the Kingdom, one waybill per order.", "تواصل معنا": "Contact us", "أو سجّل من واتساب": "Or sign up on WhatsApp", "احفظ رقم معنا على واتساب عشان توصلك الرسالة": "Save Ma3na's WhatsApp number so our message reaches you", "وأوافق تراسلوني على واتساب عن الإطلاق والحملات في مدينتي، وأقدر أوقف الرسائل بأي وقت.": "and agree to receive WhatsApp messages about the launch and campaigns in my city. I can stop them anytime.", "بنرسل لك رسالة على واتساب أول ما تنفتح حملة في": "We'll message you on WhatsApp as soon as a campaign opens in", "كيف تشتغل": "How it works", "المنتجات": "Products", "التطبيق": "The app", "من نحن": "About us", "للموردين": "For suppliers", "سجّل اهتمامك": "Get early access", "قريباً": "Coming soon", "نشتري معاً..": "Buy together..", "نوفّر أكثر": "save more", "تنضم مع عائلات ثانية على نفس المنتج، نشتري بالجملة من المورد، ويوصلك لباب البيت في أي مكان بالمملكة.": "Join other families on the same product. We buy in bulk from the supplier and deliver to your door anywhere in the Kingdom.", "حفائظ": "Diapers", "منظفات": "Cleaners", "مناديل": "Tissues", "عناية شخصية": "Personal care", "انضم لقائمة الانتظار": "Join the waitlist", "كيف تشتغل؟": "How does it work?", "التطبيق قريباً على": "App coming soon on", "كل مناطق المملكة": "All regions of the Kingdom", "دفع إلكتروني آمن": "Secure online payment", "تسليم موثّق برمز تحقق": "Delivery verified by code", "اكتملت الحملة": "Campaign completed", "حفائظ مقاس 4، 50 من 50 عائلة": "Diapers size 4, 50 of 50 families", "س": "S", "م": "M", "ن": "N", "+12 عائلة انضمت": "+12 families joined", "من الرياض خلال آخر ساعة": "From Riyadh in the last hour", "طلبك في الطريق": "Your order is on the way", "رمز التحقق عند الاستلام: 4821": "Delivery code: 4821", "منطقة نوصل لها من أول يوم": "regions we deliver to from day one", "3 إلى 7": "3 to 7", "أيام مدة كل حملة": "days per campaign", "دفع إلكتروني مسبق": "online prepayment", "رسوم مخفية بعد الدفع": "hidden fees after payment", "الأشياء اللي تشتريها كل شهر": "The things you buy every month", "نبدأ بالمنتجات اللي ما يخلو منها بيت، ونفتح لكل منتج حملة خاصة فيه.": "We start with the products every home needs, and open a dedicated campaign for each one.", "أول الحملات": "First campaigns", "حفائظ الأطفال": "Baby diapers", "كل المقاسات، بالكرتون": "All sizes, by the carton", "المنظفات": "Cleaners", "للمطبخ والحمام والأرضيات": "Kitchen, bathroom and floors", "المناديل": "Tissues", "مناديل الوجه وورق المطبخ": "Facial tissues and kitchen paper", "صابون اليدين": "Hand soap", "عبوات وتعبئات كبيرة": "Bottles and large refills", "العناية الشخصية": "Personal care", "صابون وشامبو ومعجون": "Soap, shampoo and toothpaste", "مستلزمات البيت": "Home essentials", "كل شي تشتريه كل شهر": "Everything you buy every month", "كيف تشتغل معنا؟": "How does Ma3na work?", "كل حملة مفتوحة من 3 إلى 7 أيام على منتج واحد.": "Each campaign is open for 3 to 7 days on a single product.", "انضم لحملة": "Join a campaign", "اختر المنتج اللي تحتاجه وحدد الكمية، وتشوف كم عائلة انضمت وكم باقي.": "Pick the product you need and the quantity, and see how many families have joined and how many are left.", "تكتمل الحملة": "The campaign completes", "لما يوصل العدد للحد المطلوب، نشتري الكمية كلها من المورد بسعر الجملة.": "Once enough families join, we buy the full quantity from the supplier at the wholesale price.", "إذا ما اكتملت، ما ينخصم منك شي.": "If it doesn't complete, you're not charged anything.", "يوصل لبيتك": "Delivered to your home", "تستلم طلبك على عنوانك الوطني برمز تحقق يوصلك على جوالك.": "Receive your order at your national address with a verification code sent to your phone.", "مميزات التطبيق": "App features", "كل شي مصمم عشان توفّر وقتك وفلوسك، وتعرف وش تدفع ووش بيوصلك.": "Everything is designed to save you time and money, so you always know what you pay and what you get.", "سعر الجملة": "Wholesale price", "نجمع طلبات العائلات ونشتري من المورد مباشرة بكميات كبيرة.": "We pool families' orders and buy directly from the supplier in large quantities.", "ما تدفع إلا إذا اكتملت الحملة": "Pay only if the campaign completes", "الدفع إلكتروني ومسبق، والمبلغ ينخصم فقط لما يكتمل عدد العائلات.": "Payment is online and upfront, and you're only charged once enough families join.", "رسوم التوصيل قدامك قبل الدفع": "Delivery fees shown before you pay", "تشوف سعر المنتج والتوصيل كامل قبل ما تأكد، بدون رسوم تطلع لك بعدين.": "See the full product and delivery price before you confirm, with no fees added later.", "تسليم موثّق": "Verified delivery", "رمز تحقق على جوالك وصورة إثبات تسليم في كل شحنة.": "A verification code on your phone and proof-of-delivery photo for every shipment.", "تذكير قبل الحملات": "Campaign reminders", "اختر المنتجات اللي تهمك، ونذكرك قبل ما تفتح حملتها وقبل ما تقفل.": "Choose the products you care about, and we'll remind you before their campaign opens and before it closes.", "تابع حملتك لحظة بلحظة": "Track your campaign live", "تشوف كم عائلة انضمت وكم باقي، وتشارك الرابط مع أهلك وجيرانك.": "See how many families have joined and how many are left, and share the link with family and neighbors.", "واجهات التطبيق": "App screens", "من أول ما تنضم للحملة لين توصلك الكراتين.": "From the moment you join a campaign until the cartons reach you.", "حملات قادمة": "Upcoming campaigns", "تحفظ الحملة في مفضلتك قبل ما تفتح": "Save a campaign to your favorites before it opens", "الإشعارات": "Notifications", "نذكّرك لين تنضم": "We remind you until you join", "الترحيب": "Welcome", "حساب موثّق برقم جوالك": "An account verified with your phone number", "تتبع الطلب": "Order tracking", "تعرف وين طلبك في كل خطوة": "Know where your order is at every step", "التسليم برمز": "Delivery by code", "تتأكد من الطرد قبل ما تعطي الرمز": "Check the package before you give the code", "أوفر طريقة تشتري فيها احتياجات بيتك": "The smarter way to buy your home essentials", "معنا منصة سعودية بفكرة جديدة: بدل ما تشتري لحالك بسعر التجزئة، تنضم مع عائلات ثانية على نفس المنتج، ونشتري الكمية كلها مباشرة من المورد بسعر الجملة، ونوصلها لبيتك في أي منطقة بالمملكة.": "Ma3na is a Saudi platform with a new idea: instead of buying alone at retail prices, you join other families on the same product, we buy the full quantity directly from the supplier at the wholesale price, and deliver it to your home in any region of the Kingdom.", "قريباً في جميع مناطق المملكة": "Coming soon to every region of the Kingdom", "نوصل من أول يوم لكل المناطق عن طريق شركات شحن معتمدة، وكل شحنة على عنوانك الوطني برمز تحقق. وكل ما زاد عدد العائلات في مدينتك، تكتمل الحملات أسرع.": "We deliver to all regions from day one through licensed shipping companies, with every shipment going to your national address with a verification code. The more families in your city, the faster campaigns complete.", "الرياض": "Riyadh", "جدة": "Jeddah", "مكة المكرمة": "Makkah", "المدينة المنورة": "Madinah", "الدمام والخبر": "Dammam & Khobar", "الأحساء": "Al-Ahsa", "القصيم": "Qassim", "حائل": "Hail", "تبوك": "Tabuk", "أبها وخميس مشيط": "Abha & Khamis Mushait", "جازان": "Jazan", "نجران": "Najran", "الباحة": "Al-Baha", "الجوف": "Al-Jouf", "الحدود الشمالية": "Northern Borders", "سجّل مدينتك": "Register your city", "المدينة": "Madinah", "الدمام": "Dammam", "أبها": "Abha", "بريدة": "Buraidah", "سكاكا": "Sakaka", "كن من أوائل العائلات": "Be among the first families", "سجّل الحين، ونرسل لك أول ما تنفتح حملة في مدينتك. قل لنا وش تشتري كل شهر عشان نبدأ فيه.": "Sign up now and we'll message you as soon as a campaign opens in your city. Tell us what you buy every month so we know where to start.", "الاسم": "Name", "اكتب اسمك": "Enter your name", "رقم الجوال": "Mobile number", "اكتب رقم جوال سعودي يبدأ بـ 05": "Enter a Saudi mobile number starting with 05", "اختر مدينتك": "Choose your city", "الخبر": "Khobar", "الظهران": "Dhahran", "الطائف": "Taif", "عنيزة": "Unaizah", "خميس مشيط": "Khamis Mushait", "عرعر": "Arar", "ينبع": "Yanbu", "الجبيل": "Jubail", "حفر الباطن": "Hafar Al-Batin", "مدينة ثانية": "Other city", "وش تشتري كل شهر؟": "What do you buy every month?", "أوافق على": "I agree to the", "سياسة الخصوصية": "privacy policy", "واستخدام رقمي للتواصل معي عن الإطلاق.": "and to being contacted on my number about the launch.", "لازم توافق عشان نقدر نتواصل معك": "You need to agree so we can contact you", "سجّلني في قائمة الانتظار": "Add me to the waitlist", "تم تسجيلك": "You're on the list", "بنرسل لك رسالة أول ما تنفتح حملة في": "We'll message you as soon as a campaign opens in", "مدينتك": "your city", "هل أنت مورد أو موزّع؟": "Are you a supplier or distributor?", "نجمع لك طلبات مؤكدة ومدفوعة مسبقاً بكميات جملة من عائلات في كل المملكة. تجهّز الطلب في مستودعك، وشركة الشحن تستلمه منك، بدون ما تتعامل مع الأفراد ولا تتحمل تحصيل.": "We bring you confirmed, prepaid orders in wholesale quantities from families across the Kingdom. You prepare the order at your warehouse and the shipping company collects it, with no individual customers to deal with and no cash collection.", "طلبات بكميات كبيرة ومدفوعة قبل الشراء": "Large, prepaid orders before purchase", "أمر شراء واضح لكل حملة": "A clear purchase order for every campaign", "وصول لعملاء جدد في كل المناطق": "Reach new customers in every region", "سجّل كمورد": "Register as a supplier", "شركة شحن؟ تواصل معنا": "Shipping company? Contact us", "حمّل التطبيق قريباً": "Download the app soon", "نعلن الإطلاق لأول المسجّلين في قائمة الانتظار.": "We'll announce the launch to the first people on the waitlist.", "منصة شراء جماعي سعودية للاحتياجات المنزلية المتكررة.": "A Saudi group-buying platform for recurring household needs.", "معنا": "Ma3na", "قائمة الانتظار": "Waitlist", "الشركاء": "Partners", "للموردين والموزعين": "Suppliers & distributors", "لشركات الشحن": "Shipping companies", "تابعنا": "Follow us", "© 2026 معنا. جميع الحقوق محفوظة.": "© 2026 Ma3na. All rights reserved.", "نجمع في قائمة الانتظار: اسمك، رقم جوالك، مدينتك، والمنتجات اللي اخترتها.": "On the waitlist we collect your name, mobile number, city, and the products you selected.", "نستخدمها فقط للتواصل معك عن إطلاق معنا والحملات في مدينتك، ولفهم وش المنتجات اللي نبدأ فيها.": "We use them only to contact you about Ma3na's launch and campaigns in your city, and to understand which products to start with.", "ما نبيع بياناتك ولا نشاركها مع أي طرف للتسويق.": "We don't sell your data or share it with anyone for marketing.", "تقدر تطلب حذف بياناتك في أي وقت عن طريق مراسلتنا على": "You can ask us to delete your data at any time by emailing", "نتعامل مع بياناتك وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية.": "We handle your data in accordance with the Personal Data Protection Law of the Kingdom of Saudi Arabia.", "تمام": "OK", "القائمة": "Menu", "شاشة توضيحية من تطبيق معنا": "Preview screen from the Ma3na app", "معنا بالأرقام": "Ma3na in numbers", "شاشة حملات قادمة في تطبيق معنا": "Upcoming campaigns screen in the Ma3na app", "شاشة الإشعارات في تطبيق معنا": "Notifications screen in the Ma3na app", "شاشة الترحيب في تطبيق معنا": "Welcome screen in the Ma3na app", "شاشة تتبع الطلب في تطبيق معنا": "Order tracking screen in the Ma3na app", "شاشة التسليم برمز في تطبيق معنا": "Delivery by code screen in the Ma3na app", "خريطة المملكة العربية السعودية ومدن التوصيل": "Map of Saudi Arabia and delivery cities", "معنا ma3na": "Ma3na logo", "حسابات معنا": "Ma3na accounts", "لينكدإن": "LinkedIn", "إكس": "X", "إنستقرام": "Instagram", "تيك توك": "TikTok", "جاري التسجيل…": "Signing you up…", "ما قدرنا نسجّلك الحين، تأكد من الاتصال وجرّب مرة ثانية.": "We couldn't sign you up right now. Check your connection and try again.", "شراكة مع معنا: ": "Partnership with Ma3na: "};
 const TITLES = {ar: document.title, en: 'Ma3na | Buy together, save more'};
 const nodes = [];
 (function collect(){
