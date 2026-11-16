@@ -13,12 +13,14 @@ jobs:
       - name: Download live site
         run: |
           set -e
-          mkdir -p maanaco-live && cd maanaco-live
+          rm -rf maanaco-live && mkdir -p maanaco-live && cd maanaco-live
           curl -fsSL https://maanaco.com/ -o index.html
           grep -oE '(src|href|content)="/?img/[^"]+"' index.html | sed -E 's/.*="\/?//; s/"$//' | sort -u > list.txt
           for f in privacy.html robots.txt sitemap.xml favicon.ico _redirects site.webmanifest; do curl -fsSL "https://maanaco.com/$f" -o "$f" 2>/dev/null || rm -f "$f"; done
           while read p; do mkdir -p "$(dirname "$p")"; curl -fsSL "https://maanaco.com/$p" -o "$p"; done < list.txt
-          rm list.txt; ls -laR
+          grep -oE 'url\(fonts/[^)]+\)' index.html | sed -E 's/url\(//; s/\)$//' | sort -u > fonts.txt
+          while read p; do mkdir -p "$(dirname "$p")"; curl -fsSL "https://maanaco.com/$p" -o "$p"; done < fonts.txt
+          rm list.txt fonts.txt; ls -laR
       - name: Commit
         run: |
           git config user.name "ma3na-bot"; git config user.email "noreply@anthropic.com"
