@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>معنا | نشتري معاً.. نوفّر أكثر</title>
+<meta name="description" content="معنا منصة شراء جماعي سعودية للاحتياجات المنزلية المتكررة. تنضم مع عائلات ثانية على نفس المنتج، ونشتري بالجملة. قريباً.">
+<meta name="theme-color" content="#FEC051">
+<meta property="og:title" content="معنا | نشتري معاً.. نوفّر أكثر">
+<meta property="og:description" content="شراء جماعي للاحتياجات المنزلية المتكررة في كل مناطق المملكة. سجّل في قائمة الانتظار.">
+<meta property="og:locale" content="ar_SA">
+<link rel="icon" href="img/mark.png">
+<style>
+@font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-arabic-500-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-arabic-600-normal.woff2) format("woff2");font-weight:600;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-arabic-700-normal.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:"Readex Pro";src:url(fonts/readex-pro-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/ibm-plex-sans-arabic-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/ibm-plex-sans-arabic-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2) format("woff2");font-weight:600;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/ibm-plex-sans-arabic-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2212}
+:root{
+  --green:#0B3D33; --green-2:#14574A; --cream:#FAF7F2; --coral:#F06757;
+  --yellow:#FEC051; --mint:#8FC1A1; --mint-t:#DCEBDF; --yellow-t:#FFEBC2; --coral-t:#FCDCD6;
+  --ink-soft:#3E5F57;
+  --display:"Readex Pro", system-ui, sans-serif;
+  --body:"IBM Plex Sans Arabic", system-ui, sans-serif;
+  --wrap:1160px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--green);background:var(--cream);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:6px}
+.wrap{width:min(var(--wrap),100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--display);line-height:1.25;font-weight:700;letter-spacing:-.01em}
+
+/* ---------- header ---------- */
+.top{position:absolute;inset-inline:0;top:0;z-index:5;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border-bottom:1px solid rgba(11,61,51,.06)}
+.menu{display:flex;gap:32px;margin-inline-start:56px;margin-inline-end:auto;font-size:15.5px}
+.menu a{text-decoration:none;color:var(--ink-soft)}
+.menu a:hover{color:var(--green)}
+.btn-sm{padding:10px 20px;font-size:15px}
+.lang-btn{font:inherit;font-weight:600;font-size:14px;background:transparent;border:1.5px solid rgba(11,61,51,.25);color:var(--green);border-radius:999px;padding:7px 14px;cursor:pointer;margin-inline-end:12px}
+.lang-btn:hover{border-color:var(--green)}
+html[lang=en] .hero h1{letter-spacing:-.02em}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.top .logo img{height:38px;width:auto}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--body);font-weight:600;font-size:16px;border:0;border-radius:999px;padding:13px 26px;cursor:pointer;text-decoration:none;transition:transform .15s ease, background .15s ease}
+.btn:active{transform:scale(.97)}
+.btn-dark{background:var(--green);color:var(--cream)}
+.btn-dark:hover{background:var(--green-2)}
+.btn-coral{background:var(--coral);color:#fff}
+.btn-coral:hover{background:#e0533f}
+.btn-line{background:transparent;color:var(--green);box-shadow:inset 0 0 0 2px var(--green)}
+.btn-line:hover{background:var(--green);color:var(--cream)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;padding:116px 0 0;background:radial-gradient(60% 70% at 25% 60%,#CFE8D8 0%,rgba(207,232,216,0) 70%),radial-gradient(40% 50% at 90% 10%,#FFF1D3 0%,rgba(255,241,211,0) 70%),linear-gradient(180deg,#FBFAF6 0%,#EEF6F0 100%)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:20px;align-items:center}
+.hero-copy{padding-bottom:60px}
+.soon{display:inline-block;background:var(--coral);color:#fff;font-weight:600;font-size:15px;padding:5px 16px;border-radius:999px;margin-bottom:22px}
+.hero h1{font-size:clamp(42px,5.8vw,76px);line-height:1.2;margin-bottom:22px}
+.hero p.lead{font-size:clamp(18px,1.6vw,21px);max-width:32ch;margin-bottom:34px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.pills{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:-14px 0 30px}
+.pills li{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #E5EEE8;border-radius:999px;padding:4px 14px 4px 6px;font-size:14px}
+.pills img{width:24px;height:24px;object-fit:contain}
+.trust{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px;font-size:14px;color:var(--ink-soft)}
+.trust span{display:flex;align-items:center;gap:6px}
+.trust svg{width:17px;height:17px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.stores{display:flex;gap:10px;margin-top:30px;align-items:center;flex-wrap:wrap}
+.stores small{font-size:14px;color:var(--ink-soft);margin-inline-end:4px;width:100%}
+.store{display:flex;align-items:center;gap:8px;background:var(--green);color:#fff;border-radius:12px;padding:8px 14px;font-size:13px;line-height:1.25;direction:ltr}
+.store b{display:block;font-size:15px}
+.store svg{width:20px;height:20px}
+
+/* visual: orb + phone + floating products */
+.visual{position:relative;height:640px;--w:300px}
+.orb{position:absolute;left:50%;top:120px;width:470px;height:470px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,#BFDDC9 0%,rgba(191,221,201,0) 70%)}
+.spark{position:absolute;border-radius:50%;z-index:1}
+.s1{width:10px;height:10px;background:var(--yellow);left:8%;top:200px}
+.s2{width:8px;height:8px;background:var(--coral);right:6%;top:330px}
+.s3{width:12px;height:12px;background:var(--mint);left:14%;top:540px}
+.ui-card{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:9px 14px 9px 16px;box-shadow:0 1px 0 rgba(11,61,51,.06),0 18px 40px -16px rgba(11,61,51,.35);font-size:14px;line-height:1.4;white-space:nowrap}
+.ui-card b{display:block;font-size:14px;font-weight:600}
+.ui-card small{color:var(--ink-soft);font-size:12px}
+.ui-card .ic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;flex:none}
+.ui-card .ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ui-card .ok{background:#E3F1E8;color:#1E7A52}
+.ui-card .truck{background:var(--yellow-t);color:var(--green)}
+.stack{display:flex}
+.stack i{width:32px;height:32px;border-radius:50%;border:2.5px solid #fff;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:600;color:var(--green);margin-inline-start:-10px}
+.stack i:first-child{margin-inline-start:0}
+.c1{right:-40px;top:96px}
+.c2{left:-50px;top:330px}
+.c3{right:-30px;top:560px}
+.iphone{position:absolute;left:50%;top:0;transform:translateX(-50%);z-index:2;width:var(--w);height:calc(var(--w)*2.15);border-radius:calc(var(--w)*.16);padding:calc(var(--w)*.03);
+  background:linear-gradient(140deg,#1C4A40 0%,#0B3D33 30%,#0E463B 60%,#082E26 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),inset 0 0 0 3.5px #04211B,0 50px 80px -34px rgba(11,61,51,.6)}
+.iphone .glass{position:relative;height:100%;border-radius:calc(var(--w)*.13);overflow:hidden;background:#fff;font-size:calc(var(--w)*.04);line-height:1.45;color:var(--green)}
+.iphone .glass::after{content:"";position:absolute;inset:0;background:linear-gradient(118deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 35%);pointer-events:none}
+.btn-side{position:absolute;width:3px;background:#0B3D33;border-radius:2px}
+.b1{left:-3px;top:17%;height:5%}.b2{left:-3px;top:25%;height:9%}.b3{right:-3px;top:23%;height:13%}
+.island{position:absolute;top:calc(var(--w)*.03);left:50%;transform:translateX(-50%);width:33%;height:calc(var(--w)*.095);background:#000;border-radius:99px;z-index:4}
+.status{display:flex;justify-content:space-between;align-items:center;padding:calc(var(--w)*.045) calc(var(--w)*.08) 0;height:calc(var(--w)*.14);font-weight:600;font-size:calc(var(--w)*.048);font-family:-apple-system,"SF Pro Text",system-ui,sans-serif;direction:ltr;background:var(--yellow-t)}
+.sicons{display:flex;gap:5px;align-items:center}
+.sicons svg{height:calc(var(--w)*.036);width:auto;fill:currentColor}
+.scr{padding:0 calc(var(--w)*.05)}
+.addr{display:flex;align-items:center;gap:6px;background:var(--yellow-t);margin:0 calc(var(--w)*-.05);padding:6px calc(var(--w)*.05) 10px}
+.addr div{flex:1;line-height:1.3}
+.addr b{display:block;font-size:.95em}
+.addr small{font-size:.75em;color:var(--ink-soft)}
+.pin,.bell svg,.search svg{width:1.3em;height:1.3em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pin{color:var(--coral)}
+.bell{width:2em;height:2em;border-radius:50%;background:#fff;display:grid;place-items:center}
+.search{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #E7E1D6;border-radius:12px;padding:7px 10px;color:#8A9A95;font-size:.88em;margin:-2px 0 10px;box-shadow:0 6px 14px -10px rgba(11,61,51,.4)}
+.live{display:flex;align-items:center;gap:6px;background:var(--green);color:#fff;border-radius:16px;padding:10px 12px;position:relative;overflow:hidden}
+.live-txt{flex:1;line-height:1.35}
+.live small{color:var(--yellow);font-size:.75em;font-weight:600}
+.live b{display:block;font-size:1.05em}
+.live img{width:36%;margin:-6px -6px -10px 0}
+.meter{margin:6px 0 3px;height:6px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--yellow);border-radius:99px;transition:width 2.4s cubic-bezier(.2,.8,.2,1)}
+.cnt{font-size:.75em;color:#CFE3D7}
+.cnt b{display:inline;font-size:1em;color:#fff}
+.join{display:inline-block;margin-top:6px;background:var(--coral);font-size:.78em;font-weight:600;padding:3px 14px;border-radius:99px}
+.q{font-weight:600;font-size:.9em;margin:10px 0 6px}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.bc{position:relative;background:#fff;border-radius:14px;padding:8px 9px;height:calc(var(--w)*.3);overflow:hidden;box-shadow:0 1px 0 #ECE6DB}
+.bc b{display:block;font-size:.88em;line-height:1.3}
+.bc small{display:block;font-size:.66em;color:var(--ink-soft)}
+.bc em{position:absolute;bottom:7px;inset-inline-start:8px;font-style:normal;font-size:.6em;background:var(--coral);color:#fff;padding:1px 6px;border-radius:99px;z-index:1}
+.bc img{position:absolute;inset-inline-end:2px;bottom:2px;width:58%;height:auto}
+.small{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:8px 0 2px}
+.small span{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.7em;font-weight:600}
+.small i{position:relative;width:100%;height:calc(var(--w)*.18);background:#fff;border-radius:14px;display:grid;place-items:center;box-shadow:0 1px 0 #ECE6DB;font-style:normal}
+.small img{max-width:72%;max-height:82%;width:auto;height:auto}
+.small .more{font-size:1.6em;color:var(--green);font-weight:400}
+.scr{background:#F6F3EE}
+.soonrow{display:flex;align-items:center;gap:8px;border:1px solid #EEE8DE;border-radius:12px;padding:6px}
+.soonrow i{width:3em;height:3em;background:#F4F1EC;border-radius:10px;display:grid;place-items:center;flex:none}
+.soonrow i img{max-height:80%;width:auto}
+.soonrow div{flex:1;line-height:1.3}
+.soonrow b{display:block;font-size:.8em}
+.soonrow small{font-size:.7em;color:var(--ink-soft)}
+.soonrow em{font-style:normal;font-size:.72em;font-weight:600;color:var(--coral);border:1px solid var(--coral);padding:1px 9px;border-radius:99px}
+
+/* ---------- sections ---------- */
+section{padding:110px 0}
+.head{max-width:780px;margin-bottom:48px}
+.head h2{font-size:clamp(34px,4.4vw,52px);margin-bottom:12px}
+.head p{color:var(--ink-soft);font-size:18px}
+
+.facts-sec{padding:0;position:relative;z-index:2;margin-top:-50px}
+.facts{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-radius:24px;box-shadow:0 24px 50px -30px rgba(11,61,51,.35);padding:26px 10px}
+.facts li{text-align:center;padding:0 14px;border-inline-start:1px solid #EEE8DE}
+.facts li:first-child{border:0}
+.facts b{display:block;font-family:var(--display);font-size:34px;font-weight:700;line-height:1.2}
+.facts span{font-size:14px;color:var(--ink-soft)}
+@media (max-width:760px){.facts{grid-template-columns:1fr 1fr;row-gap:22px}.facts li:nth-child(3){border:0}}
+/* categories */
+.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cat{position:relative;display:flex;align-items:center;gap:20px;background:#fff;border-radius:20px;padding:18px 20px;box-shadow:inset 0 0 0 1px #ECE6DB}
+.cat .ph{width:112px;height:112px;border-radius:18px;background:#F4F1EB;display:grid;place-items:center;flex:none}
+.cat img{max-width:100px;max-height:98px;width:auto;height:auto}
+.cat h3{font-size:19px;font-weight:600;margin-bottom:2px}
+.cat p{font-size:14.5px;color:var(--ink-soft);line-height:1.6}
+.cat .tag{position:absolute;inset-inline-end:16px;top:14px;font-size:12px;font-weight:600;background:var(--coral);color:#fff;padding:2px 10px;border-radius:999px}
+
+/* steps */
+.steps-sec{background:#fff}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;position:relative;list-style:none;counter-reset:s}
+.steps::before{content:"";position:absolute;top:38px;inset-inline:60px;border-top:3px dashed var(--mint)}
+.steps li{position:relative;counter-increment:s}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:78px;height:78px;border-radius:50%;font-family:var(--display);font-weight:600;font-size:34px;margin-bottom:22px;position:relative;z-index:1}
+.steps li:nth-child(1)::before{background:var(--mint);color:var(--green)}
+.steps li:nth-child(2)::before{background:var(--coral);color:#fff}
+.steps li:nth-child(3)::before{background:var(--yellow);color:var(--green)}
+.steps h3{font-size:26px;margin-bottom:8px}
+.steps p{color:var(--ink-soft);max-width:32ch}
+.steps .note{display:block;margin-top:10px;font-size:15px;color:var(--green);font-weight:600}
+
+/* promise */
+.promise{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start}
+.promise .head{margin:0;position:sticky;top:40px}
+.plist{list-style:none}
+.plist li{display:grid;grid-template-columns:56px 1fr;gap:18px;padding:26px 0;border-bottom:1.5px solid #EAE3D6}
+.plist li:first-child{padding-top:0}
+.plist .ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center}
+.plist .ic svg{width:28px;height:28px}
+.plist h3{font-family:var(--body);font-weight:600;font-size:20px;line-height:1.5;margin-bottom:4px}
+.plist p{color:var(--ink-soft)}
+
+/* regions */
+.regions{background:var(--green);color:var(--cream);position:relative;overflow:hidden}
+.regions .head p{color:#B9D3C5}
+.cities{display:flex;flex-wrap:wrap;gap:4px 30px;font-family:var(--display);font-weight:500;font-size:clamp(24px,2.8vw,36px);line-height:1.5;max-width:980px}
+.cities span{color:var(--cream)}
+.cities span.more{color:var(--mint)}
+.regions .d3{width:300px;height:300px;background:var(--green-2);inset-inline-end:-90px;bottom:-110px}
+
+/* waitlist */
+.wait{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.wait-copy h2{font-size:clamp(36px,4.6vw,56px);margin-bottom:16px}
+.wait-copy p{color:var(--ink-soft);font-size:18px;max-width:36ch}
+.wait-copy img{width:230px;margin-top:36px}
+form{background:var(--green);color:var(--cream);border-radius:32px;padding:36px}
+.field{margin-bottom:18px}
+.field label,.fs legend{display:block;font-size:15px;font-weight:500;margin-bottom:8px;color:#D6E6DC}
+.field input,.field select{width:100%;font:inherit;font-size:16px;background:var(--cream);color:var(--green);border:2px solid transparent;border-radius:14px;padding:12px 16px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--yellow)}
+.field input[aria-invalid=true]{border-color:var(--coral)}
+.err{display:none;color:#FFB3A8;font-size:14px;margin-top:6px}
+.field.bad .err{display:block}
+.fs{border:0;margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;opacity:0}
+.chips span{display:inline-block;font-size:14.5px;padding:7px 15px;border-radius:999px;box-shadow:inset 0 0 0 1.5px rgba(250,247,242,.35);transition:background .15s}
+.chips input:checked+span{background:var(--yellow);color:var(--green);box-shadow:none}
+.chips input:focus-visible+span{outline:3px solid var(--coral);outline-offset:2px}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;margin:6px 0 22px;color:#D6E6DC}
+.field .consent input{width:20px;padding:0;height:20px;margin-top:4px;accent-color:var(--coral);flex:none}
+.consent button{background:none;border:0;color:var(--yellow);font:inherit;text-decoration:underline;cursor:pointer}
+form .btn{width:100%;justify-content:center;font-size:17px;padding:15px}
+.done{display:none;text-align:center;padding:30px 10px}
+.done h3{font-size:32px;margin:14px 0 8px}
+.done p{color:#D6E6DC}
+.done .check{width:72px;height:72px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;margin:auto}
+form.sent .form-body{display:none}
+form.sent .done{display:block}
+
+/* partners */
+.partners{padding-top:0}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pcard{border-radius:32px;padding:40px;display:flex;flex-direction:column;align-items:flex-start;gap:14px;min-height:280px;position:relative;overflow:hidden}
+.pcard h3{font-size:34px}
+.pcard p{max-width:34ch;color:var(--ink-soft);flex:1}
+.p1{background:var(--yellow-t)}
+.p2{background:var(--mint-t)}
+.pcard svg.bgshape{position:absolute;inset-inline-end:-30px;bottom:-30px;width:190px;opacity:.9}
+
+/* footer */
+footer{background:var(--green);color:#B9D3C5;padding:60px 0 34px;font-size:15px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}
+.fbrand p{max-width:30ch}
+.fcol{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.fcol b{color:var(--cream);font-weight:600;margin-bottom:4px}
+.fcol a,.fcol button{color:#B9D3C5;text-decoration:none;background:none;border:0;font:inherit;cursor:pointer;padding:0}
+.fcol a:hover,.fcol button:hover{color:var(--cream)}
+@media (max-width:760px){.fgrid{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
+footer img{height:56px;width:auto;margin-bottom:12px}
+.social{display:flex;gap:10px}
+.social a{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(250,247,242,.08);color:var(--cream)}
+.social a:hover{background:var(--coral)}
+.social svg{width:19px;height:19px}
+.fbottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(250,247,242,.12);margin-top:40px;padding-top:22px;font-size:14px}
+.fbottom button{background:none;border:0;color:inherit;font:inherit;cursor:pointer;text-decoration:underline}
+
+/* privacy dialog */
+dialog{border:0;border-radius:24px;padding:34px;max-width:620px;width:calc(100% - 32px);color:var(--green);background:var(--cream);margin:auto}
+dialog::backdrop{background:rgba(11,61,51,.55)}
+dialog h2{font-size:30px;margin-bottom:12px}
+dialog p,dialog li{font-size:15.5px;color:var(--ink-soft);margin-bottom:8px}
+dialog ul{padding-inline-start:20px;margin-bottom:14px}
+
+/* ---------- responsive ---------- */
+@media (max-width:960px){
+  .hero .wrap{grid-template-columns:1fr}
+  .visual{width:100%;max-width:600px;justify-self:center}
+  .hero .wrap{grid-template-columns:1fr}
+  .hero-copy{padding-bottom:20px}
+  .cats-grid{grid-template-columns:1fr 1fr}
+  .promise,.wait{grid-template-columns:1fr;gap:40px}
+  .promise .head{position:static}
+}
+@media (max-width:640px){
+  .cats-grid{grid-template-columns:1fr}
+  body{font-size:16px}
+  section{padding:76px 0}
+  .top .wrap{height:72px}
+  .top .logo img{height:36px}
+  .top .btn{padding:10px 18px;font-size:14px}
+  .hero{padding-top:104px}
+  .visual{height:500px;--w:236px}
+  .orb{width:360px;height:360px;top:80px}
+  .menu{display:none}
+  .ui-card{transform:scale(.78)}
+  .c1{right:-4px;top:120px;transform-origin:right center}
+  .c2{left:-4px;top:260px;transform-origin:left center}
+  .c3{right:-4px;top:390px;transform-origin:right center}
+  .steps{grid-template-columns:1fr;gap:34px}
+  .steps::before{display:none}
+  .pgrid{grid-template-columns:1fr}
+  form{padding:26px;border-radius:26px}
+}
+
+/* ===== features ===== */
+.head.center{text-align:center;margin-inline:auto}
+.features-sec{background:#fff}
+.features{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:46px 40px}
+.features li{text-align:center;padding:0 10px}
+.fi{width:76px;height:76px;border-radius:24px;background:var(--mint-t);display:grid;place-items:center;margin:0 auto 18px}
+.features li:nth-child(3n+2) .fi{background:var(--yellow-t)}
+.features li:nth-child(3n) .fi{background:var(--coral-t)}
+.fi svg{width:34px;height:34px;fill:none;stroke:var(--green);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.features h3{font-size:20px;font-weight:600;margin-bottom:6px}
+.features p{color:var(--ink-soft);font-size:15.5px;max-width:30ch;margin:auto}
+
+/* ===== app screens ===== */
+.screens-sec{background:linear-gradient(180deg,#F1F7F3 0%,#FAF7F2 100%);overflow:hidden;padding-bottom:90px}
+.screens{display:flex;justify-content:center;align-items:flex-end;gap:28px;padding:10px 0 0}
+.screens figure{flex:none;text-align:center;width:230px}
+.screens figure.mid{width:270px}
+.screens img{width:100%;height:auto;filter:drop-shadow(0 30px 40px rgba(11,61,51,.22))}
+.screens figcaption{margin-top:16px;line-height:1.5}
+.screens figcaption b{display:block;font-size:16px;font-weight:600}
+.screens figcaption span{font-size:13.5px;color:var(--ink-soft)}
+.iphone.sm{position:relative;left:auto;top:auto;transform:none;--w:230px;margin:auto}
+.iphone.sm.center{--w:270px}
+.screens figure:not(.mid){opacity:.97}
+.screens figure:nth-child(1),.screens figure:nth-child(5){transform:translateY(30px)}
+.sbar{display:flex;align-items:center;justify-content:space-between;padding:4px calc(var(--w)*.05) 8px;font-size:.95em}
+.sbar svg{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.sbar span{width:1.2em}
+.scr.pad{padding-top:2px}
+.tabs2{display:flex;background:#fff;border-radius:10px;padding:3px;margin-bottom:8px;font-size:.78em;box-shadow:0 1px 0 #ECE6DB}
+.tabs2 span{flex:1;text-align:center;padding:4px;border-radius:8px}
+.tabs2 .on{background:var(--green);color:#fff;font-weight:600}
+.mc{display:flex;align-items:center;gap:7px;background:#fff;border-radius:12px;padding:6px;margin-bottom:6px;box-shadow:0 1px 0 #ECE6DB}
+.mc>i,.sumc>i{width:2.9em;height:2.9em;border-radius:10px;background:#F4F1EC;display:grid;place-items:center;flex:none}
+.mc>i img,.sumc>i img{max-width:85%;max-height:85%}
+.mc div,.sumc div{flex:1;min-width:0;line-height:1.3}
+.mc b,.sumc b{display:block;font-size:.78em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc small,.sumc small{font-size:.66em;color:var(--ink-soft)}
+.mc em{font-style:normal;font-size:.62em;padding:1px 6px;border-radius:99px;align-self:flex-start;white-space:nowrap}
+.mc em.y{background:var(--yellow-t)} .mc em.g{background:#E3F1E8;color:#1E7A52}
+.mini{display:block;height:4px;background:#EFE9DE;border-radius:9px;overflow:hidden;margin-top:3px}
+.mini i{display:block;height:100%;background:var(--coral);border-radius:9px}
+.share{background:var(--green);color:#fff;border-radius:12px;padding:9px 10px;margin-top:8px;line-height:1.35}
+.share b{display:block;font-size:.8em}.share small{display:block;font-size:.66em;color:#CFE3D7;margin-bottom:6px}
+.share span{display:inline-block;background:#25D366;color:#fff;font-size:.68em;font-weight:600;padding:2px 10px;border-radius:99px}
+.dimg{height:38%;background:radial-gradient(120% 90% at 50% 45%,#F2F8F4 0%,#D6E9DC 100%);display:grid;place-items:center;position:relative;margin-top:calc(var(--w)*-.14);padding-top:calc(var(--w)*.14)}
+.dimg img{width:62%}
+.dots2{position:absolute;bottom:8px;display:flex;gap:4px;left:50%;transform:translateX(-50%)}
+.dots2 i{width:5px;height:5px;border-radius:50%;background:rgba(11,61,51,.25)}.dots2 .on{width:14px;border-radius:9px;background:var(--green)}
+.muted{color:var(--ink-soft);font-size:.7em}
+.dt{display:block;font-size:.92em;line-height:1.35;margin:1px 0 6px}
+.chip2{display:inline-block;font-size:.66em;background:var(--yellow-t);padding:2px 8px;border-radius:99px}
+.pbox{background:#fff;border-radius:12px;padding:8px;margin:8px 0;box-shadow:0 1px 0 #ECE6DB}
+.row2{display:flex;justify-content:space-between;align-items:baseline;font-size:.72em}
+.row2 .n{font-family:var(--display);font-size:1.5em}
+.big2{height:6px;margin:5px 0}
+.ln{display:flex;align-items:center;gap:6px;font-size:.68em;color:var(--ink-soft);padding:3px 0}
+.ln svg,.note svg{width:1.4em;height:1.4em;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.cta2{position:absolute;bottom:0;inset-inline:0;display:flex;gap:6px;padding:8px calc(var(--w)*.05) 20px;background:#fff;border-top:1px solid #ECE6DB}
+.qty2{display:flex;align-items:center;gap:8px;border:1px solid #ECE6DB;border-radius:10px;padding:0 8px;font-weight:600;font-size:.8em}
+.qty2 i{font-style:normal;color:var(--ink-soft)}
+.go{flex:1;background:var(--coral);color:#fff;text-align:center;font-weight:600;border-radius:10px;padding:7px 0;font-size:.82em}
+.sumc{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:7px;box-shadow:0 1px 0 #ECE6DB}
+.lbl{font-size:.72em;font-weight:600;margin:10px 0 5px}
+.opt{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:5px;border:1.5px solid transparent;line-height:1.3}
+.opt.on{border-color:var(--green)}
+.opt b{display:block;font-size:.76em}.opt small{font-size:.64em;color:var(--ink-soft)}
+.rd{width:1em;height:1em;border-radius:50%;border:2px solid #C9D3CE;flex:none}
+.opt.on .rd{border:4px solid var(--green)}
+.note{display:flex;gap:6px;background:#E3F1E8;border-radius:10px;padding:7px 8px;margin-top:8px;font-size:.64em;line-height:1.5;color:var(--green)}
+.tl{list-style:none;margin:10px 0 8px;position:relative}
+.tl li{display:flex;gap:8px;position:relative;padding-bottom:10px;line-height:1.3}
+.tl li::before{content:"";position:absolute;inset-inline-start:.62em;top:1.3em;bottom:0;border-inline-start:2px solid #DCE6E0}
+.tl li:last-child::before{display:none}
+.tl li.dn::before{border-color:var(--mint)}
+.tl li>span{width:1.3em;height:1.3em;border-radius:50%;background:#E6ECE8;flex:none;display:grid;place-items:center;position:relative;z-index:1}
+.tl li.dn>span{background:var(--green)}
+.tl li.dn>span svg{width:.8em;height:.8em;fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.tl li.now>span{background:var(--coral);box-shadow:0 0 0 4px rgba(240,103,87,.18)}
+.tl b{display:block;font-size:.76em}.tl small{font-size:.64em;color:var(--ink-soft)}
+.tl li:not(.dn):not(.now) b{color:#9AA9A4}
+.otp{background:#fff;border-radius:12px;padding:8px;text-align:center;box-shadow:0 1px 0 #ECE6DB}
+.otp small{display:block;font-size:.64em;color:var(--ink-soft)}
+.otp b{font-family:var(--display);font-size:1.4em;letter-spacing:.2em;direction:ltr;display:block}
+
+/* ===== about ===== */
+.about-sec{background:#fff}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-copy h2{font-size:clamp(32px,3.8vw,46px);margin-bottom:18px}
+.about-copy p{color:var(--ink-soft);font-size:18px;max-width:44ch;margin-bottom:14px}
+.about-copy .btn{margin-top:12px}
+.collage{position:relative;height:440px;background:radial-gradient(70% 70% at 50% 55%,#E3F0E7 0%,rgba(227,240,231,0) 70%)}
+.collage img{position:absolute;height:auto;filter:drop-shadow(0 20px 22px rgba(11,61,51,.14))}
+.k1{width:46%;right:6%;top:4%}
+.k2{width:40%;left:4%;top:10%}
+.k3{width:40%;left:10%;bottom:4%}
+.k4{width:34%;right:16%;bottom:2%}
+
+/* ===== regions (map) ===== */
+.regions{background:var(--cream);color:var(--green)}
+.reg{display:grid;grid-template-columns:1fr 1.05fr;gap:50px;align-items:center}
+.reg-copy h2{font-size:clamp(32px,3.8vw,46px);margin-bottom:16px}
+.reg-copy p{color:var(--ink-soft);font-size:17.5px;max-width:44ch;margin-bottom:20px}
+.city-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.city-chips li{background:#fff;border:1px solid #E7E1D6;border-radius:999px;padding:4px 14px;font-size:14.5px}
+.map{width:100%;height:auto;display:block}
+.map text{font-family:var(--body);font-size:13px;font-weight:600;fill:var(--green);paint-order:stroke;stroke:#FAF7F2;stroke-width:4px}
+.map .dot{fill:var(--green)}
+.map .ring{fill:var(--mint);opacity:.55;transform-box:fill-box;transform-origin:center}
+.map .big .dot{fill:var(--coral)}
+.map .big .ring{fill:var(--coral);opacity:.3}
+.map .big text{font-size:15px}
+@media (prefers-reduced-motion:no-preference){.map .ring{animation:pulse 2.4s ease-out infinite;animation-delay:var(--d)}}
+@keyframes pulse{0%{transform:scale(.6);opacity:.6}100%{transform:scale(2.4);opacity:0}}
+
+/* ===== supplier band ===== */
+.supplier{background:var(--green);color:var(--cream);overflow:hidden}
+.sup{display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center}
+.supplier h2{font-size:clamp(32px,3.8vw,46px);margin-bottom:14px}
+.supplier p{color:#C9DDD1;font-size:17.5px;max-width:52ch;margin-bottom:18px}
+.sup-points{list-style:none;display:grid;gap:8px;margin-bottom:28px}
+.sup-points li{display:flex;align-items:center;gap:10px;font-size:16px}
+.sup-points svg{width:22px;height:22px;flex:none;background:rgba(254,192,81,.18);border-radius:50%;padding:3px;fill:none;stroke:var(--yellow);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.sup-act{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.btn-yellow{background:var(--yellow);color:var(--green)}
+.btn-yellow:hover{background:#FDB53A}
+.link-light{color:var(--cream);font-weight:500}
+.sup-art{position:relative;height:320px}
+.sup-art img{position:absolute;height:auto;filter:drop-shadow(0 24px 24px rgba(0,0,0,.25))}
+.sup-art img:first-child{width:70%;right:0;top:0}
+.sup-art img:last-child{width:70%;left:0;bottom:0}
+
+/* ===== download ===== */
+.dl-sec{background:var(--mint-t);padding:70px 0}
+.dl{text-align:center}
+.dl h2{font-size:clamp(30px,3.4vw,40px);margin-bottom:8px}
+.dl p{color:var(--ink-soft);margin-bottom:22px}
+.center-row{justify-content:center;margin-top:0}
+
+@media (max-width:960px){
+  .features{grid-template-columns:1fr 1fr}
+  .about,.reg,.sup{grid-template-columns:1fr}
+  .screens{justify-content:flex-start;overflow-x:auto;padding:10px 20px 20px;scroll-snap-type:x mandatory}
+  .screens figure{scroll-snap-align:center}
+  .screens figure:nth-child(1),.screens figure:nth-child(5){transform:none}
+}
+@media (max-width:640px){
+  .features{grid-template-columns:1fr;gap:34px}
+  .collage{height:320px}
+  .sup-art{height:240px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="معنا"><img src="img/mark.png" alt="معنا"></a>
+    <nav class="menu" aria-label="القائمة">
+      <a href="#how">كيف تشتغل</a>
+      <a href="#cats">المنتجات</a>
+      <a href="#app">التطبيق</a>
+      <a href="#about">من نحن</a>
+      <a href="#partners">للموردين</a>
+    </nav>
+    <button type="button" class="lang-btn" id="langBtn" aria-label="English">EN</button>
+    <a class="btn btn-dark btn-sm" href="#waitlist">سجّل اهتمامك</a>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="soon">قريباً</span>
+      <h1 id="h1">نشتري معاً..<br>نوفّر أكثر</h1>
+      <p class="lead">تنضم مع عائلات ثانية على نفس المنتج، نشتري بالجملة من المورد، ويوصلك لباب البيت في أي مكان بالمملكة.</p>
+      <ul class="pills" aria-label="المنتجات">
+        <li><img src="img/diapers.png" alt="">حفائظ</li><li><img src="img/detergent.png" alt="">منظفات</li><li><img src="img/tissues.png" alt="">مناديل</li><li><img src="img/personal-care.png" alt="">عناية شخصية</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="#waitlist">انضم لقائمة الانتظار</a>
+        <a class="btn btn-line" href="#how">كيف تشتغل؟</a>
+      </div>
+      <div class="stores">
+        <small>التطبيق قريباً على</small>
+        <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9s-1.9-.9-3.2-.8c-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.2.8 2.1-1.2 2.9-2.4c.9-1.4 1.300-2.7 1.3-2.8 0 0-2.4-1-2.4-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg><span>Download on the<b>App Store</b></span></span>
+        <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.3c-.2.2-.3.6-.3 1v17.4c0 .4.1.8.3 1l9.7-9.7-9.7-9.7zm10.8 10.8 2.6 2.6-11.4 6.5 8.8-9.1zm0-2.2L5.6 1.8 17 8.3l-2.6 2.6zm3.8-1.9 3 1.7c.9.5.9 1.3 0 1.8l-3 1.7-2.8-2.6 2.8-2.6z"/></svg><span>Get it on<b>Google Play</b></span></span>
+      </div>
+      <p class="trust"><span><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>كل مناطق المملكة</span><span><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>دفع إلكتروني آمن</span><span><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>تسليم موثّق برمز تحقق</span></p>
+    </div>
+
+    <div class="visual" aria-label="شاشة توضيحية من تطبيق معنا">
+      <span class="orb" aria-hidden="true"></span><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i>
+      <div class="ui-card c1" aria-hidden="true">
+        <span class="ic ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <div><b>اكتملت الحملة</b><small>حفائظ مقاس 4، 50 من 50 عائلة</small></div>
+      </div>
+      <div class="ui-card c2" aria-hidden="true">
+        <span class="stack"><i style="background:#F06757">س</i><i style="background:#FEC051">م</i><i style="background:#8FC1A1">ن</i></span>
+        <div><b>+12 عائلة انضمت</b><small>من الرياض خلال آخر ساعة</small></div>
+      </div>
+      <div class="ui-card c3" aria-hidden="true">
+        <span class="ic truck"><svg viewBox="0 0 24 24"><path d="M1 7h13v10H1zM14 10h4l3 3v4h-7"/><circle cx="5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span>
+        <div><b>طلبك في الطريق</b><small>رمز التحقق عند الاستلام: 4821</small></div>
+      </div>
+
+      <div class="iphone">
+        <i class="btn-side b1"></i><i class="btn-side b2"></i><i class="btn-side b3"></i>
+        <div class="glass" dir="rtl">
+          <div class="island"></div>
+          <div class="status"><span>9:41</span><span class="sicons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="17" height="8" rx="2"/><rect x="24.5" y="4" width="2" height="4" rx="1" opacity=".4"/></svg></span></div>
+          <div class="scr">
+            <div class="addr">
+              <svg class="pin" viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <div><b>البيت</b><small>الرياض، حي الياسمين، 7377</small></div>
+              <span class="bell"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/></svg></span>
+            </div>
+            <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>ابحث عن منتج أو حملة</div>
+            <div class="live">
+              <div class="live-txt">
+                <small>حملة مفتوحة الحين</small>
+                <b>حفائظ مقاس 4</b>
+                <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="50" aria-valuenow="41" aria-label="عدد العائلات المنضمة"><i id="fill"></i></div>
+                <span class="cnt"><b id="count">0</b> من 50 عائلة</span>
+                <span class="join">انضم</span>
+              </div>
+              <img src="img/diapers.png" alt="">
+            </div>
+            <div class="big">
+              <span class="bc"><b>حفائظ</b><small>كل المقاسات</small><em>حملة مفتوحة</em><img src="img/diapers.png" alt=""></span>
+              <span class="bc"><b>منظفات</b><small>جالونات وبخاخات</small><img src="img/detergent.png" alt=""></span>
+              <span class="bc"><b>مناديل</b><small>علب ورولات</small><img src="img/tissues.png" alt=""></span>
+              <span class="bc"><b>عناية شخصية</b><small>شامبو وكريمات</small><img src="img/personal-care.png" alt=""></span>
+            </div>
+            <div class="small">
+              <span><i><img src="img/dish-soap.png" alt=""></i>صابون</span>
+              <span><i><img src="img/home-supplies.png" alt=""></i>مستلزمات</span>
+              <span><i class="more">+</i>المزيد</span>
+            </div>
+            <p class="q">حملات تفتح قريب</p>
+            <div class="soonrow"><i><img src="img/dish-soap.png" alt=""></i><div><b>صابون سائل 4 لتر</b><small>تفتح السبت 8:00 م</small></div><em>ذكّرني</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="facts-sec" aria-label="معنا بالأرقام">
+  <div class="wrap">
+    <ul class="facts">
+      <li><b>13</b><span>منطقة نوصل لها من أول يوم</span></li>
+      <li><b>3 إلى 7</b><span>أيام مدة كل حملة</span></li>
+      <li><b>100%</b><span>دفع إلكتروني مسبق</span></li>
+      <li><b>0</b><span>رسوم مخفية بعد الدفع</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="cats" aria-labelledby="cat">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="cat">الأشياء اللي تشتريها كل شهر</h2>
+      <p>نبدأ بالمنتجات اللي ما يخلو منها بيت، ونفتح لكل منتج حملة خاصة فيه.</p>
+    </div>
+    <div class="cats-grid">
+      <article class="cat"><span class=tag>أول الحملات</span><span class="ph"><img src="img/diapers.png" alt=""></span><div><h3>حفائظ الأطفال</h3><p>كل المقاسات، بالكرتون</p></div></article>
+      <article class="cat"><span class="ph"><img src="img/detergent.png" alt=""></span><div><h3>المنظفات</h3><p>للمطبخ والحمام والأرضيات</p></div></article>
+      <article class="cat"><span class="ph"><img src="img/tissues.png" alt=""></span><div><h3>المناديل</h3><p>مناديل الوجه وورق المطبخ</p></div></article>
+      <article class="cat"><span class="ph"><img src="img/dish-soap.png" alt=""></span><div><h3>صابون اليدين</h3><p>عبوات وتعبئات كبيرة</p></div></article>
+      <article class="cat"><span class="ph"><img src="img/personal-care.png" alt=""></span><div><h3>العناية الشخصية</h3><p>صابون وشامبو ومعجون</p></div></article>
+      <article class="cat"><span class="ph"><img src="img/home-supplies.png" alt=""></span><div><h3>مستلزمات البيت</h3><p>كل شي تشتريه كل شهر</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="steps-sec" id="how" aria-labelledby="howh">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="howh">كيف تشتغل معنا؟</h2>
+      <p>كل حملة مفتوحة من 3 إلى 7 أيام على منتج واحد.</p>
+    </div>
+    <ol class="steps">
+      <li>
+        <h3>انضم لحملة</h3>
+        <p>اختر المنتج اللي تحتاجه وحدد الكمية، وتشوف كم عائلة انضمت وكم باقي.</p>
+      </li>
+      <li>
+        <h3>تكتمل الحملة</h3>
+        <p>لما يوصل العدد للحد المطلوب، نشتري الكمية كلها من المورد بسعر الجملة.</p>
+        <span class="note">إذا ما اكتملت، ما ينخصم منك شي.</span>
+      </li>
+      <li>
+        <h3>يوصل لبيتك</h3>
+        <p>تستلم طلبك على عنوانك الوطني برمز تحقق يوصلك على جوالك.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-sec" aria-labelledby="feath">
+  <div class="wrap">
+    <div class="head center"><h2 id="feath">مميزات التطبيق</h2><p>كل شي مصمم عشان توفّر وقتك وفلوسك، وتعرف وش تدفع ووش بيوصلك.</p></div>
+    <ul class="features">
+      <li><span class="fi"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span><h3>سعر الجملة</h3><p>نجمع طلبات العائلات ونشتري من المورد مباشرة بكميات كبيرة.</p></li>
+      <li><span class="fi"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><h3>ما تدفع إلا إذا اكتملت الحملة</h3><p>الدفع إلكتروني ومسبق، والمبلغ ينخصم فقط لما يكتمل عدد العائلات.</p></li>
+      <li><span class="fi"><svg viewBox="0 0 24 24"><path d="M1 7h13v10H1zM14 10h4l3 3v4h-7"/><circle cx="5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><h3>رسوم التوصيل قدامك قبل الدفع</h3><p>تشوف سعر المنتج والتوصيل كامل قبل ما تأكد، بدون رسوم تطلع لك بعدين.</p></li>
+      <li><span class="fi"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 7h4M9.5 13.5l2 2 3.5-4"/></svg></span><h3>تسليم موثّق</h3><p>رمز تحقق على جوالك وصورة إثبات تسليم في كل شحنة.</p></li>
+      <li><span class="fi"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20a2 2 0 0 0 4 0"/></svg></span><h3>تذكير قبل الحملات</h3><p>اختر المنتجات اللي تهمك، ونذكرك قبل ما تفتح حملتها وقبل ما تقفل.</p></li>
+      <li><span class="fi"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c.5-4 3.3-6 6.5-6s6 2 6.5 6M15 14.5c3 0 5.6 1.6 6 5"/></svg></span><h3>تابع حملتك لحظة بلحظة</h3><p>تشوف كم عائلة انضمت وكم باقي، وتشارك الرابط مع أهلك وجيرانك.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section class="screens-sec" id="app" aria-labelledby="scrh">
+  <div class="wrap">
+    <div class="head center"><h2 id="scrh">واجهات التطبيق</h2><p>من أول ما تنضم للحملة لين توصلك الكراتين.</p></div>
+  </div>
+  <div class="screens">
+    <figure><img src="img/app/upcoming.png" alt="شاشة حملات قادمة في تطبيق معنا" loading="lazy"><figcaption><b>حملات قادمة</b><span>تحفظ الحملة في مفضلتك قبل ما تفتح</span></figcaption></figure>
+    <figure><img src="img/app/notifications.png" alt="شاشة الإشعارات في تطبيق معنا" loading="lazy"><figcaption><b>الإشعارات</b><span>نذكّرك لين تنضم</span></figcaption></figure>
+    <figure class="mid"><img src="img/app/welcome.png" alt="شاشة الترحيب في تطبيق معنا" loading="lazy"><figcaption><b>الترحيب</b><span>حساب موثّق برقم جوالك</span></figcaption></figure>
+    <figure><img src="img/app/tracking.png" alt="شاشة تتبع الطلب في تطبيق معنا" loading="lazy"><figcaption><b>تتبع الطلب</b><span>تعرف وين طلبك في كل خطوة</span></figcaption></figure>
+    <figure><img src="img/app/otp.png" alt="شاشة التسليم برمز في تطبيق معنا" loading="lazy"><figcaption><b>التسليم برمز</b><span>تتأكد من الطرد قبل ما تعطي الرمز</span></figcaption></figure>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-sec" id="about" aria-labelledby="abouth">
+  <div class="wrap about">
+    <div class="about-copy">
+      <h2 id="abouth">أوفر طريقة تشتري فيها احتياجات بيتك</h2>
+      <p>معنا منصة سعودية بفكرة جديدة: بدل ما تشتري لحالك بسعر التجزئة، تنضم مع عائلات ثانية على نفس المنتج، ونشتري الكمية كلها مباشرة من المورد بسعر الجملة، ونوصلها لبيتك في أي منطقة بالمملكة.</p>
+      <a class="btn btn-dark" href="#waitlist">انضم لقائمة الانتظار</a>
+    </div>
+    <div class="collage" aria-hidden="true">
+      <img class="k1" src="img/diapers.png" alt="">
+      <img class="k2" src="img/detergent.png" alt="">
+      <img class="k3" src="img/tissues.png" alt="">
+      <img class="k4" src="img/personal-care.png" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- REGIONS -->
+<section class="regions" aria-labelledby="regh">
+  <div class="wrap reg">
+    <div class="reg-copy">
+      <h2 id="regh">قريباً في جميع مناطق المملكة</h2>
+      <p>نوصل من أول يوم لكل المناطق عن طريق شركات شحن معتمدة، وكل شحنة على عنوانك الوطني برمز تحقق. وكل ما زاد عدد العائلات في مدينتك، تكتمل الحملات أسرع.</p>
+      <ul class="city-chips"><li>الرياض</li><li>جدة</li><li>مكة المكرمة</li><li>المدينة المنورة</li><li>الدمام والخبر</li><li>الأحساء</li><li>القصيم</li><li>حائل</li><li>تبوك</li><li>أبها وخميس مشيط</li><li>جازان</li><li>نجران</li><li>الباحة</li><li>الجوف</li><li>الحدود الشمالية</li></ul>
+      <a class="btn btn-coral" href="#waitlist">سجّل مدينتك</a>
+    </div>
+    <div class="map-wrap"><svg class="map" viewBox="0 0 560 461" role="img" aria-label="خريطة المملكة العربية السعودية ومدن التوصيل"><g fill="#CFE0D5"><circle cx="126.5" cy="5.5" r="3.6"/><circle cx="93.5" cy="16.5" r="3.6"/><circle cx="104.5" cy="16.5" r="3.6"/><circle cx="115.5" cy="16.5" r="3.6"/><circle cx="126.5" cy="16.5" r="3.6"/><circle cx="137.5" cy="16.5" r="3.6"/><circle cx="148.5" cy="16.5" r="3.6"/><circle cx="159.5" cy="16.5" r="3.6"/><circle cx="71.5" cy="27.5" r="3.6"/><circle cx="82.5" cy="27.5" r="3.6"/><circle cx="93.5" cy="27.5" r="3.6"/><circle cx="104.5" cy="27.5" r="3.6"/><circle cx="115.5" cy="27.5" r="3.6"/><circle cx="126.5" cy="27.5" r="3.6"/><circle cx="137.5" cy="27.5" r="3.6"/><circle cx="148.5" cy="27.5" r="3.6"/><circle cx="159.5" cy="27.5" r="3.6"/><circle cx="170.5" cy="27.5" r="3.6"/><circle cx="181.5" cy="27.5" r="3.6"/><circle cx="82.5" cy="38.5" r="3.6"/><circle cx="93.5" cy="38.5" r="3.6"/><circle cx="104.5" cy="38.5" r="3.6"/><circle cx="115.5" cy="38.5" r="3.6"/><circle cx="126.5" cy="38.5" r="3.6"/><circle cx="137.5" cy="38.5" r="3.6"/><circle cx="148.5" cy="38.5" r="3.6"/><circle cx="159.5" cy="38.5" r="3.6"/><circle cx="170.5" cy="38.5" r="3.6"/><circle cx="181.5" cy="38.5" r="3.6"/><circle cx="192.5" cy="38.5" r="3.6"/><circle cx="203.5" cy="38.5" r="3.6"/><circle cx="93.5" cy="49.5" r="3.6"/><circle cx="104.5" cy="49.5" r="3.6"/><circle cx="115.5" cy="49.5" r="3.6"/><circle cx="126.5" cy="49.5" r="3.6"/><circle cx="137.5" cy="49.5" r="3.6"/><circle cx="148.5" cy="49.5" r="3.6"/><circle cx="159.5" cy="49.5" r="3.6"/><circle cx="170.5" cy="49.5" r="3.6"/><circle cx="181.5" cy="49.5" r="3.6"/><circle cx="192.5" cy="49.5" r="3.6"/><circle cx="203.5" cy="49.5" r="3.6"/><circle cx="214.5" cy="49.5" r="3.6"/><circle cx="93.5" cy="60.5" r="3.6"/><circle cx="104.5" cy="60.5" r="3.6"/><circle cx="115.5" cy="60.5" r="3.6"/><circle cx="126.5" cy="60.5" r="3.6"/><circle cx="137.5" cy="60.5" r="3.6"/><circle cx="148.5" cy="60.5" r="3.6"/><circle cx="159.5" cy="60.5" r="3.6"/><circle cx="170.5" cy="60.5" r="3.6"/><circle cx="181.5" cy="60.5" r="3.6"/><circle cx="192.5" cy="60.5" r="3.6"/><circle cx="203.5" cy="60.5" r="3.6"/><circle cx="214.5" cy="60.5" r="3.6"/><circle cx="225.5" cy="60.5" r="3.6"/><circle cx="60.5" cy="71.5" r="3.6"/><circle cx="71.5" cy="71.5" r="3.6"/><circle cx="82.5" cy="71.5" r="3.6"/><circle cx="93.5" cy="71.5" r="3.6"/><circle cx="104.5" cy="71.5" r="3.6"/><circle cx="115.5" cy="71.5" r="3.6"/><circle cx="126.5" cy="71.5" r="3.6"/><circle cx="137.5" cy="71.5" r="3.6"/><circle cx="148.5" cy="71.5" r="3.6"/><circle cx="159.5" cy="71.5" r="3.6"/><circle cx="170.5" cy="71.5" r="3.6"/><circle cx="181.5" cy="71.5" r="3.6"/><circle cx="192.5" cy="71.5" r="3.6"/><circle cx="203.5" cy="71.5" r="3.6"/><circle cx="214.5" cy="71.5" r="3.6"/><circle cx="225.5" cy="71.5" r="3.6"/><circle cx="236.5" cy="71.5" r="3.6"/><circle cx="60.5" cy="82.5" r="3.6"/><circle cx="71.5" cy="82.5" r="3.6"/><circle cx="82.5" cy="82.5" r="3.6"/><circle cx="93.5" cy="82.5" r="3.6"/><circle cx="104.5" cy="82.5" r="3.6"/><circle cx="115.5" cy="82.5" r="3.6"/><circle cx="126.5" cy="82.5" r="3.6"/><circle cx="137.5" cy="82.5" r="3.6"/><circle cx="148.5" cy="82.5" r="3.6"/><circle cx="159.5" cy="82.5" r="3.6"/><circle cx="170.5" cy="82.5" r="3.6"/><circle cx="181.5" cy="82.5" r="3.6"/><circle cx="192.5" cy="82.5" r="3.6"/><circle cx="203.5" cy="82.5" r="3.6"/><circle cx="214.5" cy="82.5" r="3.6"/><circle cx="225.5" cy="82.5" r="3.6"/><circle cx="236.5" cy="82.5" r="3.6"/><circle cx="247.5" cy="82.5" r="3.6"/><circle cx="258.5" cy="82.5" r="3.6"/><circle cx="16.5" cy="93.5" r="3.6"/><circle cx="27.5" cy="93.5" r="3.6"/><circle cx="38.5" cy="93.5" r="3.6"/><circle cx="49.5" cy="93.5" r="3.6"/><circle cx="60.5" cy="93.5" r="3.6"/><circle cx="71.5" cy="93.5" r="3.6"/><circle cx="82.5" cy="93.5" r="3.6"/><circle cx="93.5" cy="93.5" r="3.6"/><circle cx="104.5" cy="93.5" r="3.6"/><circle cx="115.5" cy="93.5" r="3.6"/><circle cx="126.5" cy="93.5" r="3.6"/><circle cx="137.5" cy="93.5" r="3.6"/><circle cx="148.5" cy="93.5" r="3.6"/><circle cx="159.5" cy="93.5" r="3.6"/><circle cx="170.5" cy="93.5" r="3.6"/><circle cx="181.5" cy="93.5" r="3.6"/><circle cx="192.5" cy="93.5" r="3.6"/><circle cx="203.5" cy="93.5" r="3.6"/><circle cx="214.5" cy="93.5" r="3.6"/><circle cx="225.5" cy="93.5" r="3.6"/><circle cx="236.5" cy="93.5" r="3.6"/><circle cx="247.5" cy="93.5" r="3.6"/><circle cx="258.5" cy="93.5" r="3.6"/><circle cx="269.5" cy="93.5" r="3.6"/><circle cx="280.5" cy="93.5" r="3.6"/><circle cx="291.5" cy="93.5" r="3.6"/><circle cx="302.5" cy="93.5" r="3.6"/><circle cx="313.5" cy="93.5" r="3.6"/><circle cx="324.5" cy="93.5" r="3.6"/><circle cx="16.5" cy="104.5" r="3.6"/><circle cx="27.5" cy="104.5" r="3.6"/><circle cx="38.5" cy="104.5" r="3.6"/><circle cx="49.5" cy="104.5" r="3.6"/><circle cx="60.5" cy="104.5" r="3.6"/><circle cx="71.5" cy="104.5" r="3.6"/><circle cx="82.5" cy="104.5" r="3.6"/><circle cx="93.5" cy="104.5" r="3.6"/><circle cx="104.5" cy="104.5" r="3.6"/><circle cx="115.5" cy="104.5" r="3.6"/><circle cx="126.5" cy="104.5" r="3.6"/><circle cx="137.5" cy="104.5" r="3.6"/><circle cx="148.5" cy="104.5" r="3.6"/><circle cx="159.5" cy="104.5" r="3.6"/><circle cx="170.5" cy="104.5" r="3.6"/><circle cx="181.5" cy="104.5" r="3.6"/><circle cx="192.5" cy="104.5" r="3.6"/><circle cx="203.5" cy="104.5" r="3.6"/><circle cx="214.5" cy="104.5" r="3.6"/><circle cx="225.5" cy="104.5" r="3.6"/><circle cx="236.5" cy="104.5" r="3.6"/><circle cx="247.5" cy="104.5" r="3.6"/><circle cx="258.5" cy="104.5" r="3.6"/><circle cx="269.5" cy="104.5" r="3.6"/><circle cx="280.5" cy="104.5" r="3.6"/><circle cx="291.5" cy="104.5" r="3.6"/><circle cx="302.5" cy="104.5" r="3.6"/><circle cx="313.5" cy="104.5" r="3.6"/><circle cx="324.5" cy="104.5" r="3.6"/><circle cx="335.5" cy="104.5" r="3.6"/><circle cx="16.5" cy="115.5" r="3.6"/><circle cx="27.5" cy="115.5" r="3.6"/><circle cx="38.5" cy="115.5" r="3.6"/><circle cx="49.5" cy="115.5" r="3.6"/><circle cx="60.5" cy="115.5" r="3.6"/><circle cx="71.5" cy="115.5" r="3.6"/><circle cx="82.5" cy="115.5" r="3.6"/><circle cx="93.5" cy="115.5" r="3.6"/><circle cx="104.5" cy="115.5" r="3.6"/><circle cx="115.5" cy="115.5" r="3.6"/><circle cx="126.5" cy="115.5" r="3.6"/><circle cx="137.5" cy="115.5" r="3.6"/><circle cx="148.5" cy="115.5" r="3.6"/><circle cx="159.5" cy="115.5" r="3.6"/><circle cx="170.5" cy="115.5" r="3.6"/><circle cx="181.5" cy="115.5" r="3.6"/><circle cx="192.5" cy="115.5" r="3.6"/><circle cx="203.5" cy="115.5" r="3.6"/><circle cx="214.5" cy="115.5" r="3.6"/><circle cx="225.5" cy="115.5" r="3.6"/><circle cx="236.5" cy="115.5" r="3.6"/><circle cx="247.5" cy="115.5" r="3.6"/><circle cx="258.5" cy="115.5" r="3.6"/><circle cx="269.5" cy="115.5" r="3.6"/><circle cx="280.5" cy="115.5" r="3.6"/><circle cx="291.5" cy="115.5" r="3.6"/><circle cx="302.5" cy="115.5" r="3.6"/><circle cx="313.5" cy="115.5" r="3.6"/><circle cx="324.5" cy="115.5" r="3.6"/><circle cx="335.5" cy="115.5" r="3.6"/><circle cx="346.5" cy="115.5" r="3.6"/><circle cx="357.5" cy="115.5" r="3.6"/><circle cx="368.5" cy="115.5" r="3.6"/><circle cx="27.5" cy="126.5" r="3.6"/><circle cx="38.5" cy="126.5" r="3.6"/><circle cx="49.5" cy="126.5" r="3.6"/><circle cx="60.5" cy="126.5" r="3.6"/><circle cx="71.5" cy="126.5" r="3.6"/><circle cx="82.5" cy="126.5" r="3.6"/><circle cx="93.5" cy="126.5" r="3.6"/><circle cx="104.5" cy="126.5" r="3.6"/><circle cx="115.5" cy="126.5" r="3.6"/><circle cx="126.5" cy="126.5" r="3.6"/><circle cx="137.5" cy="126.5" r="3.6"/><circle cx="148.5" cy="126.5" r="3.6"/><circle cx="159.5" cy="126.5" r="3.6"/><circle cx="170.5" cy="126.5" r="3.6"/><circle cx="181.5" cy="126.5" r="3.6"/><circle cx="192.5" cy="126.5" r="3.6"/><circle cx="203.5" cy="126.5" r="3.6"/><circle cx="214.5" cy="126.5" r="3.6"/><circle cx="225.5" cy="126.5" r="3.6"/><circle cx="236.5" cy="126.5" r="3.6"/><circle cx="247.5" cy="126.5" r="3.6"/><circle cx="258.5" cy="126.5" r="3.6"/><circle cx="269.5" cy="126.5" r="3.6"/><circle cx="280.5" cy="126.5" r="3.6"/><circle cx="291.5" cy="126.5" r="3.6"/><circle cx="302.5" cy="126.5" r="3.6"/><circle cx="313.5" cy="126.5" r="3.6"/><circle cx="324.5" cy="126.5" r="3.6"/><circle cx="335.5" cy="126.5" r="3.6"/><circle cx="346.5" cy="126.5" r="3.6"/><circle cx="357.5" cy="126.5" r="3.6"/><circle cx="368.5" cy="126.5" r="3.6"/><circle cx="38.5" cy="137.5" r="3.6"/><circle cx="49.5" cy="137.5" r="3.6"/><circle cx="60.5" cy="137.5" r="3.6"/><circle cx="71.5" cy="137.5" r="3.6"/><circle cx="82.5" cy="137.5" r="3.6"/><circle cx="93.5" cy="137.5" r="3.6"/><circle cx="104.5" cy="137.5" r="3.6"/><circle cx="115.5" cy="137.5" r="3.6"/><circle cx="126.5" cy="137.5" r="3.6"/><circle cx="137.5" cy="137.5" r="3.6"/><circle cx="148.5" cy="137.5" r="3.6"/><circle cx="159.5" cy="137.5" r="3.6"/><circle cx="170.5" cy="137.5" r="3.6"/><circle cx="181.5" cy="137.5" r="3.6"/><circle cx="192.5" cy="137.5" r="3.6"/><circle cx="203.5" cy="137.5" r="3.6"/><circle cx="214.5" cy="137.5" r="3.6"/><circle cx="225.5" cy="137.5" r="3.6"/><circle cx="236.5" cy="137.5" r="3.6"/><circle cx="247.5" cy="137.5" r="3.6"/><circle cx="258.5" cy="137.5" r="3.6"/><circle cx="269.5" cy="137.5" r="3.6"/><circle cx="280.5" cy="137.5" r="3.6"/><circle cx="291.5" cy="137.5" r="3.6"/><circle cx="302.5" cy="137.5" r="3.6"/><circle cx="313.5" cy="137.5" r="3.6"/><circle cx="324.5" cy="137.5" r="3.6"/><circle cx="335.5" cy="137.5" r="3.6"/><circle cx="346.5" cy="137.5" r="3.6"/><circle cx="357.5" cy="137.5" r="3.6"/><circle cx="368.5" cy="137.5" r="3.6"/><circle cx="379.5" cy="137.5" r="3.6"/><circle cx="38.5" cy="148.5" r="3.6"/><circle cx="49.5" cy="148.5" r="3.6"/><circle cx="60.5" cy="148.5" r="3.6"/><circle cx="71.5" cy="148.5" r="3.6"/><circle cx="82.5" cy="148.5" r="3.6"/><circle cx="93.5" cy="148.5" r="3.6"/><circle cx="104.5" cy="148.5" r="3.6"/><circle cx="115.5" cy="148.5" r="3.6"/><circle cx="126.5" cy="148.5" r="3.6"/><circle cx="137.5" cy="148.5" r="3.6"/><circle cx="148.5" cy="148.5" r="3.6"/><circle cx="159.5" cy="148.5" r="3.6"/><circle cx="170.5" cy="148.5" r="3.6"/><circle cx="181.5" cy="148.5" r="3.6"/><circle cx="192.5" cy="148.5" r="3.6"/><circle cx="203.5" cy="148.5" r="3.6"/><circle cx="214.5" cy="148.5" r="3.6"/><circle cx="225.5" cy="148.5" r="3.6"/><circle cx="236.5" cy="148.5" r="3.6"/><circle cx="247.5" cy="148.5" r="3.6"/><circle cx="258.5" cy="148.5" r="3.6"/><circle cx="269.5" cy="148.5" r="3.6"/><circle cx="280.5" cy="148.5" r="3.6"/><circle cx="291.5" cy="148.5" r="3.6"/><circle cx="302.5" cy="148.5" r="3.6"/><circle cx="313.5" cy="148.5" r="3.6"/><circle cx="324.5" cy="148.5" r="3.6"/><circle cx="335.5" cy="148.5" r="3.6"/><circle cx="346.5" cy="148.5" r="3.6"/><circle cx="357.5" cy="148.5" r="3.6"/><circle cx="368.5" cy="148.5" r="3.6"/><circle cx="379.5" cy="148.5" r="3.6"/><circle cx="390.5" cy="148.5" r="3.6"/><circle cx="49.5" cy="159.5" r="3.6"/><circle cx="60.5" cy="159.5" r="3.6"/><circle cx="71.5" cy="159.5" r="3.6"/><circle cx="82.5" cy="159.5" r="3.6"/><circle cx="93.5" cy="159.5" r="3.6"/><circle cx="104.5" cy="159.5" r="3.6"/><circle cx="115.5" cy="159.5" r="3.6"/><circle cx="126.5" cy="159.5" r="3.6"/><circle cx="137.5" cy="159.5" r="3.6"/><circle cx="148.5" cy="159.5" r="3.6"/><circle cx="159.5" cy="159.5" r="3.6"/><circle cx="170.5" cy="159.5" r="3.6"/><circle cx="181.5" cy="159.5" r="3.6"/><circle cx="192.5" cy="159.5" r="3.6"/><circle cx="203.5" cy="159.5" r="3.6"/><circle cx="214.5" cy="159.5" r="3.6"/><circle cx="225.5" cy="159.5" r="3.6"/><circle cx="236.5" cy="159.5" r="3.6"/><circle cx="247.5" cy="159.5" r="3.6"/><circle cx="258.5" cy="159.5" r="3.6"/><circle cx="269.5" cy="159.5" r="3.6"/><circle cx="280.5" cy="159.5" r="3.6"/><circle cx="291.5" cy="159.5" r="3.6"/><circle cx="302.5" cy="159.5" r="3.6"/><circle cx="313.5" cy="159.5" r="3.6"/><circle cx="324.5" cy="159.5" r="3.6"/><circle cx="335.5" cy="159.5" r="3.6"/><circle cx="346.5" cy="159.5" r="3.6"/><circle cx="357.5" cy="159.5" r="3.6"/><circle cx="368.5" cy="159.5" r="3.6"/><circle cx="379.5" cy="159.5" r="3.6"/><circle cx="390.5" cy="159.5" r="3.6"/><circle cx="401.5" cy="159.5" r="3.6"/><circle cx="60.5" cy="170.5" r="3.6"/><circle cx="71.5" cy="170.5" r="3.6"/><circle cx="82.5" cy="170.5" r="3.6"/><circle cx="93.5" cy="170.5" r="3.6"/><circle cx="104.5" cy="170.5" r="3.6"/><circle cx="115.5" cy="170.5" r="3.6"/><circle cx="126.5" cy="170.5" r="3.6"/><circle cx="137.5" cy="170.5" r="3.6"/><circle cx="148.5" cy="170.5" r="3.6"/><circle cx="159.5" cy="170.5" r="3.6"/><circle cx="170.5" cy="170.5" r="3.6"/><circle cx="181.5" cy="170.5" r="3.6"/><circle cx="192.5" cy="170.5" r="3.6"/><circle cx="203.5" cy="170.5" r="3.6"/><circle cx="214.5" cy="170.5" r="3.6"/><circle cx="225.5" cy="170.5" r="3.6"/><circle cx="236.5" cy="170.5" r="3.6"/><circle cx="247.5" cy="170.5" r="3.6"/><circle cx="258.5" cy="170.5" r="3.6"/><circle cx="269.5" cy="170.5" r="3.6"/><circle cx="280.5" cy="170.5" r="3.6"/><circle cx="291.5" cy="170.5" r="3.6"/><circle cx="302.5" cy="170.5" r="3.6"/><circle cx="313.5" cy="170.5" r="3.6"/><circle cx="324.5" cy="170.5" r="3.6"/><circle cx="335.5" cy="170.5" r="3.6"/><circle cx="346.5" cy="170.5" r="3.6"/><circle cx="357.5" cy="170.5" r="3.6"/><circle cx="368.5" cy="170.5" r="3.6"/><circle cx="379.5" cy="170.5" r="3.6"/><circle cx="390.5" cy="170.5" r="3.6"/><circle cx="401.5" cy="170.5" r="3.6"/><circle cx="412.5" cy="170.5" r="3.6"/><circle cx="60.5" cy="181.5" r="3.6"/><circle cx="71.5" cy="181.5" r="3.6"/><circle cx="82.5" cy="181.5" r="3.6"/><circle cx="93.5" cy="181.5" r="3.6"/><circle cx="104.5" cy="181.5" r="3.6"/><circle cx="115.5" cy="181.5" r="3.6"/><circle cx="126.5" cy="181.5" r="3.6"/><circle cx="137.5" cy="181.5" r="3.6"/><circle cx="148.5" cy="181.5" r="3.6"/><circle cx="159.5" cy="181.5" r="3.6"/><circle cx="170.5" cy="181.5" r="3.6"/><circle cx="181.5" cy="181.5" r="3.6"/><circle cx="192.5" cy="181.5" r="3.6"/><circle cx="203.5" cy="181.5" r="3.6"/><circle cx="214.5" cy="181.5" r="3.6"/><circle cx="225.5" cy="181.5" r="3.6"/><circle cx="236.5" cy="181.5" r="3.6"/><circle cx="247.5" cy="181.5" r="3.6"/><circle cx="258.5" cy="181.5" r="3.6"/><circle cx="269.5" cy="181.5" r="3.6"/><circle cx="280.5" cy="181.5" r="3.6"/><circle cx="291.5" cy="181.5" r="3.6"/><circle cx="302.5" cy="181.5" r="3.6"/><circle cx="313.5" cy="181.5" r="3.6"/><circle cx="324.5" cy="181.5" r="3.6"/><circle cx="335.5" cy="181.5" r="3.6"/><circle cx="346.5" cy="181.5" r="3.6"/><circle cx="357.5" cy="181.5" r="3.6"/><circle cx="368.5" cy="181.5" r="3.6"/><circle cx="379.5" cy="181.5" r="3.6"/><circle cx="390.5" cy="181.5" r="3.6"/><circle cx="401.5" cy="181.5" r="3.6"/><circle cx="71.5" cy="192.5" r="3.6"/><circle cx="82.5" cy="192.5" r="3.6"/><circle cx="93.5" cy="192.5" r="3.6"/><circle cx="104.5" cy="192.5" r="3.6"/><circle cx="115.5" cy="192.5" r="3.6"/><circle cx="126.5" cy="192.5" r="3.6"/><circle cx="137.5" cy="192.5" r="3.6"/><circle cx="148.5" cy="192.5" r="3.6"/><circle cx="159.5" cy="192.5" r="3.6"/><circle cx="170.5" cy="192.5" r="3.6"/><circle cx="181.5" cy="192.5" r="3.6"/><circle cx="192.5" cy="192.5" r="3.6"/><circle cx="203.5" cy="192.5" r="3.6"/><circle cx="214.5" cy="192.5" r="3.6"/><circle cx="225.5" cy="192.5" r="3.6"/><circle cx="236.5" cy="192.5" r="3.6"/><circle cx="247.5" cy="192.5" r="3.6"/><circle cx="258.5" cy="192.5" r="3.6"/><circle cx="269.5" cy="192.5" r="3.6"/><circle cx="280.5" cy="192.5" r="3.6"/><circle cx="291.5" cy="192.5" r="3.6"/><circle cx="302.5" cy="192.5" r="3.6"/><circle cx="313.5" cy="192.5" r="3.6"/><circle cx="324.5" cy="192.5" r="3.6"/><circle cx="335.5" cy="192.5" r="3.6"/><circle cx="346.5" cy="192.5" r="3.6"/><circle cx="357.5" cy="192.5" r="3.6"/><circle cx="368.5" cy="192.5" r="3.6"/><circle cx="379.5" cy="192.5" r="3.6"/><circle cx="390.5" cy="192.5" r="3.6"/><circle cx="401.5" cy="192.5" r="3.6"/><circle cx="412.5" cy="192.5" r="3.6"/><circle cx="82.5" cy="203.5" r="3.6"/><circle cx="93.5" cy="203.5" r="3.6"/><circle cx="104.5" cy="203.5" r="3.6"/><circle cx="115.5" cy="203.5" r="3.6"/><circle cx="126.5" cy="203.5" r="3.6"/><circle cx="137.5" cy="203.5" r="3.6"/><circle cx="148.5" cy="203.5" r="3.6"/><circle cx="159.5" cy="203.5" r="3.6"/><circle cx="170.5" cy="203.5" r="3.6"/><circle cx="181.5" cy="203.5" r="3.6"/><circle cx="192.5" cy="203.5" r="3.6"/><circle cx="203.5" cy="203.5" r="3.6"/><circle cx="214.5" cy="203.5" r="3.6"/><circle cx="225.5" cy="203.5" r="3.6"/><circle cx="236.5" cy="203.5" r="3.6"/><circle cx="247.5" cy="203.5" r="3.6"/><circle cx="258.5" cy="203.5" r="3.6"/><circle cx="269.5" cy="203.5" r="3.6"/><circle cx="280.5" cy="203.5" r="3.6"/><circle cx="291.5" cy="203.5" r="3.6"/><circle cx="302.5" cy="203.5" r="3.6"/><circle cx="313.5" cy="203.5" r="3.6"/><circle cx="324.5" cy="203.5" r="3.6"/><circle cx="335.5" cy="203.5" r="3.6"/><circle cx="346.5" cy="203.5" r="3.6"/><circle cx="357.5" cy="203.5" r="3.6"/><circle cx="368.5" cy="203.5" r="3.6"/><circle cx="379.5" cy="203.5" r="3.6"/><circle cx="390.5" cy="203.5" r="3.6"/><circle cx="401.5" cy="203.5" r="3.6"/><circle cx="412.5" cy="203.5" r="3.6"/><circle cx="82.5" cy="214.5" r="3.6"/><circle cx="93.5" cy="214.5" r="3.6"/><circle cx="104.5" cy="214.5" r="3.6"/><circle cx="115.5" cy="214.5" r="3.6"/><circle cx="126.5" cy="214.5" r="3.6"/><circle cx="137.5" cy="214.5" r="3.6"/><circle cx="148.5" cy="214.5" r="3.6"/><circle cx="159.5" cy="214.5" r="3.6"/><circle cx="170.5" cy="214.5" r="3.6"/><circle cx="181.5" cy="214.5" r="3.6"/><circle cx="192.5" cy="214.5" r="3.6"/><circle cx="203.5" cy="214.5" r="3.6"/><circle cx="214.5" cy="214.5" r="3.6"/><circle cx="225.5" cy="214.5" r="3.6"/><circle cx="236.5" cy="214.5" r="3.6"/><circle cx="247.5" cy="214.5" r="3.6"/><circle cx="258.5" cy="214.5" r="3.6"/><circle cx="269.5" cy="214.5" r="3.6"/><circle cx="280.5" cy="214.5" r="3.6"/><circle cx="291.5" cy="214.5" r="3.6"/><circle cx="302.5" cy="214.5" r="3.6"/><circle cx="313.5" cy="214.5" r="3.6"/><circle cx="324.5" cy="214.5" r="3.6"/><circle cx="335.5" cy="214.5" r="3.6"/><circle cx="346.5" cy="214.5" r="3.6"/><circle cx="357.5" cy="214.5" r="3.6"/><circle cx="368.5" cy="214.5" r="3.6"/><circle cx="379.5" cy="214.5" r="3.6"/><circle cx="390.5" cy="214.5" r="3.6"/><circle cx="401.5" cy="214.5" r="3.6"/><circle cx="412.5" cy="214.5" r="3.6"/><circle cx="423.5" cy="214.5" r="3.6"/><circle cx="82.5" cy="225.5" r="3.6"/><circle cx="93.5" cy="225.5" r="3.6"/><circle cx="104.5" cy="225.5" r="3.6"/><circle cx="115.5" cy="225.5" r="3.6"/><circle cx="126.5" cy="225.5" r="3.6"/><circle cx="137.5" cy="225.5" r="3.6"/><circle cx="148.5" cy="225.5" r="3.6"/><circle cx="159.5" cy="225.5" r="3.6"/><circle cx="170.5" cy="225.5" r="3.6"/><circle cx="181.5" cy="225.5" r="3.6"/><circle cx="192.5" cy="225.5" r="3.6"/><circle cx="203.5" cy="225.5" r="3.6"/><circle cx="214.5" cy="225.5" r="3.6"/><circle cx="225.5" cy="225.5" r="3.6"/><circle cx="236.5" cy="225.5" r="3.6"/><circle cx="247.5" cy="225.5" r="3.6"/><circle cx="258.5" cy="225.5" r="3.6"/><circle cx="269.5" cy="225.5" r="3.6"/><circle cx="280.5" cy="225.5" r="3.6"/><circle cx="291.5" cy="225.5" r="3.6"/><circle cx="302.5" cy="225.5" r="3.6"/><circle cx="313.5" cy="225.5" r="3.6"/><circle cx="324.5" cy="225.5" r="3.6"/><circle cx="335.5" cy="225.5" r="3.6"/><circle cx="346.5" cy="225.5" r="3.6"/><circle cx="357.5" cy="225.5" r="3.6"/><circle cx="368.5" cy="225.5" r="3.6"/><circle cx="379.5" cy="225.5" r="3.6"/><circle cx="390.5" cy="225.5" r="3.6"/><circle cx="401.5" cy="225.5" r="3.6"/><circle cx="412.5" cy="225.5" r="3.6"/><circle cx="423.5" cy="225.5" r="3.6"/><circle cx="434.5" cy="225.5" r="3.6"/><circle cx="104.5" cy="236.5" r="3.6"/><circle cx="115.5" cy="236.5" r="3.6"/><circle cx="126.5" cy="236.5" r="3.6"/><circle cx="137.5" cy="236.5" r="3.6"/><circle cx="148.5" cy="236.5" r="3.6"/><circle cx="159.5" cy="236.5" r="3.6"/><circle cx="170.5" cy="236.5" r="3.6"/><circle cx="181.5" cy="236.5" r="3.6"/><circle cx="192.5" cy="236.5" r="3.6"/><circle cx="203.5" cy="236.5" r="3.6"/><circle cx="214.5" cy="236.5" r="3.6"/><circle cx="225.5" cy="236.5" r="3.6"/><circle cx="236.5" cy="236.5" r="3.6"/><circle cx="247.5" cy="236.5" r="3.6"/><circle cx="258.5" cy="236.5" r="3.6"/><circle cx="269.5" cy="236.5" r="3.6"/><circle cx="280.5" cy="236.5" r="3.6"/><circle cx="291.5" cy="236.5" r="3.6"/><circle cx="302.5" cy="236.5" r="3.6"/><circle cx="313.5" cy="236.5" r="3.6"/><circle cx="324.5" cy="236.5" r="3.6"/><circle cx="335.5" cy="236.5" r="3.6"/><circle cx="346.5" cy="236.5" r="3.6"/><circle cx="357.5" cy="236.5" r="3.6"/><circle cx="368.5" cy="236.5" r="3.6"/><circle cx="379.5" cy="236.5" r="3.6"/><circle cx="390.5" cy="236.5" r="3.6"/><circle cx="401.5" cy="236.5" r="3.6"/><circle cx="412.5" cy="236.5" r="3.6"/><circle cx="423.5" cy="236.5" r="3.6"/><circle cx="434.5" cy="236.5" r="3.6"/><circle cx="445.5" cy="236.5" r="3.6"/><circle cx="115.5" cy="247.5" r="3.6"/><circle cx="126.5" cy="247.5" r="3.6"/><circle cx="137.5" cy="247.5" r="3.6"/><circle cx="148.5" cy="247.5" r="3.6"/><circle cx="159.5" cy="247.5" r="3.6"/><circle cx="170.5" cy="247.5" r="3.6"/><circle cx="181.5" cy="247.5" r="3.6"/><circle cx="192.5" cy="247.5" r="3.6"/><circle cx="203.5" cy="247.5" r="3.6"/><circle cx="214.5" cy="247.5" r="3.6"/><circle cx="225.5" cy="247.5" r="3.6"/><circle cx="236.5" cy="247.5" r="3.6"/><circle cx="247.5" cy="247.5" r="3.6"/><circle cx="258.5" cy="247.5" r="3.6"/><circle cx="269.5" cy="247.5" r="3.6"/><circle cx="280.5" cy="247.5" r="3.6"/><circle cx="291.5" cy="247.5" r="3.6"/><circle cx="302.5" cy="247.5" r="3.6"/><circle cx="313.5" cy="247.5" r="3.6"/><circle cx="324.5" cy="247.5" r="3.6"/><circle cx="335.5" cy="247.5" r="3.6"/><circle cx="346.5" cy="247.5" r="3.6"/><circle cx="357.5" cy="247.5" r="3.6"/><circle cx="368.5" cy="247.5" r="3.6"/><circle cx="379.5" cy="247.5" r="3.6"/><circle cx="390.5" cy="247.5" r="3.6"/><circle cx="401.5" cy="247.5" r="3.6"/><circle cx="412.5" cy="247.5" r="3.6"/><circle cx="423.5" cy="247.5" r="3.6"/><circle cx="434.5" cy="247.5" r="3.6"/><circle cx="445.5" cy="247.5" r="3.6"/><circle cx="456.5" cy="247.5" r="3.6"/><circle cx="115.5" cy="258.5" r="3.6"/><circle cx="126.5" cy="258.5" r="3.6"/><circle cx="137.5" cy="258.5" r="3.6"/><circle cx="148.5" cy="258.5" r="3.6"/><circle cx="159.5" cy="258.5" r="3.6"/><circle cx="170.5" cy="258.5" r="3.6"/><circle cx="181.5" cy="258.5" r="3.6"/><circle cx="192.5" cy="258.5" r="3.6"/><circle cx="203.5" cy="258.5" r="3.6"/><circle cx="214.5" cy="258.5" r="3.6"/><circle cx="225.5" cy="258.5" r="3.6"/><circle cx="236.5" cy="258.5" r="3.6"/><circle cx="247.5" cy="258.5" r="3.6"/><circle cx="258.5" cy="258.5" r="3.6"/><circle cx="269.5" cy="258.5" r="3.6"/><circle cx="280.5" cy="258.5" r="3.6"/><circle cx="291.5" cy="258.5" r="3.6"/><circle cx="302.5" cy="258.5" r="3.6"/><circle cx="313.5" cy="258.5" r="3.6"/><circle cx="324.5" cy="258.5" r="3.6"/><circle cx="335.5" cy="258.5" r="3.6"/><circle cx="346.5" cy="258.5" r="3.6"/><circle cx="357.5" cy="258.5" r="3.6"/><circle cx="368.5" cy="258.5" r="3.6"/><circle cx="379.5" cy="258.5" r="3.6"/><circle cx="390.5" cy="258.5" r="3.6"/><circle cx="401.5" cy="258.5" r="3.6"/><circle cx="412.5" cy="258.5" r="3.6"/><circle cx="423.5" cy="258.5" r="3.6"/><circle cx="434.5" cy="258.5" r="3.6"/><circle cx="445.5" cy="258.5" r="3.6"/><circle cx="456.5" cy="258.5" r="3.6"/><circle cx="467.5" cy="258.5" r="3.6"/><circle cx="126.5" cy="269.5" r="3.6"/><circle cx="137.5" cy="269.5" r="3.6"/><circle cx="148.5" cy="269.5" r="3.6"/><circle cx="159.5" cy="269.5" r="3.6"/><circle cx="170.5" cy="269.5" r="3.6"/><circle cx="181.5" cy="269.5" r="3.6"/><circle cx="192.5" cy="269.5" r="3.6"/><circle cx="203.5" cy="269.5" r="3.6"/><circle cx="214.5" cy="269.5" r="3.6"/><circle cx="225.5" cy="269.5" r="3.6"/><circle cx="236.5" cy="269.5" r="3.6"/><circle cx="247.5" cy="269.5" r="3.6"/><circle cx="258.5" cy="269.5" r="3.6"/><circle cx="269.5" cy="269.5" r="3.6"/><circle cx="280.5" cy="269.5" r="3.6"/><circle cx="291.5" cy="269.5" r="3.6"/><circle cx="302.5" cy="269.5" r="3.6"/><circle cx="313.5" cy="269.5" r="3.6"/><circle cx="324.5" cy="269.5" r="3.6"/><circle cx="335.5" cy="269.5" r="3.6"/><circle cx="346.5" cy="269.5" r="3.6"/><circle cx="357.5" cy="269.5" r="3.6"/><circle cx="368.5" cy="269.5" r="3.6"/><circle cx="379.5" cy="269.5" r="3.6"/><circle cx="390.5" cy="269.5" r="3.6"/><circle cx="401.5" cy="269.5" r="3.6"/><circle cx="412.5" cy="269.5" r="3.6"/><circle cx="423.5" cy="269.5" r="3.6"/><circle cx="434.5" cy="269.5" r="3.6"/><circle cx="445.5" cy="269.5" r="3.6"/><circle cx="456.5" cy="269.5" r="3.6"/><circle cx="467.5" cy="269.5" r="3.6"/><circle cx="478.5" cy="269.5" r="3.6"/><circle cx="126.5" cy="280.5" r="3.6"/><circle cx="137.5" cy="280.5" r="3.6"/><circle cx="148.5" cy="280.5" r="3.6"/><circle cx="159.5" cy="280.5" r="3.6"/><circle cx="170.5" cy="280.5" r="3.6"/><circle cx="181.5" cy="280.5" r="3.6"/><circle cx="192.5" cy="280.5" r="3.6"/><circle cx="203.5" cy="280.5" r="3.6"/><circle cx="214.5" cy="280.5" r="3.6"/><circle cx="225.5" cy="280.5" r="3.6"/><circle cx="236.5" cy="280.5" r="3.6"/><circle cx="247.5" cy="280.5" r="3.6"/><circle cx="258.5" cy="280.5" r="3.6"/><circle cx="269.5" cy="280.5" r="3.6"/><circle cx="280.5" cy="280.5" r="3.6"/><circle cx="291.5" cy="280.5" r="3.6"/><circle cx="302.5" cy="280.5" r="3.6"/><circle cx="313.5" cy="280.5" r="3.6"/><circle cx="324.5" cy="280.5" r="3.6"/><circle cx="335.5" cy="280.5" r="3.6"/><circle cx="346.5" cy="280.5" r="3.6"/><circle cx="357.5" cy="280.5" r="3.6"/><circle cx="368.5" cy="280.5" r="3.6"/><circle cx="379.5" cy="280.5" r="3.6"/><circle cx="390.5" cy="280.5" r="3.6"/><circle cx="401.5" cy="280.5" r="3.6"/><circle cx="412.5" cy="280.5" r="3.6"/><circle cx="423.5" cy="280.5" r="3.6"/><circle cx="434.5" cy="280.5" r="3.6"/><circle cx="445.5" cy="280.5" r="3.6"/><circle cx="456.5" cy="280.5" r="3.6"/><circle cx="467.5" cy="280.5" r="3.6"/><circle cx="478.5" cy="280.5" r="3.6"/><circle cx="489.5" cy="280.5" r="3.6"/><circle cx="500.5" cy="280.5" r="3.6"/><circle cx="511.5" cy="280.5" r="3.6"/><circle cx="522.5" cy="280.5" r="3.6"/><circle cx="533.5" cy="280.5" r="3.6"/><circle cx="544.5" cy="280.5" r="3.6"/><circle cx="126.5" cy="291.5" r="3.6"/><circle cx="137.5" cy="291.5" r="3.6"/><circle cx="148.5" cy="291.5" r="3.6"/><circle cx="159.5" cy="291.5" r="3.6"/><circle cx="170.5" cy="291.5" r="3.6"/><circle cx="181.5" cy="291.5" r="3.6"/><circle cx="192.5" cy="291.5" r="3.6"/><circle cx="203.5" cy="291.5" r="3.6"/><circle cx="214.5" cy="291.5" r="3.6"/><circle cx="225.5" cy="291.5" r="3.6"/><circle cx="236.5" cy="291.5" r="3.6"/><circle cx="247.5" cy="291.5" r="3.6"/><circle cx="258.5" cy="291.5" r="3.6"/><circle cx="269.5" cy="291.5" r="3.6"/><circle cx="280.5" cy="291.5" r="3.6"/><circle cx="291.5" cy="291.5" r="3.6"/><circle cx="302.5" cy="291.5" r="3.6"/><circle cx="313.5" cy="291.5" r="3.6"/><circle cx="324.5" cy="291.5" r="3.6"/><circle cx="335.5" cy="291.5" r="3.6"/><circle cx="346.5" cy="291.5" r="3.6"/><circle cx="357.5" cy="291.5" r="3.6"/><circle cx="368.5" cy="291.5" r="3.6"/><circle cx="379.5" cy="291.5" r="3.6"/><circle cx="390.5" cy="291.5" r="3.6"/><circle cx="401.5" cy="291.5" r="3.6"/><circle cx="412.5" cy="291.5" r="3.6"/><circle cx="423.5" cy="291.5" r="3.6"/><circle cx="434.5" cy="291.5" r="3.6"/><circle cx="445.5" cy="291.5" r="3.6"/><circle cx="456.5" cy="291.5" r="3.6"/><circle cx="467.5" cy="291.5" r="3.6"/><circle cx="478.5" cy="291.5" r="3.6"/><circle cx="489.5" cy="291.5" r="3.6"/><circle cx="500.5" cy="291.5" r="3.6"/><circle cx="511.5" cy="291.5" r="3.6"/><circle cx="522.5" cy="291.5" r="3.6"/><circle cx="533.5" cy="291.5" r="3.6"/><circle cx="544.5" cy="291.5" r="3.6"/><circle cx="126.5" cy="302.5" r="3.6"/><circle cx="137.5" cy="302.5" r="3.6"/><circle cx="148.5" cy="302.5" r="3.6"/><circle cx="159.5" cy="302.5" r="3.6"/><circle cx="170.5" cy="302.5" r="3.6"/><circle cx="181.5" cy="302.5" r="3.6"/><circle cx="192.5" cy="302.5" r="3.6"/><circle cx="203.5" cy="302.5" r="3.6"/><circle cx="214.5" cy="302.5" r="3.6"/><circle cx="225.5" cy="302.5" r="3.6"/><circle cx="236.5" cy="302.5" r="3.6"/><circle cx="247.5" cy="302.5" r="3.6"/><circle cx="258.5" cy="302.5" r="3.6"/><circle cx="269.5" cy="302.5" r="3.6"/><circle cx="280.5" cy="302.5" r="3.6"/><circle cx="291.5" cy="302.5" r="3.6"/><circle cx="302.5" cy="302.5" r="3.6"/><circle cx="313.5" cy="302.5" r="3.6"/><circle cx="324.5" cy="302.5" r="3.6"/><circle cx="335.5" cy="302.5" r="3.6"/><circle cx="346.5" cy="302.5" r="3.6"/><circle cx="357.5" cy="302.5" r="3.6"/><circle cx="368.5" cy="302.5" r="3.6"/><circle cx="379.5" cy="302.5" r="3.6"/><circle cx="390.5" cy="302.5" r="3.6"/><circle cx="401.5" cy="302.5" r="3.6"/><circle cx="412.5" cy="302.5" r="3.6"/><circle cx="423.5" cy="302.5" r="3.6"/><circle cx="434.5" cy="302.5" r="3.6"/><circle cx="445.5" cy="302.5" r="3.6"/><circle cx="456.5" cy="302.5" r="3.6"/><circle cx="467.5" cy="302.5" r="3.6"/><circle cx="478.5" cy="302.5" r="3.6"/><circle cx="489.5" cy="302.5" r="3.6"/><circle cx="500.5" cy="302.5" r="3.6"/><circle cx="511.5" cy="302.5" r="3.6"/><circle cx="522.5" cy="302.5" r="3.6"/><circle cx="533.5" cy="302.5" r="3.6"/><circle cx="544.5" cy="302.5" r="3.6"/><circle cx="126.5" cy="313.5" r="3.6"/><circle cx="137.5" cy="313.5" r="3.6"/><circle cx="148.5" cy="313.5" r="3.6"/><circle cx="159.5" cy="313.5" r="3.6"/><circle cx="170.5" cy="313.5" r="3.6"/><circle cx="181.5" cy="313.5" r="3.6"/><circle cx="192.5" cy="313.5" r="3.6"/><circle cx="203.5" cy="313.5" r="3.6"/><circle cx="214.5" cy="313.5" r="3.6"/><circle cx="225.5" cy="313.5" r="3.6"/><circle cx="236.5" cy="313.5" r="3.6"/><circle cx="247.5" cy="313.5" r="3.6"/><circle cx="258.5" cy="313.5" r="3.6"/><circle cx="269.5" cy="313.5" r="3.6"/><circle cx="280.5" cy="313.5" r="3.6"/><circle cx="291.5" cy="313.5" r="3.6"/><circle cx="302.5" cy="313.5" r="3.6"/><circle cx="313.5" cy="313.5" r="3.6"/><circle cx="324.5" cy="313.5" r="3.6"/><circle cx="335.5" cy="313.5" r="3.6"/><circle cx="346.5" cy="313.5" r="3.6"/><circle cx="357.5" cy="313.5" r="3.6"/><circle cx="368.5" cy="313.5" r="3.6"/><circle cx="379.5" cy="313.5" r="3.6"/><circle cx="390.5" cy="313.5" r="3.6"/><circle cx="401.5" cy="313.5" r="3.6"/><circle cx="412.5" cy="313.5" r="3.6"/><circle cx="423.5" cy="313.5" r="3.6"/><circle cx="434.5" cy="313.5" r="3.6"/><circle cx="445.5" cy="313.5" r="3.6"/><circle cx="456.5" cy="313.5" r="3.6"/><circle cx="467.5" cy="313.5" r="3.6"/><circle cx="478.5" cy="313.5" r="3.6"/><circle cx="489.5" cy="313.5" r="3.6"/><circle cx="500.5" cy="313.5" r="3.6"/><circle cx="511.5" cy="313.5" r="3.6"/><circle cx="522.5" cy="313.5" r="3.6"/><circle cx="533.5" cy="313.5" r="3.6"/><circle cx="544.5" cy="313.5" r="3.6"/><circle cx="137.5" cy="324.5" r="3.6"/><circle cx="148.5" cy="324.5" r="3.6"/><circle cx="159.5" cy="324.5" r="3.6"/><circle cx="170.5" cy="324.5" r="3.6"/><circle cx="181.5" cy="324.5" r="3.6"/><circle cx="192.5" cy="324.5" r="3.6"/><circle cx="203.5" cy="324.5" r="3.6"/><circle cx="214.5" cy="324.5" r="3.6"/><circle cx="225.5" cy="324.5" r="3.6"/><circle cx="236.5" cy="324.5" r="3.6"/><circle cx="247.5" cy="324.5" r="3.6"/><circle cx="258.5" cy="324.5" r="3.6"/><circle cx="269.5" cy="324.5" r="3.6"/><circle cx="280.5" cy="324.5" r="3.6"/><circle cx="291.5" cy="324.5" r="3.6"/><circle cx="302.5" cy="324.5" r="3.6"/><circle cx="313.5" cy="324.5" r="3.6"/><circle cx="324.5" cy="324.5" r="3.6"/><circle cx="335.5" cy="324.5" r="3.6"/><circle cx="346.5" cy="324.5" r="3.6"/><circle cx="357.5" cy="324.5" r="3.6"/><circle cx="368.5" cy="324.5" r="3.6"/><circle cx="379.5" cy="324.5" r="3.6"/><circle cx="390.5" cy="324.5" r="3.6"/><circle cx="401.5" cy="324.5" r="3.6"/><circle cx="412.5" cy="324.5" r="3.6"/><circle cx="423.5" cy="324.5" r="3.6"/><circle cx="434.5" cy="324.5" r="3.6"/><circle cx="445.5" cy="324.5" r="3.6"/><circle cx="456.5" cy="324.5" r="3.6"/><circle cx="467.5" cy="324.5" r="3.6"/><circle cx="478.5" cy="324.5" r="3.6"/><circle cx="489.5" cy="324.5" r="3.6"/><circle cx="500.5" cy="324.5" r="3.6"/><circle cx="511.5" cy="324.5" r="3.6"/><circle cx="522.5" cy="324.5" r="3.6"/><circle cx="533.5" cy="324.5" r="3.6"/><circle cx="544.5" cy="324.5" r="3.6"/><circle cx="137.5" cy="335.5" r="3.6"/><circle cx="148.5" cy="335.5" r="3.6"/><circle cx="159.5" cy="335.5" r="3.6"/><circle cx="170.5" cy="335.5" r="3.6"/><circle cx="181.5" cy="335.5" r="3.6"/><circle cx="192.5" cy="335.5" r="3.6"/><circle cx="203.5" cy="335.5" r="3.6"/><circle cx="214.5" cy="335.5" r="3.6"/><circle cx="225.5" cy="335.5" r="3.6"/><circle cx="236.5" cy="335.5" r="3.6"/><circle cx="247.5" cy="335.5" r="3.6"/><circle cx="258.5" cy="335.5" r="3.6"/><circle cx="269.5" cy="335.5" r="3.6"/><circle cx="280.5" cy="335.5" r="3.6"/><circle cx="291.5" cy="335.5" r="3.6"/><circle cx="302.5" cy="335.5" r="3.6"/><circle cx="313.5" cy="335.5" r="3.6"/><circle cx="324.5" cy="335.5" r="3.6"/><circle cx="335.5" cy="335.5" r="3.6"/><circle cx="346.5" cy="335.5" r="3.6"/><circle cx="357.5" cy="335.5" r="3.6"/><circle cx="368.5" cy="335.5" r="3.6"/><circle cx="379.5" cy="335.5" r="3.6"/><circle cx="390.5" cy="335.5" r="3.6"/><circle cx="401.5" cy="335.5" r="3.6"/><circle cx="412.5" cy="335.5" r="3.6"/><circle cx="423.5" cy="335.5" r="3.6"/><circle cx="434.5" cy="335.5" r="3.6"/><circle cx="445.5" cy="335.5" r="3.6"/><circle cx="456.5" cy="335.5" r="3.6"/><circle cx="467.5" cy="335.5" r="3.6"/><circle cx="478.5" cy="335.5" r="3.6"/><circle cx="489.5" cy="335.5" r="3.6"/><circle cx="500.5" cy="335.5" r="3.6"/><circle cx="511.5" cy="335.5" r="3.6"/><circle cx="522.5" cy="335.5" r="3.6"/><circle cx="533.5" cy="335.5" r="3.6"/><circle cx="159.5" cy="346.5" r="3.6"/><circle cx="170.5" cy="346.5" r="3.6"/><circle cx="181.5" cy="346.5" r="3.6"/><circle cx="192.5" cy="346.5" r="3.6"/><circle cx="203.5" cy="346.5" r="3.6"/><circle cx="214.5" cy="346.5" r="3.6"/><circle cx="225.5" cy="346.5" r="3.6"/><circle cx="236.5" cy="346.5" r="3.6"/><circle cx="247.5" cy="346.5" r="3.6"/><circle cx="258.5" cy="346.5" r="3.6"/><circle cx="269.5" cy="346.5" r="3.6"/><circle cx="280.5" cy="346.5" r="3.6"/><circle cx="291.5" cy="346.5" r="3.6"/><circle cx="302.5" cy="346.5" r="3.6"/><circle cx="313.5" cy="346.5" r="3.6"/><circle cx="324.5" cy="346.5" r="3.6"/><circle cx="335.5" cy="346.5" r="3.6"/><circle cx="346.5" cy="346.5" r="3.6"/><circle cx="357.5" cy="346.5" r="3.6"/><circle cx="368.5" cy="346.5" r="3.6"/><circle cx="379.5" cy="346.5" r="3.6"/><circle cx="390.5" cy="346.5" r="3.6"/><circle cx="401.5" cy="346.5" r="3.6"/><circle cx="412.5" cy="346.5" r="3.6"/><circle cx="423.5" cy="346.5" r="3.6"/><circle cx="434.5" cy="346.5" r="3.6"/><circle cx="445.5" cy="346.5" r="3.6"/><circle cx="456.5" cy="346.5" r="3.6"/><circle cx="467.5" cy="346.5" r="3.6"/><circle cx="478.5" cy="346.5" r="3.6"/><circle cx="489.5" cy="346.5" r="3.6"/><circle cx="500.5" cy="346.5" r="3.6"/><circle cx="511.5" cy="346.5" r="3.6"/><circle cx="522.5" cy="346.5" r="3.6"/><circle cx="533.5" cy="346.5" r="3.6"/><circle cx="170.5" cy="357.5" r="3.6"/><circle cx="181.5" cy="357.5" r="3.6"/><circle cx="192.5" cy="357.5" r="3.6"/><circle cx="203.5" cy="357.5" r="3.6"/><circle cx="214.5" cy="357.5" r="3.6"/><circle cx="225.5" cy="357.5" r="3.6"/><circle cx="236.5" cy="357.5" r="3.6"/><circle cx="247.5" cy="357.5" r="3.6"/><circle cx="258.5" cy="357.5" r="3.6"/><circle cx="269.5" cy="357.5" r="3.6"/><circle cx="280.5" cy="357.5" r="3.6"/><circle cx="291.5" cy="357.5" r="3.6"/><circle cx="302.5" cy="357.5" r="3.6"/><circle cx="313.5" cy="357.5" r="3.6"/><circle cx="324.5" cy="357.5" r="3.6"/><circle cx="335.5" cy="357.5" r="3.6"/><circle cx="346.5" cy="357.5" r="3.6"/><circle cx="357.5" cy="357.5" r="3.6"/><circle cx="368.5" cy="357.5" r="3.6"/><circle cx="379.5" cy="357.5" r="3.6"/><circle cx="390.5" cy="357.5" r="3.6"/><circle cx="401.5" cy="357.5" r="3.6"/><circle cx="412.5" cy="357.5" r="3.6"/><circle cx="423.5" cy="357.5" r="3.6"/><circle cx="434.5" cy="357.5" r="3.6"/><circle cx="445.5" cy="357.5" r="3.6"/><circle cx="456.5" cy="357.5" r="3.6"/><circle cx="467.5" cy="357.5" r="3.6"/><circle cx="478.5" cy="357.5" r="3.6"/><circle cx="489.5" cy="357.5" r="3.6"/><circle cx="500.5" cy="357.5" r="3.6"/><circle cx="511.5" cy="357.5" r="3.6"/><circle cx="522.5" cy="357.5" r="3.6"/><circle cx="181.5" cy="368.5" r="3.6"/><circle cx="192.5" cy="368.5" r="3.6"/><circle cx="203.5" cy="368.5" r="3.6"/><circle cx="214.5" cy="368.5" r="3.6"/><circle cx="225.5" cy="368.5" r="3.6"/><circle cx="236.5" cy="368.5" r="3.6"/><circle cx="247.5" cy="368.5" r="3.6"/><circle cx="258.5" cy="368.5" r="3.6"/><circle cx="269.5" cy="368.5" r="3.6"/><circle cx="280.5" cy="368.5" r="3.6"/><circle cx="291.5" cy="368.5" r="3.6"/><circle cx="302.5" cy="368.5" r="3.6"/><circle cx="313.5" cy="368.5" r="3.6"/><circle cx="324.5" cy="368.5" r="3.6"/><circle cx="335.5" cy="368.5" r="3.6"/><circle cx="346.5" cy="368.5" r="3.6"/><circle cx="357.5" cy="368.5" r="3.6"/><circle cx="368.5" cy="368.5" r="3.6"/><circle cx="379.5" cy="368.5" r="3.6"/><circle cx="390.5" cy="368.5" r="3.6"/><circle cx="401.5" cy="368.5" r="3.6"/><circle cx="412.5" cy="368.5" r="3.6"/><circle cx="423.5" cy="368.5" r="3.6"/><circle cx="434.5" cy="368.5" r="3.6"/><circle cx="445.5" cy="368.5" r="3.6"/><circle cx="456.5" cy="368.5" r="3.6"/><circle cx="467.5" cy="368.5" r="3.6"/><circle cx="478.5" cy="368.5" r="3.6"/><circle cx="489.5" cy="368.5" r="3.6"/><circle cx="181.5" cy="379.5" r="3.6"/><circle cx="192.5" cy="379.5" r="3.6"/><circle cx="203.5" cy="379.5" r="3.6"/><circle cx="214.5" cy="379.5" r="3.6"/><circle cx="225.5" cy="379.5" r="3.6"/><circle cx="236.5" cy="379.5" r="3.6"/><circle cx="247.5" cy="379.5" r="3.6"/><circle cx="258.5" cy="379.5" r="3.6"/><circle cx="269.5" cy="379.5" r="3.6"/><circle cx="280.5" cy="379.5" r="3.6"/><circle cx="291.5" cy="379.5" r="3.6"/><circle cx="302.5" cy="379.5" r="3.6"/><circle cx="313.5" cy="379.5" r="3.6"/><circle cx="324.5" cy="379.5" r="3.6"/><circle cx="335.5" cy="379.5" r="3.6"/><circle cx="346.5" cy="379.5" r="3.6"/><circle cx="357.5" cy="379.5" r="3.6"/><circle cx="368.5" cy="379.5" r="3.6"/><circle cx="379.5" cy="379.5" r="3.6"/><circle cx="390.5" cy="379.5" r="3.6"/><circle cx="401.5" cy="379.5" r="3.6"/><circle cx="412.5" cy="379.5" r="3.6"/><circle cx="423.5" cy="379.5" r="3.6"/><circle cx="434.5" cy="379.5" r="3.6"/><circle cx="445.5" cy="379.5" r="3.6"/><circle cx="456.5" cy="379.5" r="3.6"/><circle cx="181.5" cy="390.5" r="3.6"/><circle cx="192.5" cy="390.5" r="3.6"/><circle cx="203.5" cy="390.5" r="3.6"/><circle cx="214.5" cy="390.5" r="3.6"/><circle cx="225.5" cy="390.5" r="3.6"/><circle cx="236.5" cy="390.5" r="3.6"/><circle cx="247.5" cy="390.5" r="3.6"/><circle cx="258.5" cy="390.5" r="3.6"/><circle cx="269.5" cy="390.5" r="3.6"/><circle cx="280.5" cy="390.5" r="3.6"/><circle cx="291.5" cy="390.5" r="3.6"/><circle cx="302.5" cy="390.5" r="3.6"/><circle cx="313.5" cy="390.5" r="3.6"/><circle cx="324.5" cy="390.5" r="3.6"/><circle cx="335.5" cy="390.5" r="3.6"/><circle cx="346.5" cy="390.5" r="3.6"/><circle cx="357.5" cy="390.5" r="3.6"/><circle cx="368.5" cy="390.5" r="3.6"/><circle cx="379.5" cy="390.5" r="3.6"/><circle cx="390.5" cy="390.5" r="3.6"/><circle cx="192.5" cy="401.5" r="3.6"/><circle cx="203.5" cy="401.5" r="3.6"/><circle cx="214.5" cy="401.5" r="3.6"/><circle cx="225.5" cy="401.5" r="3.6"/><circle cx="236.5" cy="401.5" r="3.6"/><circle cx="247.5" cy="401.5" r="3.6"/><circle cx="258.5" cy="401.5" r="3.6"/><circle cx="269.5" cy="401.5" r="3.6"/><circle cx="280.5" cy="401.5" r="3.6"/><circle cx="291.5" cy="401.5" r="3.6"/><circle cx="302.5" cy="401.5" r="3.6"/><circle cx="313.5" cy="401.5" r="3.6"/><circle cx="324.5" cy="401.5" r="3.6"/><circle cx="335.5" cy="401.5" r="3.6"/><circle cx="346.5" cy="401.5" r="3.6"/><circle cx="357.5" cy="401.5" r="3.6"/><circle cx="192.5" cy="412.5" r="3.6"/><circle cx="203.5" cy="412.5" r="3.6"/><circle cx="214.5" cy="412.5" r="3.6"/><circle cx="225.5" cy="412.5" r="3.6"/><circle cx="236.5" cy="412.5" r="3.6"/><circle cx="247.5" cy="412.5" r="3.6"/><circle cx="258.5" cy="412.5" r="3.6"/><circle cx="269.5" cy="412.5" r="3.6"/><circle cx="280.5" cy="412.5" r="3.6"/><circle cx="291.5" cy="412.5" r="3.6"/><circle cx="302.5" cy="412.5" r="3.6"/><circle cx="313.5" cy="412.5" r="3.6"/><circle cx="324.5" cy="412.5" r="3.6"/><circle cx="335.5" cy="412.5" r="3.6"/><circle cx="346.5" cy="412.5" r="3.6"/><circle cx="214.5" cy="423.5" r="3.6"/><circle cx="225.5" cy="423.5" r="3.6"/><circle cx="247.5" cy="423.5" r="3.6"/><circle cx="258.5" cy="423.5" r="3.6"/><circle cx="269.5" cy="423.5" r="3.6"/><circle cx="280.5" cy="423.5" r="3.6"/><circle cx="291.5" cy="423.5" r="3.6"/><circle cx="302.5" cy="423.5" r="3.6"/><circle cx="313.5" cy="423.5" r="3.6"/><circle cx="324.5" cy="423.5" r="3.6"/><circle cx="335.5" cy="423.5" r="3.6"/><circle cx="214.5" cy="434.5" r="3.6"/><circle cx="225.5" cy="434.5" r="3.6"/><circle cx="335.5" cy="434.5" r="3.6"/><circle cx="225.5" cy="445.5" r="3.6"/></g><g class="pin big" style="--d:0.00s"><circle cx="321.3" cy="217.4" r="8" class="ring"/><circle cx="321.3" cy="217.4" r="5" class="dot"/><text x="321.3" y="205.4" text-anchor="middle">الرياض</text></g><g class="pin big" style="--d:0.12s"><circle cx="125.3" cy="309.6" r="8" class="ring"/><circle cx="125.3" cy="309.6" r="5" class="dot"/><text x="125.3" y="297.6" text-anchor="middle">جدة</text></g><g class="pin" style="--d:0.36s"><circle cx="136.3" cy="224.3" r="6" class="ring"/><circle cx="136.3" cy="224.3" r="4" class="dot"/><text x="136.3" y="212.3" text-anchor="middle">المدينة</text></g><g class="pin big" style="--d:0.48s"><circle cx="410.8" cy="168.1" r="8" class="ring"/><circle cx="410.8" cy="168.1" r="5" class="dot"/><text x="410.8" y="156.1" text-anchor="middle">الدمام</text></g><g class="pin" style="--d:0.60s"><circle cx="212.0" cy="403.3" r="6" class="ring"/><circle cx="212.0" cy="403.3" r="4" class="dot"/><text x="212.0" y="391.3" text-anchor="middle">أبها</text></g><g class="pin" style="--d:0.72s"><circle cx="56.8" cy="112.3" r="6" class="ring"/><circle cx="56.8" cy="112.3" r="4" class="dot"/><text x="56.8" y="100.3" text-anchor="middle">تبوك</text></g><g class="pin" style="--d:0.84s"><circle cx="190.8" cy="136.9" r="6" class="ring"/><circle cx="190.8" cy="136.9" r="4" class="dot"/><text x="190.8" y="124.9" text-anchor="middle">حائل</text></g><g class="pin" style="--d:0.96s"><circle cx="250.4" cy="171.0" r="6" class="ring"/><circle cx="250.4" cy="171.0" r="4" class="dot"/><text x="250.4" y="159.0" text-anchor="middle">بريدة</text></g><g class="pin" style="--d:1.08s"><circle cx="213.3" cy="441.4" r="6" class="ring"/><circle cx="213.3" cy="441.4" r="4" class="dot"/><text x="213.3" y="429.4" text-anchor="middle">جازان</text></g><g class="pin" style="--d:1.20s"><circle cx="254.6" cy="424.2" r="6" class="ring"/><circle cx="254.6" cy="424.2" r="4" class="dot"/><text x="254.6" y="412.2" text-anchor="middle">نجران</text></g><g class="pin" style="--d:1.32s"><circle cx="152.0" cy="66.7" r="6" class="ring"/><circle cx="152.0" cy="66.7" r="4" class="dot"/><text x="152.0" y="54.7" text-anchor="middle">سكاكا</text></g><g class="pin" style="--d:1.44s"><circle cx="397.5" cy="198.2" r="6" class="ring"/><circle cx="397.5" cy="198.2" r="4" class="dot"/><text x="397.5" y="186.2" text-anchor="middle">الأحساء</text></g></svg></div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist" aria-labelledby="waith">
+  <div class="wrap wait">
+    <div class="wait-copy">
+      <h2 id="waith">كن من أوائل العائلات</h2>
+      <p>سجّل الحين، ونرسل لك أول ما تنفتح حملة في مدينتك. قل لنا وش تشتري كل شهر عشان نبدأ فيه.</p>
+      <img src="img/logo-stack.png" alt="معنا ma3na">
+    </div>
+
+    <form id="wl" novalidate>
+      <div class="form-body">
+        <div class="field">
+          <label for="name">الاسم</label>
+          <input id="name" name="name" autocomplete="name" required>
+          <div class="err">اكتب اسمك</div>
+        </div>
+        <div class="field">
+          <label for="phone">رقم الجوال</label>
+          <input id="phone" name="phone" type="tel" inputmode="numeric" dir="ltr" placeholder="05X XXX XXXX" autocomplete="tel" required>
+          <div class="err">اكتب رقم جوال سعودي يبدأ بـ 05</div>
+        </div>
+        <div class="field">
+          <label for="city" data-en="City">المدينة</label>
+          <select id="city" name="city" required>
+            <option value="">اختر مدينتك</option>
+            <option value="الرياض">الرياض</option><option value="جدة">جدة</option><option value="مكة المكرمة">مكة المكرمة</option><option value="المدينة المنورة">المدينة المنورة</option><option value="الدمام">الدمام</option><option value="الخبر">الخبر</option><option value="الظهران">الظهران</option><option value="الأحساء">الأحساء</option><option value="الطائف">الطائف</option><option value="بريدة">بريدة</option><option value="عنيزة">عنيزة</option><option value="حائل">حائل</option><option value="تبوك">تبوك</option><option value="أبها">أبها</option><option value="خميس مشيط">خميس مشيط</option><option value="جازان">جازان</option><option value="نجران">نجران</option><option value="الباحة">الباحة</option><option value="الجوف">الجوف</option><option value="عرعر">عرعر</option><option value="ينبع">ينبع</option><option value="الجبيل">الجبيل</option><option value="حفر الباطن">حفر الباطن</option><option value="مدينة ثانية">مدينة ثانية</option>
+          </select>
+          <div class="err">اختر مدينتك</div>
+        </div>
+        <fieldset class="fs">
+          <legend>وش تشتري كل شهر؟</legend>
+          <div class="chips">
+            <label><input type="checkbox" name="items" value="حفائظ"><span>حفائظ</span></label>
+            <label><input type="checkbox" name="items" value="منظفات"><span>منظفات</span></label>
+            <label><input type="checkbox" name="items" value="مناديل"><span>مناديل</span></label>
+            <label><input type="checkbox" name="items" value="صابون اليدين"><span>صابون اليدين</span></label>
+            <label><input type="checkbox" name="items" value="عناية شخصية"><span>عناية شخصية</span></label>
+            <label><input type="checkbox" name="items" value="مستلزمات البيت"><span>مستلزمات البيت</span></label>
+          </div>
+        </fieldset>
+        <div class="field consent-field">
+          <label class="consent"><input type="checkbox" id="ok" required><span>أوافق على <button type="button" data-open="privacy" data-en="Privacy policy">سياسة الخصوصية</button> واستخدام رقمي للتواصل معي عن الإطلاق.</span></label>
+          <div class="err" style="margin-top:-14px;margin-bottom:14px">لازم توافق عشان نقدر نتواصل معك</div>
+        </div>
+        <button class="btn btn-coral" type="submit">سجّلني في قائمة الانتظار</button>
+      </div>
+      <div class="done" role="status" aria-live="polite">
+        <div class="check"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0B3D33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h3>تم تسجيلك</h3>
+        <p>بنرسل لك رسالة أول ما تنفتح حملة في <span id="doneCity">مدينتك</span>.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="supplier" id="partners" aria-labelledby="parth">
+  <div class="wrap sup">
+    <div>
+      <h2 id="parth">هل أنت مورد أو موزّع؟</h2>
+      <p>نجمع لك طلبات مؤكدة ومدفوعة مسبقاً بكميات جملة من عائلات في كل المملكة. تجهّز الطلب في مستودعك، وشركة الشحن تستلمه منك، بدون ما تتعامل مع الأفراد ولا تتحمل تحصيل.</p>
+      <ul class="sup-points"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>طلبات بكميات كبيرة ومدفوعة قبل الشراء</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>أمر شراء واضح لكل حملة</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>وصول لعملاء جدد في كل المناطق</li></ul>
+      <div class="sup-act"><a class="btn btn-yellow" data-mail="مورد" href="#">سجّل كمورد</a><a class="link-light" data-mail="شركة شحن" href="#">شركة شحن؟ تواصل معنا</a></div>
+    </div>
+    <div class="sup-art" aria-hidden="true"><img src="img/detergent.png" alt=""><img src="img/home-supplies.png" alt=""></div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="dl-sec" aria-labelledby="dlh">
+  <div class="wrap dl">
+    <h2 id="dlh">حمّل التطبيق قريباً</h2>
+    <p>نعلن الإطلاق لأول المسجّلين في قائمة الانتظار.</p>
+    <div class="stores center-row"><span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9s-1.9-.9-3.2-.8c-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.2.8 2.1-1.2 2.9-2.4c.9-1.4 1.300-2.7 1.3-2.8 0 0-2.4-1-2.4-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg><span>Download on the<b>App Store</b></span></span>
+        <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.3c-.2.2-.3.6-.3 1v17.4c0 .4.1.8.3 1l9.7-9.7-9.7-9.7zm10.8 10.8 2.6 2.6-11.4 6.5 8.8-9.1zm0-2.2L5.6 1.8 17 8.3l-2.6 2.6zm3.8-1.9 3 1.7c.9.5.9 1.3 0 1.8l-3 1.7-2.8-2.6 2.8-2.6z"/></svg><span>Get it on<b>Google Play</b></span></span>
+      </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <img src="img/mark-light.png" alt="معنا">
+        <p>منصة شراء جماعي سعودية للاحتياجات المنزلية المتكررة.</p>
+      </div>
+      <nav class="fcol" aria-label="معنا"><b>معنا</b><a href="#how">كيف تشتغل</a><a href="#waitlist">قائمة الانتظار</a><button type="button" data-open="privacy" data-en="Privacy policy">سياسة الخصوصية</button></nav>
+      <nav class="fcol" aria-label="الشركاء"><b>الشركاء</b><a data-mail="مورد" href="#">للموردين والموزعين</a><a data-mail="شركة شحن" href="#">لشركات الشحن</a></nav>
+      <div class="fcol"><b>تابعنا</b>
+      <div class="social" aria-label="حسابات معنا">
+        <a href="https://www.linkedin.com/company/ma3na-sa/" target="_blank" rel="noopener" aria-label="لينكدإن"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg></a>
+        <a href="https://x.com/ma3naapp" target="_blank" rel="noopener" aria-label="إكس"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.2l-7 8 8.2 10h-6.4l-5-6.2L5 21H1.8l7.5-8.6L1.4 3h6.6l4.5 5.7zm-1.1 16.2h1.8L7.4 4.7H5.5z"/></svg></a>
+        <a href="https://www.instagram.com/ma3naapp" target="_blank" rel="noopener" aria-label="إنستقرام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></a>
+        <a href="https://www.tiktok.com/@ma3naapp" target="_blank" rel="noopener" aria-label="تيك توك"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.4 2.2 1.8 3.6 4 3.8v3.3c-1.5 0-2.9-.4-4-1.2v6.3c0 3.2-2.5 5.8-5.8 5.8S5 18.4 5 15.2s2.6-5.8 5.8-5.8c.3 0 .6 0 .9.1v3.4a2.5 2.5 0 1 0 1.6 2.3V3z"/></svg></a>
+      </div>
+    </div>
+    </div>
+    <div class="fbottom">
+      <span>© 2026 معنا. جميع الحقوق محفوظة.</span>
+      <button type="button" data-open="privacy" data-en="Privacy policy">سياسة الخصوصية</button>
+    </div>
+  </div>
+</footer>
+
+<dialog id="privacy" aria-labelledby="privh">
+  <h2 id="privh">سياسة الخصوصية</h2>
+  <p>نجمع في قائمة الانتظار: اسمك، رقم جوالك، مدينتك، والمنتجات اللي اخترتها.</p>
+  <ul>
+    <li>نستخدمها فقط للتواصل معك عن إطلاق معنا والحملات في مدينتك، ولفهم وش المنتجات اللي نبدأ فيها.</li>
+    <li>ما نبيع بياناتك ولا نشاركها مع أي طرف للتسويق.</li>
+    <li>تقدر تطلب حذف بياناتك في أي وقت عن طريق مراسلتنا على <a id="privMail" href="#">البريد</a>.</li>
+  </ul>
+  <p>نتعامل مع بياناتك وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية.</p>
+  <button class="btn btn-dark" type="button" onclick="this.closest('dialog').close()">تمام</button>
+</dialog>
+
+<script>
+/* ===== الإعدادات: عدّلها قبل الرفع ===== */
+const CONFIG = {
+  // رابط يستقبل بيانات النموذج (Google Apps Script / Formspree / Make). اتركه فاضي للتجربة.
+  WAITLIST_ENDPOINT: "",
+  EMAIL: "info@maanaco.com",
+  SUPPLIER_EMAIL: "supplier@maanaco.com",
+  LOGISTICS_EMAIL: "logistics@maanaco.com"
+};
+
+/* بريد التواصل */
+document.querySelectorAll('[data-mail]').forEach(a=>{
+  const to = a.dataset.mail === 'مورد' ? CONFIG.SUPPLIER_EMAIL : CONFIG.LOGISTICS_EMAIL;
+  a.href = `mailto:${to}?subject=${encodeURIComponent('شراكة مع معنا: '+a.dataset.mail)}`;
+});
+document.getElementById('privMail').href = 'mailto:'+CONFIG.EMAIL;
+document.getElementById('privMail').textContent = CONFIG.EMAIL;
+
+/* سياسة الخصوصية */
+const dlg = document.getElementById('privacy');
+document.querySelectorAll('[data-open=privacy]').forEach(b=>b.addEventListener('click',()=>dlg.showModal()));
+
+/* حركة الحملة في الواجهة: مرة وحدة عند التحميل */
+(function(){
+  const target = 41, max = 50, fill = document.getElementById('fill'), count = document.getElementById('count');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce){ fill.style.width = (target/max*100)+'%'; count.textContent = target; return; }
+  setTimeout(()=>{
+    fill.style.width = (target/max*100)+'%';
+    const t0 = performance.now(), dur = 2400;
+    (function tick(t){
+      const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+      count.textContent = Math.round(e*target);
+      if (p<1) requestAnimationFrame(tick);
+    })(t0);
+  }, 500);
+})();
+
+/* نموذج قائمة الانتظار */
+const form = document.getElementById('wl');
+const toLatin = s => s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+function normPhone(v){
+  v = toLatin(v).replace(/[\s\-()]/g,'');
+  if (v.startsWith('+966')) v = '0'+v.slice(4);
+  else if (v.startsWith('00966')) v = '0'+v.slice(5);
+  else if (v.startsWith('966')) v = '0'+v.slice(3);
+  else if (/^5\d{8}$/.test(v)) v = '0'+v;
+  return v;
+}
+function mark(el, ok){
+  el.closest('.field').classList.toggle('bad', !ok);
+  if (el.type !== 'checkbox') el.setAttribute('aria-invalid', String(!ok));
+  return ok;
+}
+form.addEventListener('submit', async e=>{
+  e.preventDefault();
+  const name = form.name, phone = form.phone, city = form.city, ok = document.getElementById('ok');
+  const p = normPhone(phone.value);
+  const valid = [
+    mark(name, name.value.trim().length >= 2),
+    mark(phone, /^05\d{8}$/.test(p)),
+    mark(city, !!city.value),
+    mark(ok, ok.checked)
+  ];
+  if (valid.includes(false)){ form.querySelector('.bad input, .bad select').focus(); return; }
+
+  const data = {
+    name: name.value.trim(), phone: p, city: city.value,
+    items: [...form.querySelectorAll('[name=items]:checked')].map(i=>i.value).join('، '),
+    source: new URLSearchParams(location.search).get('utm_source') || 'direct',
+    created_at: new Date().toISOString()
+  };
+  const btn = form.querySelector('[type=submit]');
+  btn.disabled = true; btn.textContent = LANG === 'en' ? 'Signing you up…' : 'جاري التسجيل…';
+  try{
+    if (CONFIG.WAITLIST_ENDPOINT){
+      await fetch(CONFIG.WAITLIST_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data)});
+    } else {
+      console.log('waitlist (test mode)', data);
+    }
+    const cityLabel = city.options[city.selectedIndex].textContent;
+    document.getElementById('doneCity').textContent = data.city === 'مدينة ثانية' ? (LANG === 'en' ? 'your city' : 'مدينتك') : cityLabel;
+    form.classList.add('sent');
+  }catch(err){
+    btn.disabled = false; btn.textContent = LANG === 'en' ? 'Add me to the waitlist' : 'سجّلني في قائمة الانتظار';
+    alert(LANG === 'en' ? "We couldn't sign you up right now. Check your connection and try again." : 'ما قدرنا نسجّلك الحين، تأكد من الاتصال وجرّب مرة ثانية.');
+  }
+});
+
+/* ===== Arabic / English ===== */
+const I18N = {"كيف تشتغل": "How it works", "المنتجات": "Products", "التطبيق": "The app", "من نحن": "About us", "للموردين": "For suppliers", "سجّل اهتمامك": "Get early access", "قريباً": "Coming soon", "نشتري معاً..": "Buy together..", "نوفّر أكثر": "save more", "تنضم مع عائلات ثانية على نفس المنتج، نشتري بالجملة من المورد، ويوصلك لباب البيت في أي مكان بالمملكة.": "Join other families on the same product. We buy in bulk from the supplier and deliver to your door anywhere in the Kingdom.", "حفائظ": "Diapers", "منظفات": "Cleaners", "مناديل": "Tissues", "عناية شخصية": "Personal care", "انضم لقائمة الانتظار": "Join the waitlist", "كيف تشتغل؟": "How does it work?", "التطبيق قريباً على": "App coming soon on", "كل مناطق المملكة": "All regions of the Kingdom", "دفع إلكتروني آمن": "Secure online payment", "تسليم موثّق برمز تحقق": "Delivery verified by code", "اكتملت الحملة": "Campaign completed", "حفائظ مقاس 4، 50 من 50 عائلة": "Diapers size 4, 50 of 50 families", "س": "S", "م": "M", "ن": "N", "+12 عائلة انضمت": "+12 families joined", "من الرياض خلال آخر ساعة": "From Riyadh in the last hour", "طلبك في الطريق": "Your order is on the way", "رمز التحقق عند الاستلام: 4821": "Delivery code: 4821", "منطقة نوصل لها من أول يوم": "regions we deliver to from day one", "3 إلى 7": "3 to 7", "أيام مدة كل حملة": "days per campaign", "دفع إلكتروني مسبق": "online prepayment", "رسوم مخفية بعد الدفع": "hidden fees after payment", "الأشياء اللي تشتريها كل شهر": "The things you buy every month", "نبدأ بالمنتجات اللي ما يخلو منها بيت، ونفتح لكل منتج حملة خاصة فيه.": "We start with the products every home needs, and open a dedicated campaign for each one.", "أول الحملات": "First campaigns", "حفائظ الأطفال": "Baby diapers", "كل المقاسات، بالكرتون": "All sizes, by the carton", "المنظفات": "Cleaners", "للمطبخ والحمام والأرضيات": "Kitchen, bathroom and floors", "المناديل": "Tissues", "مناديل الوجه وورق المطبخ": "Facial tissues and kitchen paper", "صابون اليدين": "Hand soap", "عبوات وتعبئات كبيرة": "Bottles and large refills", "العناية الشخصية": "Personal care", "صابون وشامبو ومعجون": "Soap, shampoo and toothpaste", "مستلزمات البيت": "Home essentials", "كل شي تشتريه كل شهر": "Everything you buy every month", "كيف تشتغل معنا؟": "How does Ma3na work?", "كل حملة مفتوحة من 3 إلى 7 أيام على منتج واحد.": "Each campaign is open for 3 to 7 days on a single product.", "انضم لحملة": "Join a campaign", "اختر المنتج اللي تحتاجه وحدد الكمية، وتشوف كم عائلة انضمت وكم باقي.": "Pick the product you need and the quantity, and see how many families have joined and how many are left.", "تكتمل الحملة": "The campaign completes", "لما يوصل العدد للحد المطلوب، نشتري الكمية كلها من المورد بسعر الجملة.": "Once enough families join, we buy the full quantity from the supplier at the wholesale price.", "إذا ما اكتملت، ما ينخصم منك شي.": "If it doesn't complete, you're not charged anything.", "يوصل لبيتك": "Delivered to your home", "تستلم طلبك على عنوانك الوطني برمز تحقق يوصلك على جوالك.": "Receive your order at your national address with a verification code sent to your phone.", "مميزات التطبيق": "App features", "كل شي مصمم عشان توفّر وقتك وفلوسك، وتعرف وش تدفع ووش بيوصلك.": "Everything is designed to save you time and money, so you always know what you pay and what you get.", "سعر الجملة": "Wholesale price", "نجمع طلبات العائلات ونشتري من المورد مباشرة بكميات كبيرة.": "We pool families' orders and buy directly from the supplier in large quantities.", "ما تدفع إلا إذا اكتملت الحملة": "Pay only if the campaign completes", "الدفع إلكتروني ومسبق، والمبلغ ينخصم فقط لما يكتمل عدد العائلات.": "Payment is online and upfront, and you're only charged once enough families join.", "رسوم التوصيل قدامك قبل الدفع": "Delivery fees shown before you pay", "تشوف سعر المنتج والتوصيل كامل قبل ما تأكد، بدون رسوم تطلع لك بعدين.": "See the full product and delivery price before you confirm, with no fees added later.", "تسليم موثّق": "Verified delivery", "رمز تحقق على جوالك وصورة إثبات تسليم في كل شحنة.": "A verification code on your phone and proof-of-delivery photo for every shipment.", "تذكير قبل الحملات": "Campaign reminders", "اختر المنتجات اللي تهمك، ونذكرك قبل ما تفتح حملتها وقبل ما تقفل.": "Choose the products you care about, and we'll remind you before their campaign opens and before it closes.", "تابع حملتك لحظة بلحظة": "Track your campaign live", "تشوف كم عائلة انضمت وكم باقي، وتشارك الرابط مع أهلك وجيرانك.": "See how many families have joined and how many are left, and share the link with family and neighbors.", "واجهات التطبيق": "App screens", "من أول ما تنضم للحملة لين توصلك الكراتين.": "From the moment you join a campaign until the cartons reach you.", "حملات قادمة": "Upcoming campaigns", "تحفظ الحملة في مفضلتك قبل ما تفتح": "Save a campaign to your favorites before it opens", "الإشعارات": "Notifications", "نذكّرك لين تنضم": "We remind you until you join", "الترحيب": "Welcome", "حساب موثّق برقم جوالك": "An account verified with your phone number", "تتبع الطلب": "Order tracking", "تعرف وين طلبك في كل خطوة": "Know where your order is at every step", "التسليم برمز": "Delivery by code", "تتأكد من الطرد قبل ما تعطي الرمز": "Check the package before you give the code", "أوفر طريقة تشتري فيها احتياجات بيتك": "The smarter way to buy your home essentials", "معنا منصة سعودية بفكرة جديدة: بدل ما تشتري لحالك بسعر التجزئة، تنضم مع عائلات ثانية على نفس المنتج، ونشتري الكمية كلها مباشرة من المورد بسعر الجملة، ونوصلها لبيتك في أي منطقة بالمملكة.": "Ma3na is a Saudi platform with a new idea: instead of buying alone at retail prices, you join other families on the same product, we buy the full quantity directly from the supplier at the wholesale price, and deliver it to your home in any region of the Kingdom.", "قريباً في جميع مناطق المملكة": "Coming soon to every region of the Kingdom", "نوصل من أول يوم لكل المناطق عن طريق شركات شحن معتمدة، وكل شحنة على عنوانك الوطني برمز تحقق. وكل ما زاد عدد العائلات في مدينتك، تكتمل الحملات أسرع.": "We deliver to all regions from day one through licensed shipping companies, with every shipment going to your national address with a verification code. The more families in your city, the faster campaigns complete.", "الرياض": "Riyadh", "جدة": "Jeddah", "مكة المكرمة": "Makkah", "المدينة المنورة": "Madinah", "الدمام والخبر": "Dammam & Khobar", "الأحساء": "Al-Ahsa", "القصيم": "Qassim", "حائل": "Hail", "تبوك": "Tabuk", "أبها وخميس مشيط": "Abha & Khamis Mushait", "جازان": "Jazan", "نجران": "Najran", "الباحة": "Al-Baha", "الجوف": "Al-Jouf", "الحدود الشمالية": "Northern Borders", "سجّل مدينتك": "Register your city", "المدينة": "Madinah", "الدمام": "Dammam", "أبها": "Abha", "بريدة": "Buraidah", "سكاكا": "Sakaka", "كن من أوائل العائلات": "Be among the first families", "سجّل الحين، ونرسل لك أول ما تنفتح حملة في مدينتك. قل لنا وش تشتري كل شهر عشان نبدأ فيه.": "Sign up now and we'll message you as soon as a campaign opens in your city. Tell us what you buy every month so we know where to start.", "الاسم": "Name", "اكتب اسمك": "Enter your name", "رقم الجوال": "Mobile number", "اكتب رقم جوال سعودي يبدأ بـ 05": "Enter a Saudi mobile number starting with 05", "اختر مدينتك": "Choose your city", "الخبر": "Khobar", "الظهران": "Dhahran", "الطائف": "Taif", "عنيزة": "Unaizah", "خميس مشيط": "Khamis Mushait", "عرعر": "Arar", "ينبع": "Yanbu", "الجبيل": "Jubail", "حفر الباطن": "Hafar Al-Batin", "مدينة ثانية": "Other city", "وش تشتري كل شهر؟": "What do you buy every month?", "أوافق على": "I agree to the", "سياسة الخصوصية": "privacy policy", "واستخدام رقمي للتواصل معي عن الإطلاق.": "and to being contacted on my number about the launch.", "لازم توافق عشان نقدر نتواصل معك": "You need to agree so we can contact you", "سجّلني في قائمة الانتظار": "Add me to the waitlist", "تم تسجيلك": "You're on the list", "بنرسل لك رسالة أول ما تنفتح حملة في": "We'll message you as soon as a campaign opens in", "مدينتك": "your city", "هل أنت مورد أو موزّع؟": "Are you a supplier or distributor?", "نجمع لك طلبات مؤكدة ومدفوعة مسبقاً بكميات جملة من عائلات في كل المملكة. تجهّز الطلب في مستودعك، وشركة الشحن تستلمه منك، بدون ما تتعامل مع الأفراد ولا تتحمل تحصيل.": "We bring you confirmed, prepaid orders in wholesale quantities from families across the Kingdom. You prepare the order at your warehouse and the shipping company collects it, with no individual customers to deal with and no cash collection.", "طلبات بكميات كبيرة ومدفوعة قبل الشراء": "Large, prepaid orders before purchase", "أمر شراء واضح لكل حملة": "A clear purchase order for every campaign", "وصول لعملاء جدد في كل المناطق": "Reach new customers in every region", "سجّل كمورد": "Register as a supplier", "شركة شحن؟ تواصل معنا": "Shipping company? Contact us", "حمّل التطبيق قريباً": "Download the app soon", "نعلن الإطلاق لأول المسجّلين في قائمة الانتظار.": "We'll announce the launch to the first people on the waitlist.", "منصة شراء جماعي سعودية للاحتياجات المنزلية المتكررة.": "A Saudi group-buying platform for recurring household needs.", "معنا": "Ma3na", "قائمة الانتظار": "Waitlist", "الشركاء": "Partners", "للموردين والموزعين": "Suppliers & distributors", "لشركات الشحن": "Shipping companies", "تابعنا": "Follow us", "© 2026 معنا. جميع الحقوق محفوظة.": "© 2026 Ma3na. All rights reserved.", "نجمع في قائمة الانتظار: اسمك، رقم جوالك، مدينتك، والمنتجات اللي اخترتها.": "On the waitlist we collect your name, mobile number, city, and the products you selected.", "نستخدمها فقط للتواصل معك عن إطلاق معنا والحملات في مدينتك، ولفهم وش المنتجات اللي نبدأ فيها.": "We use them only to contact you about Ma3na's launch and campaigns in your city, and to understand which products to start with.", "ما نبيع بياناتك ولا نشاركها مع أي طرف للتسويق.": "We don't sell your data or share it with anyone for marketing.", "تقدر تطلب حذف بياناتك في أي وقت عن طريق مراسلتنا على": "You can ask us to delete your data at any time by emailing", "نتعامل مع بياناتك وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية.": "We handle your data in accordance with the Personal Data Protection Law of the Kingdom of Saudi Arabia.", "تمام": "OK", "القائمة": "Menu", "شاشة توضيحية من تطبيق معنا": "Preview screen from the Ma3na app", "معنا بالأرقام": "Ma3na in numbers", "شاشة حملات قادمة في تطبيق معنا": "Upcoming campaigns screen in the Ma3na app", "شاشة الإشعارات في تطبيق معنا": "Notifications screen in the Ma3na app", "شاشة الترحيب في تطبيق معنا": "Welcome screen in the Ma3na app", "شاشة تتبع الطلب في تطبيق معنا": "Order tracking screen in the Ma3na app", "شاشة التسليم برمز في تطبيق معنا": "Delivery by code screen in the Ma3na app", "خريطة المملكة العربية السعودية ومدن التوصيل": "Map of Saudi Arabia and delivery cities", "معنا ma3na": "Ma3na logo", "حسابات معنا": "Ma3na accounts", "لينكدإن": "LinkedIn", "إكس": "X", "إنستقرام": "Instagram", "تيك توك": "TikTok", "جاري التسجيل…": "Signing you up…", "ما قدرنا نسجّلك الحين، تأكد من الاتصال وجرّب مرة ثانية.": "We couldn't sign you up right now. Check your connection and try again.", "شراكة مع معنا: ": "Partnership with Ma3na: "};
+const TITLES = {ar: document.title, en: 'Ma3na | Buy together, save more'};
+const nodes = [];
+(function collect(){
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = w.nextNode())) {
+    if (n.parentElement.closest('script,style,.glass')) continue;
+    const t = n.nodeValue.trim();
+    if (!t) continue;
+    const el = n.parentElement;
+    const en = (el.dataset.en && el.childNodes.length === 1) ? el.dataset.en : I18N[t];
+    if (en) nodes.push({n, ar: n.nodeValue, en: n.nodeValue.replace(t, en)});
+  }
+  document.querySelectorAll('[placeholder],[aria-label],[alt]').forEach(el => {
+    if (el.closest('.glass')) return;
+    ['aria-label','alt'].forEach(at => {
+      const v = el.getAttribute(at);
+      if (v && I18N[v]) nodes.push({el, at, ar: v, en: I18N[v]});
+    });
+  });
+})();
+let LANG = 'ar';
+function setLang(l){
+  LANG = l;
+  nodes.forEach(x => { if (x.n) x.n.nodeValue = x[l]; else x.el.setAttribute(x.at, x[l]); });
+  document.documentElement.lang = l;
+  document.documentElement.dir = l === 'en' ? 'ltr' : 'rtl';
+  document.title = TITLES[l];
+  const b = document.getElementById('langBtn');
+  b.textContent = l === 'en' ? 'عربي' : 'EN';
+  b.setAttribute('aria-label', l === 'en' ? 'العربية' : 'English');
+  document.querySelectorAll('[data-mail]').forEach(a => {
+    const to = a.dataset.mail === 'مورد' ? CONFIG.SUPPLIER_EMAIL : CONFIG.LOGISTICS_EMAIL;
+    const subj = (l === 'en' ? 'Partnership with Ma3na: ' + (a.dataset.mail === 'مورد' ? 'Supplier' : 'Shipping company') : 'شراكة مع معنا: ' + a.dataset.mail);
+    a.href = `mailto:${to}?subject=${encodeURIComponent(subj)}`;
+  });
+  try { localStorage.setItem('ma3na-lang', l); } catch(e) {}
+}
+document.getElementById('langBtn').addEventListener('click', () => setLang(LANG === 'ar' ? 'en' : 'ar'));
+(function init(){
+  let l = new URLSearchParams(location.search).get('lang');
+  if (!l) { try { l = localStorage.getItem('ma3na-lang'); } catch(e) {} }
+  if (l === 'en') setLang('en');
+})();
+
+form.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',()=>el.closest('.field')?.classList.remove('bad')));
+</script>
+</body>
+</html>
