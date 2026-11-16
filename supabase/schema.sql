@@ -306,3 +306,7 @@ revoke execute on function public.touch_updated_at() from public, anon, authenti
 revoke execute on function public.current_staff_role() from public, anon;
 grant execute on function public.current_staff_role() to authenticated;
 revoke execute on function public.normalize_sa_phone(text) from anon;
+
+-- ===== Operations modules (16 Nov 2026): see migration "operations_tables" in project qtmibhicwayhsuxjgpoe
+-- suppliers, products, carriers, campaigns (check: sell_price >= unit_cost), orders (delivery_fee = 26 + 12*(cartons-1)),
+-- finance_entries (read: super_admin/finance only), social_stats. Roles added: finance, logistics.

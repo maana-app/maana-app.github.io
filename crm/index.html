@@ -344,7 +344,7 @@ a.li.notif{text-decoration:none;color:inherit} a.li.notif:hover{background:var(-
 .src .web{background:var(--coralT);color:#B33A27} .src .whatsapp{background:var(--sageT);color:var(--green)} .src .import,.src .manual{background:#ECEEED;color:#4D5955}
 .s-new{background:#E7ECF8;color:#2D4FA3} .s-contacted{background:#FFF1D6;color:#8A5A00} .s-interested{background:#E3F2EC;color:#0B725D}
 .s-joined{background:#0B3D33;color:#fff} .s-not_interested{background:#ECEEED;color:#4D5955} .s-unsubscribed{background:#FBE5E1;color:#B33A27}
-textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 10px;min-height:70px;resize:vertical;width:100%}
+textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 10px;min-height:70px;resize:vertical;width:100%;box-sizing:border-box}
 .codeb{background:#0F1F1B;color:#D8EEE3;border-radius:10px;padding:12px 14px;font:12px/1.6 var(--fm);direction:ltr;text-align:left;white-space:pre-wrap;word-break:break-all}
 .hint{background:var(--goldT);border-radius:10px;padding:10px 12px;font-size:13px}
 .pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;padding:10px 14px;font-size:12.5px;color:var(--mute)}
@@ -370,11 +370,20 @@ textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;
   <aside>
     <div class="logo"><img src="logo.png" alt="ma3na · معنا" width="132" height="90"></div>
     <nav id="nav" aria-label="Main">
-      <div class="grp">قائمة الانتظار</div>
+      <div class="grp">قائمة الانتظار (CRM)</div>
       <a href="#dashboard" data-v="dashboard">لوحة المتابعة</a>
       <a href="#leads" data-v="leads">العملاء المحتملون <span class="c" id="cNew" hidden></span></a>
       <a href="#demand" data-v="demand">خريطة الطلب</a>
+      <div class="grp">التشغيل</div>
+      <a href="#campaigns" data-v="campaigns">الحملات</a>
+      <a href="#orders" data-v="orders">الطلبات</a>
+      <a href="#products" data-v="products">المنتجات</a>
+      <a href="#suppliers" data-v="suppliers">الموردون</a>
+      <a href="#carriers" data-v="carriers">شركات الشحن</a>
+      <div class="grp">المالية</div>
+      <a href="#finance" data-v="finance">المالية</a>
       <div class="grp">التسويق</div>
+      <a href="#social" data-v="social">السوشال ميديا</a>
       <a href="#ads" data-v="ads">الإعلانات والزيارات</a>
       <div class="grp">القنوات</div>
       <a href="#channels" data-v="channels">الموقع والواتساب</a>
@@ -396,6 +405,7 @@ textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;
     <!-- DASHBOARD -->
     <div class="content view" id="v-dashboard">
       <div class="kpis" id="kpis"></div>
+      <div class="kpis" id="opsKpis"></div>
       <div class="grid2">
         <div class="card"><h3>التسجيلات آخر 14 يوم</h3>
           <div class="chart" id="chart"></div>
@@ -436,6 +446,9 @@ textarea{border:1px solid var(--line);background:var(--panel);border-radius:9px;
       <div class="card"><h3>حسب المدينة</h3><div class="tw"><table><thead><tr><th>المدينة</th><th>المسجلين</th><th>موافقين</th><th>الموقع</th><th>واتساب</th><th>كراتين متوقعة</th><th>من حد الحملة</th></tr></thead><tbody id="byCity"></tbody></table></div></div>
     </div>
 
+
+    <!-- MODULE (generic) -->
+    <div class="content view" id="v-mod" hidden></div>
 
     <!-- ADS -->
     <div class="content view" id="v-ads" hidden>
@@ -522,7 +535,7 @@ Content-Type: application/json
         <div class="pad" id="staffAdd"><div class="form">
           <div class="f"><label for="sEmail">الإيميل</label><input id="sEmail" type="email" dir="ltr"></div>
           <div class="f"><label for="sTitle">المسمى الوظيفي</label><input id="sTitle" placeholder="مسؤول اللوجستيات"></div>
-          <div class="f"><label for="sRole">الدور</label><select id="sRole"><option value="cs">CS · خدمة العملاء</option><option value="operations">Operations · التشغيل</option><option value="super_admin">Super Admin</option></select></div>
+          <div class="f"><label for="sRole">الدور</label><select id="sRole"><option value="cs">CS · خدمة العملاء</option><option value="operations">Operations · التشغيل</option><option value="logistics">Logistics · اللوجستيات</option><option value="finance">Finance · المالية</option><option value="super_admin">Super Admin</option></select></div>
           <div class="f" style="justify-content:flex-end"><button class="btn pri" id="sAdd" type="button">إضافة</button></div>
         </div></div>
       </div>
@@ -553,7 +566,7 @@ const sb = supabase.createClient(SB_URL, SB_KEY);
 
 const STATUS = { new:'جديد', contacted:'تم التواصل', interested:'مهتم', joined:'انضم لحملة', not_interested:'غير مهتم', unsubscribed:'أوقف الرسائل' };
 const SRC = { web:'الموقع', whatsapp:'واتساب', import:'مستورد', manual:'يدوي' };
-const ROLE = { super_admin:'Super Admin', operations:'Operations', cs:'CS' };
+const ROLE = { super_admin:'Super Admin', operations:'Operations', cs:'CS', finance:'Finance', logistics:'Logistics' };
 const TITLES = { ads:'الإعلانات والزيارات', dashboard:'لوحة المتابعة', leads:'العملاء المحتملون', demand:'خريطة الطلب', channels:'الموقع والواتساب', import:'استيراد وتصدير', team:'الفريق والصلاحيات' };
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -600,7 +613,7 @@ async function boot() {
   $('logout').onclick = e => { e.preventDefault(); sb.auth.signOut().then(() => location.reload()); };
   if (me.role !== 'super_admin') $('staffAdd').hidden = true;
   if (me.role === 'cs') $('importBtn').title = 'الاستيراد لـ Operations و Super Admin';
-  await load(); await loadAds(); startRealtime(); route();
+  await load(); await loadAds(); await loadRefs(); startRealtime(); route();
 }
 
 /* ---------- data ---------- */
@@ -844,12 +857,167 @@ function startRealtime() {
   try { if ('Notification' in window && Notification.permission === 'default') document.addEventListener('click', () => Notification.requestPermission(), { once: true }); } catch (e) {}
 }
 
+
+/* ---------- operations modules (generic CRUD on Supabase) ---------- */
+const OPT = {
+  supKind: { manufacturer:'مصنّع', agent:'وكيل', distributor:'موزّع', wholesaler:'تاجر جملة' },
+  supStatus: { prospect:'محتمل', negotiating:'تفاوض', approved:'معتمد', paused:'موقوف' },
+  cat: { diapers:'حفائظ', cleaning:'منظفات', tissues:'مناديل', soap:'صابون', personal_care:'عناية شخصية', home:'مستلزمات البيت' },
+  carStatus: { prospect:'محتمل', negotiating:'تفاوض', contracted:'متعاقد', paused:'موقوف' },
+  campStatus: { draft:'مسودة', scheduled:'مجدولة', live:'مفتوحة', succeeded:'اكتملت', failed:'ما اكتملت', cancelled:'ملغاة' },
+  pay: { pending:'بانتظار الدفع', authorized:'محجوز', paid:'مدفوع', refunded:'مسترد', failed:'فشل' },
+  deliv: { new:'جديد', ready:'جاهز للاستلام', picked_up:'استلمه الناقل', sorting:'في الفرز', out_for_delivery:'خرج للتوصيل', delivered:'تم التسليم', failed_attempt:'محاولة فاشلة', returned:'مرتجع' },
+  kind: { income:'دخل', expense:'مصروف' },
+  fcat: { sales:'مبيعات', delivery_fees:'رسوم توصيل', supplier:'مورد', carrier:'ناقل', marketing:'تسويق', gateway_fees:'رسوم بوابة الدفع', government:'رسوم حكومية', software:'برامج واشتراكات', refund:'استرداد', other:'أخرى' },
+  plat: { instagram:'Instagram', tiktok:'TikTok', x:'X', snapchat:'Snapchat', linkedin:'LinkedIn', facebook:'Facebook', youtube:'YouTube', whatsapp:'WhatsApp' },
+};
+const REF = { products: [], suppliers: [], carriers: [], campaigns: [] };
+const sar = n => n == null || n === '' ? '—' : Number(n).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ر.س';
+const refName = (t, id) => { const r = REF[t].find(x => x.id === id); return r ? (r.code || r.name) : '—'; };
+const MODS = {
+  campaigns: { title: 'الحملات', table: 'campaigns', order: ['created_at', false], write: ['super_admin','operations'],
+    note: 'قواعد ثابتة: ما نبيع تحت التكلفة (القاعدة 1، مفروضة في قاعدة البيانات). الهامش أقل من 8% يحتاج اعتماد استثناء. سعرنا أقل من السوق بـ 10% إلى 25% (قرار 3 نوفمبر). حجم الحملة 200–600 كرتون.',
+    fields: [
+      { k:'code', l:'رمز الحملة', ph:'C-1001' }, { k:'product_id', l:'المنتج', ref:'products', req:1 },
+      { k:'status', l:'الحالة', opt:'campStatus' }, { k:'carrier_id', l:'الناقل', ref:'carriers' },
+      { k:'starts_at', l:'تبدأ', t:'datetime-local' }, { k:'ends_at', l:'تقفل', t:'datetime-local' },
+      { k:'min_cartons', l:'الحد الأدنى (كرتون)', t:'number' }, { k:'max_cartons', l:'الحد الأعلى (كرتون)', t:'number' },
+      { k:'unit_cost', l:'تكلفة الكرتون (شامل الضريبة)', t:'number' }, { k:'sell_price', l:'سعر البيع للكرتون', t:'number' },
+      { k:'market_price', l:'أرخص سعر في السوق', t:'number' }, { k:'joined_cartons', l:'الكراتين المحجوزة', t:'number' },
+      { k:'notes', l:'ملاحظات', t:'textarea' } ],
+    cols: [ ['code','الحملة', r => `<b>${esc(r.code || '#' + r.id)}</b><br><small class="note">${esc(refName('products', r.product_id))}</small>`],
+      ['status','الحالة', r => `<span class="pill ${({live:'s-open',scheduled:'s-sched',succeeded:'s-done',failed:'s-fail',cancelled:'s-fail',draft:'s-warn'})[r.status]}">${OPT.campStatus[r.status]}</span>`],
+      ['joined_cartons','التقدم', r => r.min_cartons ? `<div class="bar"><i style="width:${Math.min(100, r.joined_cartons / r.min_cartons * 100)}%"></i></div><small class="note">${r.joined_cartons} / ${r.min_cartons}</small>` : '—'],
+      ['sell_price','السعر', r => sar(r.sell_price)], ['margin','الهامش', r => campMargin(r)],
+      ['ends_at','تقفل', r => r.ends_at ? fmtDate(r.ends_at) : '—'] ],
+    calc: r => { const out = []; if (r.unit_cost && r.sell_price) { const m = (r.sell_price - r.unit_cost) / r.sell_price * 100; out.push(`هامش المنتج: <b>${m.toFixed(1)}%</b> (${sar(r.sell_price - r.unit_cost)} للكرتون)` + (m < 8 ? ' <span class="bad-t">· أقل من 8%: يحتاج اعتماد استثناء</span>' : '')); }
+      if (r.market_price && r.sell_price) { const ship = 26, d = (1 - (+r.sell_price + ship) / (+r.market_price + 0)) * 100; out.push(`سعرنا شامل توصيل كرتون واحد: ${sar(+r.sell_price + ship)} مقابل السوق ${sar(r.market_price)} → ${d >= 0 ? 'أرخص' : 'أغلى'} بـ <b>${Math.abs(d).toFixed(1)}%</b>` + (d < 10 ? ' <span class="bad-t">· أقل من 10%: العرض ضعيف</span>' : d > 25 ? ' <span class="bad-t">· أكثر من 25%: نخسر هامش</span>' : ' <span class="ok-t">✓ داخل 10–25%</span>')); }
+      if (r.min_cartons && (r.min_cartons < 200 || r.min_cartons > 600)) out.push('<span class="bad-t">الحد الأدنى خارج نطاق 200–600 كرتون</span>');
+      return out.join('<br>'); } },
+  orders: { title: 'الطلبات', table: 'orders', order: ['created_at', false], write: ['super_admin','operations','logistics','cs'],
+    note: 'رسوم التوصيل والإجمالي تنحسب تلقائياً: 26 ريال لأول كرتون و12 لكل كرتون إضافي (القاعدة 3). الدفع مسبق فقط (القاعدة 5).',
+    fields: [ { k:'campaign_id', l:'الحملة', ref:'campaigns', req:1 }, { k:'customer_name', l:'اسم العميل' }, { k:'phone', l:'الجوال', dir:'ltr' },
+      { k:'city', l:'المدينة' }, { k:'national_address', l:'العنوان الوطني', req:1 }, { k:'cartons', l:'عدد الكراتين', t:'number', req:1 },
+      { k:'unit_price', l:'سعر الكرتون', t:'number' }, { k:'payment_status', l:'الدفع', opt:'pay' }, { k:'delivery_status', l:'التوصيل', opt:'deliv' },
+      { k:'awb', l:'رقم البوليصة', dir:'ltr' }, { k:'notes', l:'ملاحظات', t:'textarea' } ],
+    cols: [ ['code','الطلب', r => `<b class="mono">${esc(r.code)}</b><br><small class="note">${esc(refName('campaigns', r.campaign_id))}</small>`], ['customer_name','العميل', r => `${esc(r.customer_name || '—')}<br><small class="note mono" dir="ltr">${esc(r.phone || '')}</small>`],
+      ['city','المدينة'], ['cartons','كراتين'], ['total','الإجمالي', r => sar(r.total)], ['payment_status','الدفع', r => OPT.pay[r.payment_status]], ['delivery_status','التوصيل', r => OPT.deliv[r.delivery_status]] ],
+    calc: r => r.cartons ? `رسوم التوصيل: <b>${sar(26 + 12 * (r.cartons - 1))}</b> · الإجمالي: <b>${sar((+r.unit_price || 0) * r.cartons + 26 + 12 * (r.cartons - 1))}</b>` : '' },
+  products: { title: 'المنتجات', table: 'products', order: ['name', true], write: ['super_admin','operations'],
+    fields: [ { k:'name', l:'اسم المنتج', req:1 }, { k:'brand', l:'الماركة' }, { k:'category', l:'الفئة', opt:'cat' }, { k:'pack', l:'العبوة', ph:'4 × 3 لتر' },
+      { k:'units_per_carton', l:'عدد الوحدات بالكرتون', t:'number' }, { k:'weight_kg', l:'وزن الكرتون (كجم)', t:'number' },
+      { k:'supplier_id', l:'المورد', ref:'suppliers' }, { k:'cost_price', l:'سعر الشراء للكرتون', t:'number' },
+      { k:'market_price', l:'أرخص سعر في السوق', t:'number' }, { k:'market_source', l:'مصدر سعر السوق', ph:'أمازون، 16 نوفمبر' },
+      { k:'active', l:'فعّال', t:'bool' }, { k:'notes', l:'ملاحظات', t:'textarea' } ],
+    cols: [ ['name','المنتج', r => `<b>${esc(r.name)}</b><br><small class="note">${esc([r.brand, r.pack].filter(Boolean).join(' · '))}</small>`], ['category','الفئة', r => OPT.cat[r.category]],
+      ['supplier_id','المورد', r => esc(refName('suppliers', r.supplier_id))], ['cost_price','الشراء', r => sar(r.cost_price)], ['market_price','السوق', r => sar(r.market_price)], ['weight_kg','الوزن', r => r.weight_kg ? r.weight_kg + ' كجم' : '—'] ] },
+  suppliers: { title: 'الموردون', table: 'suppliers', order: ['name', true], write: ['super_admin','operations'],
+    fields: [ { k:'name', l:'اسم المورد', req:1 }, { k:'kind', l:'النوع', opt:'supKind' }, { k:'status', l:'الحالة', opt:'supStatus' },
+      { k:'contact_name', l:'مسؤول التواصل' }, { k:'phone', l:'الجوال', dir:'ltr' }, { k:'email', l:'الإيميل', dir:'ltr' }, { k:'city', l:'المدينة' },
+      { k:'payment_terms', l:'شروط الدفع', ph:'خلال يومين من الاستلام' }, { k:'notes', l:'ملاحظات', t:'textarea' } ],
+    cols: [ ['name','المورد', r => `<b>${esc(r.name)}</b><br><small class="note">${OPT.supKind[r.kind]}</small>`], ['status','الحالة', r => OPT.supStatus[r.status]], ['contact_name','التواصل', r => `${esc(r.contact_name || '—')}<br><small class="note mono" dir="ltr">${esc(r.phone || '')}</small>`], ['city','المدينة'], ['payment_terms','الدفع'] ] },
+  carriers: { title: 'شركات الشحن', table: 'carriers', order: ['name', true], write: ['super_admin','operations','logistics'],
+    note: 'القاعدة 2: الناقل يحاسب على البوليصة مو على الكرتون، بحد أعلى 25 ريال شامل الضريبة.',
+    fields: [ { k:'name', l:'اسم الشركة', req:1 }, { k:'status', l:'الحالة', opt:'carStatus' }, { k:'contact_name', l:'مسؤول التواصل' },
+      { k:'phone', l:'الجوال', dir:'ltr' }, { k:'email', l:'الإيميل', dir:'ltr' }, { k:'rate_per_awb', l:'سعر البوليصة (شامل الضريبة)', t:'number' },
+      { k:'rate_notes', l:'تفاصيل التسعير', t:'textarea' }, { k:'notes', l:'ملاحظات', t:'textarea' } ],
+    cols: [ ['name','الشركة', r => `<b>${esc(r.name)}</b>`], ['status','الحالة', r => OPT.carStatus[r.status]], ['rate_per_awb','البوليصة', r => r.rate_per_awb == null ? '—' : `${sar(r.rate_per_awb)}${r.rate_per_awb > 25 ? ' <span class="bad-t">فوق 25</span>' : ''}`], ['contact_name','التواصل', r => `${esc(r.contact_name || '—')}<br><small class="note mono" dir="ltr">${esc(r.phone || '')}</small>`] ] },
+  finance: { title: 'المالية', table: 'finance_entries', order: ['day', false], write: ['super_admin','finance'],
+    note: 'كل المبالغ شاملة الضريبة (قرار 3 نوفمبر). هذا سجل داخلي، مو نظام فوترة إلكترونية معتمد من هيئة الزكاة.',
+    fields: [ { k:'day', l:'التاريخ', t:'date', req:1 }, { k:'kind', l:'النوع', opt:'kind', req:1 }, { k:'category', l:'البند', opt:'fcat', req:1 },
+      { k:'amount_sar', l:'المبلغ (ر.س)', t:'number', req:1 }, { k:'vat_included', l:'شامل الضريبة', t:'bool' }, { k:'campaign_id', l:'الحملة', ref:'campaigns' },
+      { k:'counterparty', l:'الطرف', ph:'اسم المورد/الناقل/المنصة' }, { k:'reference', l:'رقم الفاتورة أو المرجع', dir:'ltr' }, { k:'notes', l:'ملاحظات', t:'textarea' } ],
+    cols: [ ['day','التاريخ'], ['kind','النوع', r => r.kind === 'income' ? '<span class="ok-t">دخل</span>' : '<span class="bad-t">مصروف</span>'], ['category','البند', r => OPT.fcat[r.category]],
+      ['amount_sar','المبلغ', r => `<b>${sar(r.amount_sar)}</b>`], ['counterparty','الطرف'], ['campaign_id','الحملة', r => esc(refName('campaigns', r.campaign_id))] ] },
+  social: { title: 'السوشال ميديا', table: 'social_stats', order: ['day', false], write: ['super_admin','operations'],
+    note: 'حدّث عدد المتابعين مرة بالأسبوع لكل منصة (أو يومياً أيام الحملات). التحديث التلقائي يحتاج ربط حسابات الأعمال بكل منصة.',
+    fields: [ { k:'day', l:'التاريخ', t:'date', req:1 }, { k:'platform', l:'المنصة', opt:'plat', req:1 }, { k:'followers', l:'عدد المتابعين', t:'number', req:1 }, { k:'posts', l:'عدد المنشورات', t:'number' }, { k:'notes', l:'ملاحظات' } ],
+    cols: [ ['day','التاريخ'], ['platform','المنصة', r => OPT.plat[r.platform]], ['followers','المتابعين', r => `<b>${fmtN(r.followers)}</b>`], ['posts','المنشورات'], ['notes','ملاحظات'] ] },
+};
+function campMargin(r) { if (!r.unit_cost || !r.sell_price) return '—'; const m = (r.sell_price - r.unit_cost) / r.sell_price * 100; return `<span class="${m < 8 ? 'bad-t' : 'ok-t'}">${m.toFixed(1)}%</span>`; }
+const DATA = {};
+async function loadRefs() {
+  const q = async (t, sel) => (await sb.from(t).select(sel)).data || [];
+  [REF.products, REF.suppliers, REF.carriers, REF.campaigns] = await Promise.all([q('products', 'id,name'), q('suppliers', 'id,name'), q('carriers', 'id,name'), q('campaigns', 'id,code,product_id,sell_price')]);
+}
+async function loadMod(key) {
+  const m = MODS[key]; const { data, error } = await sb.from(m.table).select('*').order(m.order[0], { ascending: m.order[1] }).limit(1000);
+  if (error) { toast(error.message); DATA[key] = []; } else DATA[key] = data;
+  renderMod(key);
+}
+function modSummary(key) {
+  const d = DATA[key] || [];
+  if (key === 'finance') { const inc = d.filter(r => r.kind === 'income').reduce((a, r) => a + +r.amount_sar, 0), exp = d.filter(r => r.kind === 'expense').reduce((a, r) => a + +r.amount_sar, 0); const bc = {}; d.filter(r => r.kind === 'expense').forEach(r => bc[r.category] = (bc[r.category] || 0) + +r.amount_sar);
+    return `<div class="kpis">${kpi('الدخل', sar(inc))}${kpi('المصروفات', sar(exp))}${kpi('الصافي', sar(inc - exp), '', inc - exp < 0)}${Object.entries(bc).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([c, v]) => kpi(OPT.fcat[c], sar(v), 'مصروف')).join('')}</div>`; }
+  if (key === 'social') { const last = {}; d.forEach(r => { if (!last[r.platform] || r.day > last[r.platform].day) last[r.platform] = r; }); const tot = Object.values(last).reduce((a, r) => a + r.followers, 0);
+    return `<div class="kpis">${kpi('إجمالي المتابعين', fmtN(tot), 'آخر رقم لكل منصة')}${Object.values(last).sort((a, b) => b.followers - a.followers).map(r => kpi(OPT.plat[r.platform], fmtN(r.followers), r.day)).join('')}</div>`; }
+  if (key === 'campaigns') { const live = d.filter(r => r.status === 'live').length, done = d.filter(r => ['succeeded','failed'].includes(r.status)), ok = done.filter(r => r.status === 'succeeded').length;
+    return `<div class="kpis">${kpi('حملات مفتوحة', live)}${kpi('مجدولة', d.filter(r => r.status === 'scheduled').length)}${kpi('نسبة النجاح', done.length ? Math.round(ok / done.length * 100) + '%' : '—', `${ok} من ${done.length} مغلقة · المستهدف 70%`, done.length && ok / done.length < .54)}</div>`; }
+  if (key === 'orders') { const paid = d.filter(r => r.payment_status === 'paid'); return `<div class="kpis">${kpi('الطلبات', d.length)}${kpi('مدفوعة', paid.length, sar(paid.reduce((a, r) => a + +r.total, 0)))}${kpi('تم التسليم', d.filter(r => r.delivery_status === 'delivered').length)}${kpi('مشاكل توصيل', d.filter(r => ['failed_attempt','returned'].includes(r.delivery_status)).length, 'محاولة فاشلة أو مرتجع', d.some(r => ['failed_attempt','returned'].includes(r.delivery_status)))}</div>`; }
+  return '';
+}
+function renderMod(key) {
+  const m = MODS[key], d = DATA[key] || [], canW = m.write.includes(me.role);
+  $('v-mod').innerHTML = `${modSummary(key)}
+    ${m.note ? `<div class="hint">${m.note}</div>` : ''}
+    <div class="tools"><input id="mq" type="search" placeholder="بحث" style="width:220px"><span class="sp note">${fmtN(d.length)} سجل</span>${canW ? `<button class="btn pri" id="mAdd" type="button">+ إضافة</button>` : `<span class="note">صلاحية القراءة فقط</span>`}</div>
+    <div class="card"><div class="tw"><table><thead><tr>${m.cols.map(c => `<th>${c[1]}</th>`).join('')}</tr></thead><tbody id="mRows"></tbody></table></div></div>`;
+  const draw = () => { const q = $('mq').value.trim().toLowerCase(); const rows = d.filter(r => !q || JSON.stringify(r).toLowerCase().includes(q));
+    $('mRows').innerHTML = rows.map(r => `<tr class="click" tabindex="0" data-mid="${r.id}">${m.cols.map(c => `<td>${c[2] ? c[2](r) : esc(r[c[0]] ?? '—')}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${m.cols.length}" class="empty">ما فيه بيانات للحين${canW ? '. اضغط «+ إضافة».' : ''}</td></tr>`; };
+  $('mq').oninput = draw; draw();
+  if ($('mAdd')) $('mAdd').onclick = () => openRec(key, null);
+  $('mRows').onclick = e => { const tr = e.target.closest('tr[data-mid]'); if (tr) openRec(key, +tr.dataset.mid); };
+}
+function fieldHTML(f, v) {
+  const val = v ?? '';
+  if (f.opt) return `<select id="f_${f.k}">${Object.entries(OPT[f.opt]).map(([k, t]) => `<option value="${k}"${k === val ? ' selected' : ''}>${t}</option>`).join('')}</select>`;
+  if (f.ref) return `<select id="f_${f.k}"><option value="">—</option>${REF[f.ref].map(r => `<option value="${r.id}"${r.id === val ? ' selected' : ''}>${esc(r.code || r.name)}</option>`).join('')}</select>`;
+  if (f.t === 'textarea') return `<textarea id="f_${f.k}">${esc(val)}</textarea>`;
+  if (f.t === 'bool') return `<select id="f_${f.k}"><option value="true"${val !== false ? ' selected' : ''}>نعم</option><option value="false"${val === false ? ' selected' : ''}>لا</option></select>`;
+  const v2 = f.t === 'datetime-local' && val ? (d => new Date(d - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 16))(new Date(val)) : val;
+  return `<input id="f_${f.k}" type="${f.t || 'text'}" ${f.t === 'number' ? 'step="any"' : ''} ${f.dir ? `dir="${f.dir}"` : ''} placeholder="${esc(f.ph || '')}" value="${esc(v2)}">`;
+}
+function readForm(m) {
+  const o = {};
+  for (const f of m.fields) { let v = $('f_' + f.k).value; if (v === '') v = null; else if (f.t === 'number' || f.ref) v = +v; else if (f.t === 'bool') v = v === 'true'; else if (f.t === 'datetime-local') v = new Date(v).toISOString(); o[f.k] = v; }
+  return o;
+}
+function openRec(key, id) {
+  const m = MODS[key], r = id ? DATA[key].find(x => x.id === id) : {}, canW = m.write.includes(me.role);
+  if (!id && key === 'finance') r.day = new Date().toISOString().slice(0, 10);
+  if (!id && key === 'social') r.day = new Date().toISOString().slice(0, 10);
+  $('dTitle').textContent = id ? (m.title + ' · ' + (r.code || r.name || '#' + r.id)) : 'إضافة · ' + m.title;
+  $('dBody').innerHTML = `<div class="form">${m.fields.map(f => `<div class="f"${f.t === 'textarea' ? ' style="grid-column:1/-1"' : ''}><label for="f_${f.k}">${f.l}${f.req ? ' *' : ''}</label>${fieldHTML(f, r[f.k])}</div>`).join('')}</div>
+    ${m.calc ? `<div class="calc" id="fCalc" style="display:block"></div>` : ''}
+    <div class="err" id="fErr"></div>
+    <div class="tools">${canW ? `<button class="btn pri" id="fSave" type="button">حفظ</button>` : ''}<span class="sp"></span>${id && me.role === 'super_admin' ? `<button class="btn dan" id="fDel" type="button">حذف</button>` : ''}</div>`;
+  $('drawer').hidden = false;
+  const recalc = () => { if (!m.calc) return; try { $('fCalc').innerHTML = m.calc(readForm(m)) || '<span class="note">عبّ الأسعار عشان يطلع الحساب.</span>'; } catch (e) {} };
+  $('dBody').querySelectorAll('input,select,textarea').forEach(x => x.addEventListener('input', recalc)); recalc();
+  if (key === 'orders') $('f_campaign_id').addEventListener('change', () => { const c = REF.campaigns.find(x => x.id === +$('f_campaign_id').value); if (c && c.sell_price && !$('f_unit_price').value) { $('f_unit_price').value = c.sell_price; recalc(); } });
+  if ($('fSave')) $('fSave').onclick = async () => {
+    const o = readForm(m); const miss = m.fields.filter(f => f.req && (o[f.k] == null || o[f.k] === '')); if (miss.length) return $('fErr').textContent = 'ناقص: ' + miss.map(f => f.l).join('، ');
+    const q = id ? sb.from(m.table).update(o).eq('id', id) : sb.from(m.table).insert(o);
+    const { error } = await q; if (error) return $('fErr').textContent = /no_sale_below_cost/.test(error.message) ? 'سعر البيع أقل من التكلفة: ممنوع (القاعدة 1).' : /row-level/.test(error.message) ? 'ما عندك صلاحية تعديل هالقسم.' : /duplicate/.test(error.message) ? 'فيه سجل بنفس الرمز أو نفس اليوم والمنصة.' : error.message;
+    toast('انحفظ'); closeDrawer(); await loadRefs(); loadMod(key); };
+  if ($('fDel')) $('fDel').onclick = async () => { if ($('fDel').dataset.c !== '1') { $('fDel').dataset.c = '1'; $('fDel').textContent = 'متأكد؟ اضغط مرة ثانية'; return; } const { error } = await sb.from(m.table).delete().eq('id', id); if (error) return $('fErr').textContent = error.message; toast('انحذف'); closeDrawer(); await loadRefs(); loadMod(key); };
+}
+async function renderOpsDash() {
+  const [c, o, s] = await Promise.all([sb.from('campaigns').select('status'), sb.from('orders').select('total,payment_status'), sb.from('social_stats').select('platform,followers,day')]);
+  const last = {}; (s.data || []).forEach(r => { if (!last[r.platform] || r.day > last[r.platform].day) last[r.platform] = r; });
+  const paid = (o.data || []).filter(r => r.payment_status === 'paid');
+  $('opsKpis').innerHTML = kpi('حملات مفتوحة', (c.data || []).filter(r => r.status === 'live').length, 'من «الحملات»') + kpi('طلبات مدفوعة', paid.length, sar(paid.reduce((a, r) => a + +r.total, 0))) + kpi('متابعين السوشال', fmtN(Object.values(last).reduce((a, r) => a + r.followers, 0)), Object.keys(last).length + ' منصات');
+}
+
 /* ---------- routing ---------- */
 function route() {
-  const v = (location.hash.slice(1) || 'dashboard'); const view = TITLES[v] ? v : 'dashboard';
+  const v = (location.hash.slice(1) || 'dashboard');
+  const isMod = !!MODS[v]; const view = isMod ? 'mod' : (TITLES[v] ? v : 'dashboard');
   document.querySelectorAll('.view').forEach(el => el.hidden = el.id !== 'v-' + view);
-  document.querySelectorAll('#nav a[data-v]').forEach(a => a.classList.toggle('on', a.dataset.v === view));
-  $('title').textContent = TITLES[view]; closeDrawer();
+  document.querySelectorAll('#nav a[data-v]').forEach(a => a.classList.toggle('on', a.dataset.v === (isMod ? v : view)));
+  $('title').textContent = isMod ? MODS[v].title : TITLES[view]; closeDrawer();
+  if (isMod) { if (v === 'finance' && !['super_admin','finance'].includes(me.role)) { $('v-mod').innerHTML = '<div class="empty">المالية لـ Super Admin و Finance فقط.</div>'; return; } $('v-mod').innerHTML = '<div class="empty">يحمّل...</div>'; loadMod(v); }
+  if (view === 'dashboard') renderOpsDash();
 }
 addEventListener('hashchange', route);
 boot();
