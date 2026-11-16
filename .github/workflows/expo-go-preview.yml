@@ -26,28 +26,42 @@ jobs:
           cache: npm
           cache-dependency-path: mobile/package-lock.json
       - run: npm ci --no-audit --no-fund
-      - run: npm i -g @expo/ngrok@^4.1.0
-      - name: Start Metro with tunnel
+      - name: Install cloudflared
+        run: |
+          curl -fsSL -o /tmp/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+          chmod +x /tmp/cloudflared
+      - name: Open public tunnel (trycloudflare, no account)
+        run: |
+          nohup /tmp/cloudflared tunnel --no-autoupdate --url http://localhost:8081 > /tmp/cf.log 2>&1 &
+          for i in $(seq 1 60); do
+            PUB=$(grep -oE 'https://[a-z0-9-]+\.trycloudflare\.com' /tmp/cf.log | head -1)
+            [ -n "$PUB" ] && break; sleep 2
+          done
+          [ -z "$PUB" ] && { cat /tmp/cf.log; exit 1; }
+          echo "PUB=$PUB" >> $GITHUB_ENV
+      - name: Start Metro behind the tunnel
         env:
           CI: '1'
           EXPO_NO_TELEMETRY: '1'
         run: |
-          nohup npx expo start --tunnel --go > /tmp/expo.log 2>&1 &
+          export EXPO_PACKAGER_PROXY_URL="$PUB"
+          nohup npx expo start --go --port 8081 > /tmp/expo.log 2>&1 &
           for i in $(seq 1 90); do
-            URL=$(grep -oE 'exp://[a-zA-Z0-9._-]+\.exp\.direct[^ ]*' /tmp/expo.log | head -1)
-            [ -n "$URL" ] && break
-            sleep 5
+            grep -q "Waiting on\|waiting on\|Metro waiting" /tmp/expo.log && break; sleep 3
           done
-          cat /tmp/expo.log | tail -40
-          if [ -z "$URL" ]; then echo "No tunnel URL"; exit 1; fi
+          tail -30 /tmp/expo.log
+          URL="exps://${PUB#https://}"
           echo "EXPO_URL=$URL" >> $GITHUB_ENV
           echo "## Open in Expo Go" >> $GITHUB_STEP_SUMMARY
           echo "\`$URL\`" >> $GITHUB_STEP_SUMMARY
           echo "::notice title=Expo Go URL::$URL"
       - name: Warm up the bundle
         run: |
-          H=$(echo "$EXPO_URL" | sed -E 's#exp://##')
-          curl -s -o /dev/null -w 'manifest %{http_code}\n' -H 'expo-platform: ios' "https://$H" || true
+          curl -s -o /tmp/m.json -w 'manifest %{http_code}\n' -H 'expo-platform: ios' -H 'accept: application/expo+json,application/json' "$PUB" || true
+          head -c 600 /tmp/m.json; echo
+          B=$(grep -oE '"launchAsset":\{[^}]*"url":"[^"]+' /tmp/m.json | grep -oE 'https?://[^"]+$' | head -1)
+          R="no-bundle-url"; [ -n "$B" ] && R=$(curl -s -o /dev/null -w '%{http_code} %{size_download}' --max-time 600 "$B")
+          echo "::notice title=Warmup::manifest=$(head -c 120 /tmp/m.json | tr -d '\n"') bundle=$B result=$R"
       - name: Keep alive
         run: |
           H=${{ github.event.inputs.hours || '3' }}
