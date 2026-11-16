@@ -570,18 +570,18 @@ let me = { email:null, role:null }, LEADS = [], page = 0; const PER = 50;
 /* ---------- auth ---------- */
 let mode = 'in';
 $('lToggle').onclick = () => { mode = mode === 'in' ? 'up' : 'in'; $('lTitle').textContent = mode === 'in' ? 'دخول لوحة إدارة معنا' : 'إنشاء حساب للفريق'; $('lBtn').textContent = mode === 'in' ? 'دخول' : 'إنشاء الحساب'; $('lToggle').textContent = mode === 'in' ? 'ما عندك حساب؟ أنشئ حساب' : 'عندك حساب؟ سجّل دخول'; $('lErr').textContent = ''; };
-$('lForgot').onclick = async () => { const e = $('lEmail').value.trim(); if (!e) { $('lErr').textContent = 'اكتب إيميلك أول'; return; } const { error } = await sb.auth.resetPasswordForEmail(e, { redirectTo: location.href.split('#')[0] }); $('lErr').textContent = error ? error.message : 'أرسلنا رابط تغيير كلمة المرور لإيميلك.'; };
+$('lForgot').onclick = async () => { const e = $('lEmail').value.trim(); if (!e) { $('lErr').textContent = 'اكتب إيميلك أول'; return; } const { error } = await sb.auth.resetPasswordForEmail(e, { redirectTo: location.href.split('#')[0] }); $('lErr').textContent = error ? (/rate limit/i.test(error.message) ? 'وصلنا الحد المسموح للإيميلات. جرّب بعد ساعة، أو كلّم المدير.' : error.message) : 'أرسلنا رابط تغيير كلمة المرور لإيميلك.'; };
 $('loginForm').onsubmit = async (e) => {
   e.preventDefault(); $('lErr').textContent = ''; $('lBtn').disabled = true;
   const email = $('lEmail').value.trim().toLowerCase(), password = $('lPass').value;
   try {
     if (password.length < 8) throw new Error('كلمة المرور 8 خانات على الأقل');
-    const { error } = mode === 'in' ? await sb.auth.signInWithPassword({ email, password }) : await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.href.split('#')[0] } });
+    const res = mode === 'in' ? await sb.auth.signInWithPassword({ email, password }) : await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.href.split('#')[0] } }); const error = res.error; window.__lastSignup = res.data;
     if (error) throw error;
-    if (mode === 'up') { const { data } = await sb.auth.getSession(); if (!data.session) { $('lErr').textContent = 'أرسلنا رابط تأكيد لإيميلك. أكّده وارجع سجّل دخول.'; return; } }
+    if (mode === 'up') { const { data } = await sb.auth.getSession(); if (!data.session) { if (window.__lastSignup && window.__lastSignup.user && (window.__lastSignup.user.identities || []).length === 0) { $('lToggle').click(); $('lErr').textContent = 'هذا الإيميل عنده حساب من قبل. سجّل دخول بكلمة المرور.'; } else { $('lErr').textContent = 'أرسلنا رابط تأكيد لإيميلك. أكّده وارجع هنا وسجّل دخول.'; } return; } }
     await boot();
   } catch (err) {
-    const m = err.message || ''; $('lErr').textContent = /Invalid login/i.test(m) ? 'الإيميل أو كلمة المرور غلط' : /not confirmed/i.test(m) ? 'أكّد إيميلك من الرابط اللي وصلك أول' : m;
+    const m = err.message || ''; $('lErr').textContent = /rate limit/i.test(m) ? 'محاولات كثيرة، جرّب بعد شوي.' : /Invalid login/i.test(m) ? 'الإيميل أو كلمة المرور غلط' : /not confirmed/i.test(m) ? 'أكّد إيميلك من الرابط اللي وصلك أول' : m;
   } finally { $('lBtn').disabled = false; }
 };
 sb.auth.onAuthStateChange((ev) => { if (ev === 'PASSWORD_RECOVERY') showRecovery(); });
