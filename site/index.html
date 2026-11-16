@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>معنا | Ma3na · نشتري معاً.. نوفّر أكثر</title>
+<meta name="description" content="معنا منصة شراء جماعي سعودية لمستلزمات البيت المتكررة. ننضم سوا، نشتري بالجملة، ويوصلك لين الباب في كل مناطق المملكة. سجّل في قائمة الانتظار.">
+<meta property="og:title" content="معنا | نشتري معاً.. نوفّر أكثر">
+<meta property="og:description" content="شراء جماعي لاحتياجات البيت بسعر الجملة، وتوصيل لكل مناطق المملكة. سجّل في قائمة الانتظار.">
+<meta property="og:image" content="img/family.webp">
+<meta name="theme-color" content="#0B3D33">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--g:#0B3D33;--g2:#0B725D;--mint:#8FC1A1;--mintS:#EEF6F1;--cream:#FAF7F2;--coral:#F06757;--coralT:#C23F2C;--gold:#FEC051;--ink:#14201C;--muted:#5F6B66;--line:#E6E3DC;--r:20px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.75;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.num,.btn{font-family:"Readex Pro","IBM Plex Sans Arabic",sans-serif}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:14px 26px;font-weight:600;font-size:16px;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;min-height:48px}
+.btn:hover{transform:translateY(-1px)}
+.btn-coral{background:var(--coral);color:#fff;box-shadow:0 8px 20px -8px rgba(240,103,87,.7)}
+.btn-coral:hover{background:#e3594a}
+.btn-ghost{background:#fff;color:var(--g);border:1.5px solid var(--line)}
+.btn-wa{background:#fff;color:var(--g);border:1.5px solid var(--mint)}
+.eyebrow{display:inline-block;font-size:14px;font-weight:600;color:var(--g2);background:var(--mintS);border-radius:999px;padding:4px 14px;margin-bottom:14px}
+section{padding:84px 0}
+h2{font-size:clamp(28px,4vw,40px);line-height:1.3;color:var(--g);margin-bottom:12px}
+.lead{color:var(--muted);font-size:18px;max-width:640px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(250,247,242,.92);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+header.scrolled{border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav img{height:44px;width:auto}
+.nav nav{display:flex;gap:26px;align-items:center}
+.nav nav a{text-decoration:none;font-weight:500;color:var(--muted);font-size:15px}
+.nav nav a:hover{color:var(--g)}
+.nav .btn{padding:10px 20px;min-height:42px;font-size:15px}
+@media(max-width:820px){.nav nav a:not(.btn){display:none}}
+
+/* hero */
+.hero{padding:56px 0 72px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(38px,6vw,64px);line-height:1.15;color:var(--g);letter-spacing:-.5px}
+.hero h1 span{color:var(--coral)}
+.hero p.lead{margin:20px 0 30px;font-size:19px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.trust{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px;color:var(--muted);font-size:15px}
+.trust div{display:flex;align-items:center;gap:8px}
+.trust svg{flex:none}
+.hero-art{position:relative}
+.hero-art .photo{border-radius:28px;overflow:hidden;aspect-ratio:1/1.02;background:#e9e4da}
+.hero-art .photo img{width:100%;height:100%;object-fit:cover}
+.card-float{position:absolute;background:#fff;border-radius:18px;box-shadow:0 18px 40px -18px rgba(11,61,51,.35);padding:16px 18px}
+.card-camp{left:-28px;bottom:34px;width:270px}
+.card-camp .t{font-weight:600;font-size:15px;color:var(--g)}
+.card-camp .s{font-size:13px;color:var(--muted)}
+.bar{height:10px;border-radius:99px;background:#EDEAE3;margin:12px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g2),var(--mint));border-radius:99px;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.card-camp .row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.card-camp .row b{color:var(--g)}
+.card-safe{right:-18px;top:28px;display:flex;gap:10px;align-items:center;font-size:14px;font-weight:600;color:var(--g)}
+.card-safe .ic{width:36px;height:36px;border-radius:50%;background:var(--mintS);display:grid;place-items:center}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:520px;margin:10px auto 0}.card-camp{left:8px}.card-safe{right:8px}}
+
+/* how */
+.how{background:#fff}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;counter-reset:s}
+.step{background:var(--cream);border-radius:var(--r);padding:26px 22px;position:relative}
+.step .n{font-family:"Readex Pro";font-weight:700;font-size:15px;width:38px;height:38px;border-radius:12px;background:var(--g);color:#fff;display:grid;place-items:center;margin-bottom:16px}
+.step:nth-child(2) .n{background:var(--g2)}.step:nth-child(3) .n{background:var(--coral)}.step:nth-child(4) .n{background:var(--gold);color:var(--g)}
+.step h3{font-size:19px;color:var(--g);margin-bottom:6px}
+.step p{color:var(--muted);font-size:15.5px}
+@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* promise */
+.promise .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.promise .photo{border-radius:28px;overflow:hidden;aspect-ratio:4/3}
+.promise .photo img{width:100%;height:100%;object-fit:cover}
+.checks{list-style:none;margin-top:26px;display:grid;gap:16px}
+.checks li{display:flex;gap:14px;align-items:flex-start}
+.checks .ic{flex:none;width:34px;height:34px;border-radius:10px;background:var(--mintS);display:grid;place-items:center;margin-top:2px}
+.checks b{display:block;color:var(--g);font-family:"Readex Pro";font-weight:600}
+.checks span{color:var(--muted);font-size:15.5px}
+@media(max-width:900px){.promise .wrap{grid-template-columns:1fr}}
+
+/* categories */
+.cats{background:var(--g);color:#fff}
+.cats h2{color:#fff}.cats .lead{color:#C9DDD3}
+.cats .eyebrow{background:rgba(143,193,161,.18);color:var(--mint)}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:38px}
+.cat{border-radius:var(--r);overflow:hidden;background:#0F4A3E;border:1px solid rgba(255,255,255,.08)}
+.cat .im{aspect-ratio:4/3;overflow:hidden;background:#164F43}
+.cat .im img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.cat:hover .im img{transform:scale(1.04)}
+.cat .im.ph{display:grid;place-items:center}
+.cat .tx{padding:16px 18px 20px}
+.cat h3{font-size:18px;margin-bottom:2px}
+.cat p{font-size:14.5px;color:#B9D0C5}
+@media(max-width:900px){.cat-grid{grid-template-columns:1fr 1fr}}
+
+/* delivery */
+.deliv{background:#fff}
+.deliv .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.fee{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.fee div{background:var(--cream);border-radius:18px;padding:20px}
+.fee .num{font-size:34px;font-weight:700;color:var(--g)}
+.fee .num small{font-size:16px;font-weight:500;color:var(--muted)}
+.fee p{color:var(--muted);font-size:14.5px}
+.deliv .photo{border-radius:28px;overflow:hidden;aspect-ratio:1/1}
+.deliv .photo img{width:100%;height:100%;object-fit:cover}
+.small{font-size:14px;color:var(--muted);margin-top:14px}
+@media(max-width:900px){.deliv .wrap{grid-template-columns:1fr}}
+
+/* join */
+.join .box{background:#fff;border-radius:32px;box-shadow:0 30px 60px -40px rgba(11,61,51,.45);display:grid;grid-template-columns:.85fr 1.15fr;overflow:hidden}
+.join .side{background:var(--mintS);padding:44px 38px;display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.join .side h2{font-size:32px}
+.join .side .wa{background:#fff;border-radius:18px;padding:18px}
+.join .side .wa b{color:var(--g);display:block;margin-bottom:4px}
+.join .side .wa p{font-size:14.5px;color:var(--muted);margin-bottom:12px}
+form{padding:44px 40px;display:grid;grid-template-columns:1fr 1fr;gap:16px 16px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1/-1}
+label{font-weight:600;font-size:14.5px;color:var(--g)}
+input,select{font:inherit;font-size:16px;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;color:var(--ink);min-height:50px;width:100%;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus{outline:none;border-color:var(--g2);box-shadow:0 0 0 4px rgba(11,114,93,.12)}
+.phone{display:flex;direction:ltr;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.phone:focus-within{border-color:var(--g2);box-shadow:0 0 0 4px rgba(11,114,93,.12)}
+.phone span{padding:0 14px;display:grid;place-items:center;background:var(--cream);color:var(--muted);font-weight:500;border-right:1.5px solid var(--line)}
+.phone input{border:0;border-radius:0;box-shadow:none!important;letter-spacing:.5px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips label{font-weight:500;color:var(--ink);cursor:pointer}
+.chips input{position:absolute;opacity:0;width:0;height:0;min-height:0}
+.chips span{display:inline-block;border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;font-size:15px;transition:all .15s;background:#fff}
+.chips input:checked+span{background:var(--g);border-color:var(--g);color:#fff}
+.chips input:focus-visible+span{box-shadow:0 0 0 4px rgba(11,114,93,.2)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--muted);font-size:14.5px;line-height:1.6}
+.consent input{width:20px;height:20px;min-height:0;flex:none;margin-top:3px;accent-color:var(--g)}
+.err{color:var(--coralT);font-size:13.5px;min-height:1px}
+.hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);opacity:0;pointer-events:none}
+body{overflow-x:hidden}
+form .btn{grid-column:1/-1;width:100%;font-size:17px}
+form .btn[disabled]{opacity:.6;cursor:wait}
+.done{grid-column:1/-1;text-align:center;padding:30px 10px;display:none}
+.done .ic{width:72px;height:72px;border-radius:50%;background:var(--mintS);display:grid;place-items:center;margin:0 auto 16px}
+.done h3{font-size:26px;color:var(--g);margin-bottom:6px}
+.done p{color:var(--muted);margin-bottom:20px}
+@media(max-width:900px){.join .box{grid-template-columns:1fr}form{grid-template-columns:1fr;padding:30px 22px}.join .side{padding:32px 24px}}
+
+/* faq */
+.faq .wrap{max-width:820px}
+details{background:#fff;border-radius:18px;margin-top:12px;border:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:20px 24px;font-family:"Readex Pro";font-weight:600;color:var(--g);display:flex;justify-content:space-between;align-items:center;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:24px;color:var(--g2);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 24px 22px;color:var(--muted)}
+
+/* partners */
+.partners{padding:0 0 84px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pcard{background:#fff;border-radius:var(--r);padding:28px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.pcard h3{color:var(--g);font-size:20px}
+.pcard p{color:var(--muted);font-size:15px}
+@media(max-width:800px){.pgrid{grid-template-columns:1fr}}
+
+footer{background:var(--g);color:#C9DDD3;padding:48px 0 30px;font-size:15px}
+footer .top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+footer .brand{font-family:"Readex Pro";font-size:26px;color:#fff;font-weight:700}
+footer .brand em{font-style:normal;color:var(--coral)}
+footer .soc{display:flex;gap:10px}
+footer .soc a{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);display:grid;place-items:center;transition:background .15s}
+footer .soc a:hover{background:rgba(255,255,255,.16)}
+footer .bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:32px;padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px}
+footer a{text-decoration:none}
+footer .bottom a:hover{color:#fff}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+.sticky-cta{display:none}
+@media(max-width:700px){.sticky-cta{display:block;position:fixed;bottom:12px;left:12px;right:12px;z-index:30;transition:transform .25s}.sticky-cta.hide{transform:translateY(120%)}.sticky-cta .btn{width:100%}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#top" aria-label="معنا"><img src="img/logo.png" alt="معنا" width="88" height="44"></a>
+    <nav>
+      <a href="#how">كيف تشتغل</a>
+      <a href="#cats">وش نوفّر</a>
+      <a href="#delivery">التوصيل</a>
+      <a href="#faq">أسئلة</a>
+      <a class="btn btn-coral" href="#join">سجّل في قائمة الانتظار</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">قريباً · شراء جماعي لاحتياجات البيت</span>
+      <h1>نشتري معاً..<br><span>نوفّر أكثر</span></h1>
+      <p class="lead">ننضم سوا على نفس المنتج، نشتريه بالجملة، ويوصلك لين باب البيت في كل مناطق المملكة. منظفات، ومناديل، وحفائظ، ومستلزمات البيت اللي تشتريها كل شهر.</p>
+      <div class="ctas">
+        <a class="btn btn-coral" href="#join">سجّل في قائمة الانتظار</a>
+        <a class="btn btn-wa" id="waHero" href="https://wa.me/966555407843?text=%D8%A7%D8%A8%D9%8A%20%D8%A3%D8%B3%D8%AC%D9%84%20%D9%81%D9%8A%20%D9%82%D8%A7%D8%A6%D9%85%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D8%B8%D8%A7%D8%B1" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+          سجّل عبر واتساب</a>
+      </div>
+      <div class="trust">
+        <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>ما ينخصم ريال إلا إذا اكتملت الحملة</div>
+        <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>توصيل لكل مناطق المملكة</div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="photo"><img src="img/family.webp" alt="" width="881" height="900" fetchpriority="high"></div>
+      <div class="card-float card-safe"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>مبلغك محجوز، مو مخصوم</div>
+      <div class="card-float card-camp">
+        <div class="t">مثال: حملة منظف غسيل</div>
+        <div class="s">تقفل بعد يومين</div>
+        <div class="bar"><i id="heroBar"></i></div>
+        <div class="row"><span><b id="heroNum">0</b> كرتون من 250</span><span>العدد يزيد، الحملة تكمل</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <span class="eyebrow">كيف تشتغل</span>
+    <h2>أربع خطوات، وأنت في بيتك</h2>
+    <p class="lead">بدل ما كل بيت يشتري لحاله بسعر التجزئة، نجمع طلبات البيوت على نفس المنتج ونشتريه بكمية.</p>
+    <div class="steps">
+      <div class="step reveal"><div class="n">1</div><h3>تنفتح حملة</h3><p>ننزّل حملة على منتج تحتاجه، بمدة محددة وعدد مطلوب يبان لك من البداية.</p></div>
+      <div class="step reveal"><div class="n">2</div><h3>تنضم وتحدد الكمية</h3><p>تختار عدد الكراتين وتدفع. المبلغ ينحجز بس، وما ينخصم.</p></div>
+      <div class="step reveal"><div class="n">3</div><h3>يكتمل العدد</h3><p>إذا اكتمل العدد ينخصم المبلغ ونطلب من المورد بالجملة. ما اكتمل؟ يرجع لك كامل.</p></div>
+      <div class="step reveal"><div class="n">4</div><h3>يوصلك لين الباب</h3><p>شركة الشحن توصل طلبك برمز تحقق وصورة إثبات تسليم.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="promise">
+  <div class="wrap">
+    <div class="photo reveal"><img src="img/phone.webp" alt="عميلة تتابع حملة في تطبيق معنا" loading="lazy" width="1100" height="733"></div>
+    <div>
+      <span class="eyebrow">وعدنا لك</span>
+      <h2>فلوسك بأمان من أول خطوة</h2>
+      <ul class="checks">
+        <li class="reveal"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span><div><b>ما اكتملت الحملة؟ ما ينخصم شيء</b><span>المبلغ يرجع لك كامل بدون ما تطلب.</span></div></li>
+        <li class="reveal"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span><div><b>السعر واضح قبل ما تنضم</b><span>تشوف سعر المنتج ورسوم التوصيل كاملة قبل الدفع، بدون مفاجآت.</span></div></li>
+        <li class="reveal"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span><div><b>تقدر تلغي قبل ما تقفل الحملة</b><span>غيّرت رأيك؟ ألغِ انضمامك ويرجع المبلغ المحجوز.</span></div></li>
+        <li class="reveal"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span><div><b>تسليم موثّق</b><span>رمز تحقق عند الباب وصورة إثبات تسليم لكل شحنة.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cats" id="cats">
+  <div class="wrap">
+    <span class="eyebrow">وش نوفّر</span>
+    <h2>احتياجات البيت اللي تتكرر كل شهر</h2>
+    <p class="lead">نبدأ بالسلع اللي يشتريها كل بيت بشكل متكرر. وأنت تقدر تقترح المنتج اللي تبي حملة عليه.</p>
+    <div class="cat-grid">
+      <div class="cat reveal"><div class="im"><img src="img/clean.webp" alt="" loading="lazy" width="1100" height="733"></div><div class="tx"><h3>منظفات الغسيل والبيت</h3><p>مساحيق وسوائل الغسيل، ومنظفات الأرضيات والمطبخ.</p></div></div>
+      <div class="cat reveal"><div class="im ph"><svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#8FC1A1" stroke-width="2.5" stroke-linejoin="round"><rect x="10" y="20" width="44" height="34" rx="6"/><path d="M24 20c0-6 4-10 8-10s8 4 8 10M22 34h20M22 42h14"/></svg></div><div class="tx"><h3>مناديل وورقيات</h3><p>مناديل الوجه والمطبخ، وورق الحمام.</p></div></div>
+      <div class="cat reveal"><div class="im ph"><svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="#8FC1A1" stroke-width="2.5" stroke-linejoin="round"><path d="M12 22h40l-4 26a6 6 0 0 1-6 5H22a6 6 0 0 1-6-5l-4-26Z"/><path d="M12 22c4 8 12 10 20 10s16-2 20-10"/></svg></div><div class="tx"><h3>حفائظ الأطفال</h3><p>بالكرتون، وبكل المقاسات.</p></div></div>
+      <div class="cat reveal"><div class="im"><img src="img/shop.webp" alt="" loading="lazy" width="1100" height="733"></div><div class="tx"><h3>مستلزمات البيت</h3><p>أكياس، وأدوات تنظيف، واستهلاكيات يومية.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="deliv" id="delivery">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">التوصيل</span>
+      <h2>لكل مناطق المملكة، ورسومه واضحة</h2>
+      <p class="lead">طلبك كامل يجيك في شحنة وحدة، وكل كرتون عليه ملصقه.</p>
+      <div class="fee">
+        <div><div class="num">26 <small>ريال</small></div><p>لأول كرتون</p></div>
+        <div><div class="num">12 <small>ريال</small></div><p>لكل كرتون إضافي</p></div>
+      </div>
+      <p class="small">مثال: طلب 3 كراتين، رسوم التوصيل 50 ريال. الدفع مسبق، وما فيه دفع عند الاستلام.</p>
+    </div>
+    <div class="photo reveal"><img src="img/door.webp" alt="كراتين طلب عند باب البيت" loading="lazy" width="1100" height="733"></div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="wrap">
+    <div class="box">
+      <div class="side">
+        <div>
+          <span class="eyebrow" style="background:#fff">قائمة الانتظار</span>
+          <h2>كن أول من يعرف</h2>
+          <p class="lead" style="font-size:16.5px">سجّل وقلنا وش تشتري. أول ما تنفتح حملة على منتجك في مدينتك، نعلمك على واتساب.</p>
+        </div>
+        <div class="wa">
+          <b>تفضّل واتساب؟</b>
+          <p>سجّل من محادثة وحدة مع حساب معنا الرسمي.</p>
+          <a class="btn btn-wa" style="width:100%" href="https://wa.me/966555407843?text=%D8%A7%D8%A8%D9%8A%20%D8%A3%D8%B3%D8%AC%D9%84%20%D9%81%D9%8A%20%D9%82%D8%A7%D8%A6%D9%85%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D8%B8%D8%A7%D8%B1" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+            افتح واتساب</a>
+        </div>
+      </div>
+
+      <form id="wl" novalidate>
+        <div class="f"><label for="name">الاسم</label><input id="name" name="name" autocomplete="given-name" maxlength="80" placeholder="اسمك الأول"></div>
+        <div class="f"><label for="phone">رقم الجوال *</label>
+          <div class="phone"><span>+966</span><input id="phone" name="phone" inputmode="numeric" autocomplete="tel-national" placeholder="5X XXX XXXX" maxlength="14" required></div>
+          <div class="err" id="ePhone" aria-live="polite"></div></div>
+        <div class="f"><label for="city">مدينتك *</label>
+          <select id="city" name="city" required>
+            <option value="">اختر المدينة</option>
+            <option>الرياض</option><option>جدة</option><option>مكة</option><option>المدينة</option><option>الدمام والخبر</option><option>القصيم</option><option>أبها وخميس مشيط</option><option>مدينة أخرى</option>
+          </select><div class="err" id="eCity" aria-live="polite"></div></div>
+        <div class="f"><label for="freq">كل كم تشتريه؟</label>
+          <select id="freq" name="frequency"><option value="">اختر</option><option>كل شهر</option><option>كل أسبوعين</option><option>أقل من كذا</option></select></div>
+        <div class="f full"><label id="lProd">وش أكثر شيء تشتريه للبيت كل شهر؟ *</label>
+          <div class="chips" role="radiogroup" aria-labelledby="lProd">
+            <label><input type="radio" name="product" value="منظفات"><span>منظفات</span></label>
+            <label><input type="radio" name="product" value="مناديل وورقيات"><span>مناديل وورقيات</span></label>
+            <label><input type="radio" name="product" value="حفائظ"><span>حفائظ</span></label>
+            <label><input type="radio" name="product" value="مستلزمات بيت أخرى"><span>مستلزمات بيت أخرى</span></label>
+          </div><div class="err" id="eProd" aria-live="polite"></div></div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="f full">
+          <label class="consent"><input type="checkbox" id="consent"><span id="consentText">أوافق إن معنا ترسل لي على واتساب لما تنفتح حملة على اللي أشتريه، وأقدر أوقف الرسائل بأي وقت بكتابة «إيقاف». وقرأت <a href="privacy.html" target="_blank">سياسة الخصوصية</a>.</span></label>
+          <div class="err" id="eConsent" aria-live="polite"></div>
+        </div>
+        <button class="btn btn-coral" type="submit" id="submitBtn">سجّلني</button>
+        <div class="err full" id="eForm" aria-live="assertive" style="grid-column:1/-1;text-align:center"></div>
+        <div class="done" id="done" role="status">
+          <div class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0B725D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></div>
+          <h3>سجّلناك ✅</h3>
+          <p id="doneText">أول ما تنفتح حملة على منتجك في مدينتك نعلمك على واتساب. احفظ رقمنا باسم «معنا» عشان توصلك الرسائل.</p>
+          <a class="btn btn-ghost" href="https://wa.me/966555407843" target="_blank" rel="noopener">احفظ رقم معنا على واتساب</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <span class="eyebrow">أسئلة</span>
+    <h2>أكثر شيء ينسأل</h2>
+    <details><summary>وش يعني «حملة»؟</summary><p>الحملة عرض على منتج واحد لمدة محددة، ولها عدد مطلوب من الكراتين. كل ما زاد المنضمين، قربت الحملة من الاكتمال. إذا اكتمل العدد نشتري بالجملة ونوصل للكل.</p></details>
+    <details><summary>متى ينخصم المبلغ؟</summary><p>لما تنضم، المبلغ ينحجز بس. ينخصم فعلياً لما تقفل الحملة وقد اكتمل عددها. إذا ما اكتملت، الحجز يتلغى والمبلغ يرجع لك كامل.</p></details>
+    <details><summary>متى تطلقون؟</summary><p>قريب. سجّل في قائمة الانتظار ونعلمك أول ما تنفتح حملة على منتجك في مدينتك.</p></details>
+    <details><summary>كم أوفّر؟</summary><p>يعتمد على المنتج وعدد المنضمين. سعر كل حملة يظهر لك كامل، مع رسوم التوصيل، قبل ما تنضم.</p></details>
+    <details><summary>توصلون مدينتي؟</summary><p>نوصل لكل مناطق المملكة عن طريق شركة شحن، والرسوم نفسها: 26 ريال لأول كرتون و12 لكل كرتون إضافي.</p></details>
+    <details><summary>وش تسوون ببياناتي؟</summary><p>نستخدم رقمك ومدينتك والمنتج اللي اخترته عشان نعلمك بالحملات اللي تهمك بس. ما نبيع بياناتك ولا نشاركها للتسويق. تقدر تطلب حذفها بأي وقت على info@maanaco.com. التفاصيل في <a href="privacy.html">سياسة الخصوصية</a>.</p></details>
+  </div>
+</section>
+
+<section class="partners">
+  <div class="wrap pgrid">
+    <div class="pcard"><div><h3>مورد أو موزع؟</h3><p>نجمع لك طلبات كبيرة ومدفوعة مسبقاً.</p></div><a class="btn btn-ghost" href="mailto:supplier@maanaco.com">supplier@maanaco.com</a></div>
+    <div class="pcard"><div><h3>شركة شحن؟</h3><p>شحنات مجمّعة من مستودع المورد لكل المملكة.</p></div><a class="btn btn-ghost" href="mailto:logistics@maanaco.com">logistics@maanaco.com</a></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div><div class="brand">معنا <span style="opacity:.5;font-weight:500">|</span> ma<em>3</em>na</div><p style="margin-top:6px">نشتري معاً.. نوفّر أكثر</p><p><a href="mailto:info@maanaco.com">info@maanaco.com</a></p></div>
+      <div class="soc">
+        <a href="https://x.com/ma3naapp" target="_blank" rel="noopener" aria-label="X"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.8 3h3.1l-6.8 7.7 8 10.3h-6.3l-4.9-6.3L5.3 21H2.2l7.3-8.3L1.9 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z"/></svg></a>
+        <a href="https://www.instagram.com/ma3naapp" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg></a>
+        <a href="https://www.tiktok.com/@ma3naapp" target="_blank" rel="noopener" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M16.6 2h-3.4v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .8.1V9.1a6.4 6.4 0 1 0 5.5 6.3V8.6a8 8 0 0 0 4.7 1.5V6.7A4.7 4.7 0 0 1 16.6 2Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/ma3na-sa/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm7 0h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.1c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21h-4V9.5Z"/></svg></a>
+      </div>
+    </div>
+    <div class="bottom"><span>© <span id="yr">2026</span> معنا. كل الحقوق محفوظة.</span><a href="privacy.html">سياسة الخصوصية</a></div>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="sticky"><a class="btn btn-coral" href="#join">سجّل في قائمة الانتظار</a></div>
+
+<script>
+const SB_URL = "https://aopnjxhopckowtnscskk.supabase.co";
+const SB_KEY = "sb_publishable_6Rrx9Xdg2LDtEd48no_-LA_QWnDFaWi";
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+const hdr = document.getElementById('hdr'), sticky = document.getElementById('sticky'), joinSec = document.getElementById('join');
+addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 8), {passive:true});
+
+// reveal + hero bar
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+new IntersectionObserver(es => sticky.classList.toggle('hide', es[0].isIntersecting), {threshold:.05}).observe(joinSec);
+setTimeout(() => {
+  document.getElementById('heroBar').style.width = '78%';
+  let n = 0; const el = document.getElementById('heroNum'); const t = setInterval(() => { n += 6; if (n >= 196) { n = 196; clearInterval(t); } el.textContent = n; }, 40);
+}, 400);
+
+// UTM capture
+const qs = new URLSearchParams(location.search);
+const utm = { s: qs.get('utm_source'), m: qs.get('utm_medium'), c: qs.get('utm_campaign') };
+
+function normPhone(v) {
+  let d = (v || '').replace(/[٠-٩]/g, c => '٠١٢٣٤٥٦٧٨٩'.indexOf(c)).replace(/[۰-۹]/g, c => '۰۱۲۳۴۵۶۷۸۹'.indexOf(c)).replace(/\D/g, '');
+  if (d.startsWith('00966')) d = d.slice(5); else if (d.startsWith('966')) d = d.slice(3); else if (d.startsWith('0')) d = d.slice(1);
+  return /^5\d{8}$/.test(d) ? d : null;
+}
+
+const form = document.getElementById('wl'), btn = document.getElementById('submitBtn');
+const setErr = (id, msg) => { document.getElementById(id).textContent = msg || ''; };
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  ['ePhone','eCity','eProd','eConsent','eForm'].forEach(i => setErr(i));
+  const phone = normPhone(form.phone.value);
+  const city = form.city.value;
+  const product = (form.querySelector('input[name=product]:checked') || {}).value;
+  const consent = document.getElementById('consent').checked;
+  let bad = false;
+  if (!phone) { setErr('ePhone', 'اكتب رقم جوال سعودي صحيح يبدأ بـ 5'); bad = true; }
+  if (!city) { setErr('eCity', 'اختر مدينتك'); bad = true; }
+  if (!product) { setErr('eProd', 'اختر المنتج'); bad = true; }
+  if (!consent) { setErr('eConsent', 'نحتاج موافقتك عشان نقدر نعلمك على واتساب'); bad = true; }
+  if (bad) { form.querySelector('.err:not(:empty)')?.previousElementSibling?.querySelector?.('input,select')?.focus(); return; }
+
+  btn.disabled = true; btn.textContent = 'لحظة...';
+  try {
+    const r = await fetch(SB_URL + '/rest/v1/rpc/submit_waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY },
+      body: JSON.stringify({
+        p_phone: '+966' + phone, p_name: form.name.value.trim(), p_city: city, p_product: product,
+        p_frequency: form.frequency.value, p_consent: true,
+        p_consent_text: document.getElementById('consentText').textContent.trim(), p_lang: 'ar',
+        p_utm_source: utm.s, p_utm_medium: utm.m, p_utm_campaign: utm.c,
+        p_referrer: document.referrer || null, p_hp: form.website.value
+      })
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.ok) throw new Error(j.error || 'http_' + r.status);
+    [...form.children].forEach(c => { if (c.id !== 'done') c.style.display = 'none'; });
+    document.getElementById('doneText').textContent = `أول ما تنفتح حملة على ${product} في ${city} نعلمك على واتساب. احفظ رقمنا باسم «معنا» عشان توصلك الرسائل.`;
+    document.getElementById('done').style.display = 'block';
+    if (window.gtag) gtag('event', 'generate_lead', { method: 'web_form' });
+    if (window.ttq) ttq.track('CompleteRegistration');
+    if (window.snaptr) snaptr('track', 'SIGN_UP');
+  } catch (err) {
+    const m = String(err.message);
+    setErr('eForm', m === 'invalid_phone' ? 'رقم الجوال غير صحيح' : m === 'busy' ? 'الضغط عالي الحين، جرّب بعد دقيقة' : 'صار خطأ في الاتصال. جرّب مرة ثانية أو سجّل عبر واتساب.');
+    btn.disabled = false; btn.textContent = 'سجّلني';
+  }
+});
+</script>
+</body>
+</html>
