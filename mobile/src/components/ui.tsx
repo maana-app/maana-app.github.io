@@ -34,6 +34,9 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
 // onto whatever tint sits behind it, so no white box shows around the product.
 export const blend: ViewStyle = { mixBlendMode: 'multiply' } as ViewStyle;
 
+/** Lifestyle stock photos fill the frame; transparent packshots are contained. */
+export const isPhoto = (u?: string) => !!u && u.includes('maanaco.com/img/p-');
+
 export function ProductImage({ uri, size, style, alt, brand, gallery }: { uri: string; size: number; style?: StyleProp<ViewStyle>; alt?: string; brand?: string; gallery?: string[] }) {
   if (gallery && gallery.length > 1) {
     // Basket collage: up to three packshots, the first one large and in front.
@@ -52,6 +55,11 @@ export function ProductImage({ uri, size, style, alt, brand, gallery }: { uri: s
     <View accessibilityRole="image" accessibilityLabel={alt ?? brand ?? 'صورة المنتج'}
       style={[{ width: size, height: size, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', padding: 6 }, style]}>
       <RNText numberOfLines={2} style={{ fontFamily: font.bold, fontSize: Math.max(10, Math.round(size / 8)), color: colors.brand, textAlign: 'center' }}>{brand ?? 'معنا'}</RNText>
+    </View>
+  );
+  if (isPhoto(uri)) return (
+    <View style={[{ width: size, height: size, borderRadius: radius.md, backgroundColor: colors.surface, overflow: 'hidden' }, style]}>
+      <Image source={{ uri }} style={{ width: '100%', height: '100%' }} contentFit="cover" transition={150} accessibilityLabel={alt ?? 'صورة المنتج'} alt={alt ?? 'صورة المنتج'} />
     </View>
   );
   return (

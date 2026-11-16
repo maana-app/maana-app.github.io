@@ -35,6 +35,20 @@ interface Sku {
   shelf: number; kg: number; inner: number; unitLabel: string; image?: string;
 }
 
+
+/** Generic, product-only stock photos (Envato licence, no people) hosted on maanaco.com.
+ *  Unbranded on purpose: they show the category, not the exact SKU. Replace with supplier packshots before launch. */
+const PHOTO = (n: string) => `https://maanaco.com/img/p-${n}.webp`;
+function genericPhoto(s: Sku): string {
+  if (/wipes/.test(s.id)) return PHOTO('tissues');
+  if (s.category === 'baby' && /pampers|huggies|molfix|babyjoy/.test(s.id)) return PHOTO('diapers');
+  if (s.category === 'cleaning') return PHOTO('cleaners');
+  if (/lux|dove|lifebuoy/.test(s.id)) return PHOTO('soap');
+  if (s.category === 'personal' || /shampoo/.test(s.id)) return PHOTO('care');
+  if (/foil|bags/.test(s.id)) return PHOTO('home');
+  return '';
+}
+
 const SKUS: Sku[] = [
   // Baby
   { id: 'pampers-premium-4', brand: 'Pampers', name: 'بامبرز بريميوم كير مقاس 4', shortName: 'بامبرز بريميوم 4', unitPack: '100 حفاضة', category: 'baby', shelf: 156.25, kg: 7.9, inner: 100, unitLabel: 'حفاضة'  },
@@ -125,7 +139,7 @@ const fromSku = (s: Sku): Campaign => {
   const market = r2(n * s.shelf);
   const [min, joined, hrs] = SIM[s.id];
   return {
-    id: s.id, brand: s.brand, name: s.name, shortName: s.shortName, category: s.category, image: s.image ?? '',
+    id: s.id, brand: s.brand, name: s.name, shortName: s.shortName, category: s.category, image: s.image ?? genericPhoto(s),
     pack: n > 1 ? `كرتون ${n} × ${s.unitPack}` : s.unitPack,
     weightKg: r2(n * s.kg), marketPrice: market, tiers: [{ minQty: min, price: ma3naPrice(market) }],
     unitsPerCarton: n * s.inner, unitLabel: s.unitLabel, joinedQty: joined, endsAt: h(hrs),

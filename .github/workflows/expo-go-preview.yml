@@ -1,0 +1,56 @@
+name: Expo Go preview (tunnel)
+on:
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'How long to keep the dev server alive (hours, max 5)'
+        default: '3'
+  push:
+    branches: [main]
+    paths: ['mobile/**', '.github/workflows/expo-go-preview.yml']
+concurrency:
+  group: expo-go-preview
+  cancel-in-progress: true
+jobs:
+  serve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm i -g @expo/ngrok@^4.1.0
+      - name: Start Metro with tunnel
+        env:
+          CI: '1'
+          EXPO_NO_TELEMETRY: '1'
+        run: |
+          nohup npx expo start --tunnel --go > /tmp/expo.log 2>&1 &
+          for i in $(seq 1 90); do
+            URL=$(grep -oE 'exp://[a-zA-Z0-9._-]+\.exp\.direct[^ ]*' /tmp/expo.log | head -1)
+            [ -n "$URL" ] && break
+            sleep 5
+          done
+          cat /tmp/expo.log | tail -40
+          if [ -z "$URL" ]; then echo "No tunnel URL"; exit 1; fi
+          echo "EXPO_URL=$URL" >> $GITHUB_ENV
+          echo "## Open in Expo Go" >> $GITHUB_STEP_SUMMARY
+          echo "\`$URL\`" >> $GITHUB_STEP_SUMMARY
+          echo "::notice title=Expo Go URL::$URL"
+      - name: Warm up the bundle
+        run: |
+          H=$(echo "$EXPO_URL" | sed -E 's#exp://##')
+          curl -s -o /dev/null -w 'manifest %{http_code}\n' -H 'expo-platform: ios' "https://$H" || true
+      - name: Keep alive
+        run: |
+          H=${{ github.event.inputs.hours || '3' }}
+          [ "$H" -gt 5 ] && H=5
+          echo "Serving $EXPO_URL for $H hours"
+          sleep $((H*3600))
