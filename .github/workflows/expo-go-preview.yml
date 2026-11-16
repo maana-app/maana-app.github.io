@@ -65,14 +65,14 @@ jobs:
           R="no-bundle-url"; [ -n "$B" ] && R=$(curl -s -o /dev/null -w '%{http_code} %{size_download}' --max-time 600 "$B")
           echo "::notice title=Warmup::manifest=$(head -c 120 /tmp/m.json | tr -d '\n"') bundle=$B result=$R"
       - name: Publish URL to branch expo-url
-        working-directory: .
+        working-directory: /tmp
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git config user.name ma3na-bot; git config user.email noreply@anthropic.com
-          git checkout --orphan expo-url-tmp
-          git rm -rfq . >/dev/null
-          printf '%s\n%s\n%s\n' "$EXPO_URL" "$PUB" "$(date -u +%FT%TZ)" > URL.txt
-          echo "$(grep -o 'result=.*' /dev/null)" >/dev/null
-          git add URL.txt && git commit -qm "Expo Go URL" && git push -fq origin HEAD:expo-url
+          printf '%s\n%s\n%s\n' "$EXPO_URL" "$PUB" "$(date -u +%FT%TZ)" > /tmp/URL.txt
+          SHA=$(gh api "repos/${{ github.repository }}/contents/URL.txt?ref=expo-url" -q .sha 2>/dev/null || true)
+          gh api -X PUT "repos/${{ github.repository }}/contents/URL.txt" -f message="Expo Go URL" -f branch=expo-url \
+            -f content="$(base64 -w0 /tmp/URL.txt)" ${SHA:+-f sha=$SHA} >/dev/null
       - name: Keep alive
         run: |
           H=${{ github.event.inputs.hours || '3' }}
