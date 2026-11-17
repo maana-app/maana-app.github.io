@@ -41,21 +41,31 @@ jobs:
           done
           [ -z "$PUB" ] && { cat /tmp/cf.log; exit 1; }
           echo "PUB=$PUB" >> $GITHUB_ENV
-      - name: Start Metro behind the tunnel
+      - name: Start Metro
         env:
           CI: '1'
           EXPO_NO_TELEMETRY: '1'
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          export EXPO_PACKAGER_PROXY_URL="$PUB"
-          nohup npx expo start --go --port 8081 > /tmp/expo.log 2>&1 &
-          for i in $(seq 1 90); do
-            grep -q "Waiting on\|waiting on\|Metro waiting" /tmp/expo.log && break; sleep 3
-          done
+          if [ -n "$EXPO_TOKEN" ]; then
+            # Signed-in mode: Expo's own tunnel, required by Expo Go for remote dev servers
+            npm i -g @expo/ngrok@^4.1.0 >/dev/null 2>&1
+            nohup npx expo start --go --tunnel --port 8081 > /tmp/expo.log 2>&1 &
+            for i in $(seq 1 120); do
+              URL=$(grep -oE 'exp://[a-zA-Z0-9._-]+\.exp\.direct' /tmp/expo.log | head -1)
+              [ -n "$URL" ] && break; sleep 3
+            done
+            PUB="https://${URL#exp://}"
+          else
+            export EXPO_PACKAGER_PROXY_URL="$PUB"
+            nohup npx expo start --go --port 8081 > /tmp/expo.log 2>&1 &
+            for i in $(seq 1 90); do grep -qi "waiting on" /tmp/expo.log && break; sleep 3; done
+            URL="exps://${PUB#https://}"
+          fi
           tail -30 /tmp/expo.log
-          URL="exps://${PUB#https://}"
+          [ -z "$URL" ] && exit 1
+          echo "PUB=$PUB" >> $GITHUB_ENV
           echo "EXPO_URL=$URL" >> $GITHUB_ENV
-          echo "## Open in Expo Go" >> $GITHUB_STEP_SUMMARY
-          echo "\`$URL\`" >> $GITHUB_STEP_SUMMARY
           echo "::notice title=Expo Go URL::$URL"
       - name: Warm up the bundle
         run: |
