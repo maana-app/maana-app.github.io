@@ -56,6 +56,12 @@
     },
     "locales": {
       "ar": "./locales/ar.json"
+    },
+    "owner": "ma3na-sa",
+    "extra": {
+      "eas": {
+        "projectId": "fb3bd83f-10ef-453e-9491-0b5c723e2f1f"
+      }
     }
   }
 }
