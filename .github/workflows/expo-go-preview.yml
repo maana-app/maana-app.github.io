@@ -7,7 +7,7 @@ on:
         default: '3'
   push:
     branches: [main]
-    paths: ['mobile/**', '.github/workflows/expo-go-preview.yml']
+    paths: ['mobile/**', '.github/workflows/expo-go-preview.yml', '.github/expo-restart']
 concurrency:
   group: expo-go-preview
   cancel-in-progress: true
