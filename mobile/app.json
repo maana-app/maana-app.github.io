@@ -16,8 +16,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#FFFFFF",
-        "foregroundImage": "./assets/icon.png"
+        "backgroundColor": "#0B3D33",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "sa.ma3na.app"
@@ -46,7 +47,7 @@
         {
           "image": "./assets/splash-icon.png",
           "imageWidth": 200,
-          "backgroundColor": "#FFFFFF"
+          "backgroundColor": "#0B3D33"
         }
       ]
     ],
